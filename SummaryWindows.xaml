@@ -1,0 +1,44 @@
+<Window x:Class="SummaryWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        Title="Onboarding Summary"
+        Width="400" Height="300"
+        WindowStartupLocation="CenterOwner"
+        Background="#FFF5F5F5"
+        FontFamily="Segoe UI" FontSize="12">
+  <Window.Resources>
+    <Color x:Key="AccentColor">#FF0078D7</Color>
+    <SolidColorBrush x:Key="AccentBrush" Color="{StaticResource AccentColor}" />
+  </Window.Resources>
+
+  <DockPanel Margin="12">
+    <!-- Header -->
+    <Border Background="{StaticResource AccentBrush}" Height="40" DockPanel.Dock="Top">
+      <TextBlock Text="Run Summary"
+                 Foreground="White"
+                 FontSize="16"
+                 FontWeight="Bold"
+                 VerticalAlignment="Center"
+                 HorizontalAlignment="Center"/>
+    </Border>
+
+    <!-- Body -->
+    <StackPanel Margin="0,12" DockPanel.Dock="Top" >
+      <TextBlock Text="{Binding TotalSteps,   StringFormat=Total Steps: {0}}"/>
+      <TextBlock Text="{Binding SuccessCount, StringFormat=Successful: {0}}" 
+                 Foreground="Green"/>
+      <TextBlock Text="{Binding WarningCount, StringFormat=Warnings: {0}}"
+                 Foreground="DarkOrange"/>
+      <TextBlock Text="{Binding ErrorCount,   StringFormat=Errors: {0}}"
+                 Foreground="Red"/>
+      <TextBlock Text="{Binding ElapsedTime,  StringFormat=Elapsed: {0:mm\\:ss}}"/>
+    </StackPanel>
+
+    <!-- Footer Button -->
+    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" DockPanel.Dock="Bottom">
+      <Button Content="Copy Summary" Width="100" Margin="4"
+              Click="OnCopyClick"/>
+      <Button Content="Close" Width="80" Margin="4"
+              IsCancel="True"/>
+    </StackPanel>
+  </DockPanel>
+</Window>

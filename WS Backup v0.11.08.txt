@@ -1,0 +1,141 @@
+@ECHO OFF
+C:
+cd\
+cls
+
+:INFORMATIVE
+color 1F
+title AUTOMATED WORKSTATION BACKUP SCRIPT
+echo --------------------------------------------------------------------------
+echo This script will ATTEMPT to backup data and settings from the current user
+echo on WORKSTATIONS only. This has been designed for use with any version of 
+echo Windows 7 or greater. XP/VISTA systems are not compatible.
+echo.
+echo As users may save data in unusual places, it remains YOUR responsibility 
+echo to ensure that all data and settings have been backed up fully. 
+echo --------------------------------------------------------------------------
+echo The workstation will be unavailable for use while backup is running.
+echo --------------------------------------------------------------------------
+set /P=Press 'Enter' to continue...
+cls
+
+:STEP1
+title PREPARING TO BACKUP USER DATA AND SETTINGS
+:: Gathering information about the environment and workstation
+echo -----------------------------------------------------------------------------------------------------
+echo Enter the path to the directory you would like to hold the backed up user. This can be local or UNC.
+echo Avoid using directories with spaces in the path. UNC is acceptable.
+echo Examples: \\SERVER\UTILITIES\WKSBACKUP or E:
+set /P SHARE=" Enter the path: 
+echo -----------------------------------------------------------------------------------------------------
+echo Enter the user name of the profile you are backing up. This will be created under the directory you
+echo specified and available under %SHARE%\Username 
+set /P USER=" Enter the source username: 
+
+:STEP2
+:: Preparing to backup
+if exist "%SHARE%\%USER%" goto STEP2FAIL
+mkdir "%SHARE%\%USER%"
+if exist "%SHARE%\%USER%" goto STEP3
+if not exist "%SHARE%\%USER%" 
+set /P= Cannot write to share! Check share permissions and try again. Press enter to continue.
+goto STEP2
+
+:STEP2FAIL
+:: To make sure we don't overwrite data that may still be needed
+set /P= Path already exists, please resolve or choose another name. Press enter...
+echo -----------------------------------------------------------------------------------------------------
+goto STEP1
+
+:STEP3
+:: Grabing some user information and writing it to the backup directory
+mkdir "%SHARE%\%USER%\OTHER\"
+date /T >> "%SHARE%\%USER%\OTHER\tech info.txt"
+time /T >> "%SHARE%\%USER%\OTHER\tech info.txt"
+echo ------------------- >> "%SHARE%\%USER%\OTHER\tech info.txt"
+echo NETWORK DRIVES >> "%SHARE%\%USER%\OTHER\tech info.txt"
+echo ------------------- >> "%SHARE%\%USER%\OTHER\tech info.txt"
+net use >> "%SHARE%\%USER%\OTHER\tech info.txt"
+echo ------------------- >> "%SHARE%\%USER%\OTHER\tech info.txt"
+echo PRINTERS >> "%SHARE%\%USER%\OTHER\tech info.txt"
+echo ------------------- >> "%SHARE%\%USER%\OTHER\tech info.txt"
+wmic printer list brief >> "%SHARE%\%USER%\OTHER\tech info.txt"
+echo ------------------- >> "%SHARE%\%USER%\OTHER\tech info.txt"
+echo IP AND NETWORK INFORMATION >> "%SHARE%\%USER%\OTHER\tech info.txt"
+echo ------------------- >> "%SHARE%\%USER%\OTHER\tech info.txt"
+ipconfig /all >> "%SHARE%\%USER%\OTHER\tech info.txt"
+echo ------------------- >> "%SHARE%\%USER%\OTHER\tech info.txt"
+echo SHARED RESOURCE INFO >> "%SHARE%\%USER%\OTHER\tech info.txt"
+echo ------------------- >> "%SHARE%\%USER%\OTHER\tech info.txt"
+net share >> "%SHARE%\%USER%\OTHER\tech info.txt"
+
+:: Closing any applications that may prevent backup from completing
+wmic process where name="firefox.exe" call terminate
+wmic process where name="chrome.exe" call terminate
+wmic process where name="outlook.exe" call terminate
+wmic process where name="StikyNot.exe" call terminate
+wmic process where name="MicrosoftEdge.exe" call terminate
+wmic process where name="MicrosoftEdgeCP.exe" call terminate
+
+:: Making appdata folder separately so the script doesn't copy the hidden attribute
+mkdir "%SHARE%\%USER%\appdata"
+
+:STEP4
+title RUNNING BACKUP -- PLEASE BE PATIENT -- THIS MAY TAKE A WHILE -- 
+
+:: Copying the main user profile data directories
+robocopy /E /R:0 "%userprofile%\contacts" "%SHARE%\%USER%\contacts"
+robocopy /E /R:0 "%userprofile%\desktop" "%SHARE%\%USER%\desktop"
+robocopy /E /R:0 "%userprofile%\documents" "%SHARE%\%USER%\documents"
+robocopy /E /R:0 "%userprofile%\downloads" "%SHARE%\%USER%\downloads"
+robocopy /E /R:0 "%userprofile%\favorites" "%SHARE%\%USER%\favorites"
+robocopy /E /R:0 "%userprofile%\links" "%SHARE%\%USER%\links"
+robocopy /E /R:0 "%userprofile%\music" "%SHARE%\%USER%\music"
+robocopy /E /R:0 "%userprofile%\pictures" "%SHARE%\%USER%\pictures"
+robocopy /E /R:0 "%userprofile%\saved games" "%SHARE%\%USER%\saved games"
+robocopy /E /R:0 "%userprofile%\searches" "%SHARE%\%USER%\searches"
+robocopy /E /R:0 "%userprofile%\videos" "%SHARE%\%USER%\videos"
+
+:: Grabbing Dexis sensor calibration files if they exist
+robocopy /E /R:0 "C:\Program Files\Dexis\FlashDir" "%SHARE%\%USER%\OTHER\Program Files\Dexis\FlashDir"
+robocopy /E /R:0 "C:\Program Files (x86)\Dexis\FlashDir" "%SHARE%\%USER%\OTHER\Program Files (x86)\Dexis\FlashDir"
+robocopy /E /R:0 "C:\Dexis\FlashDir" "%SHARE%\%USER%\OTHER\Dexis\FlashDir"
+robocopy /E /R:0 "C:\Programdata\Dexis\FlashDir" "%SHARE%\%USER%\OTHER\Programdata\Dexis\FlashDir"
+
+:: Grabbing Cadent OrthoCad files if they exist
+robocopy /E /R:0 "C:\Program Files (x86)\Cadent" "%SHARE%\%USER%\OTHER\Program Files (x86)\Cadent"
+
+:: Getting iCAT Vision files if they exist
+robocopy /E /R:0 "C:\Program Files\ISIP\iCATVision" "%SHARE%\%USER%\OTHER\ISIP\iCATVision"
+
+:: Older versions of Clincheck stored data in program files
+robocopy /E /R:0 "C:\Program Files\Align"  "%SHARE%\%USER%\OTHER\Program Files\Align"
+robocopy /E /R:0 "C:\Program Files (x86)\Align" "%SHARE%\%USER%\OTHER\Program Files (x86)\Align"
+
+:: Grabbing Public Documents (Default Quickbooks Company File Location)
+robocopy /E /R:0 "C:\Users\Public\Documents" "%SHARE%\%USER%\OTHER\Public"
+
+:: Grabbing things from APPDATA\LOCAL
+robocopy /E /R:0 "%userprofile%\appdata\local\dymo" "%SHARE%\%USER%\appdata\local\dymo"
+robocopy /E /R:0 "%userprofile%\appdata\local\google" "%SHARE%\%USER%\appdata\local\google" /XD "Application Cache" "Cache" "Code Cache" "GPUCache" "Service Worker"
+robocopy /E /R:0 "%userprofile%\appdata\local\mozilla" "%SHARE%\%USER%\appdata\local\mozilla" /XD "Cache2"
+robocopy /E /R:0 "%userprofile%\appdata\local\microsoft\outlook" "%SHARE%\%USER%\appdata\local\microsoft\outlook"
+robocopy /E /R:0 "%UserProfile%\appData\local\packages\Microsoft.MicrosoftEdge_8wekyb3d8bbwe\AC\MicrosoftEdge\User\Default\Favorites" "%SHARE%\%USER%\appData\local\packages\Microsoft.MicrosoftEdge_8wekyb3d8bbwe\AC\MicrosoftEdge\User\Default\Favorites"
+
+:: Grabbing things from APPDATA\ROAMING
+robocopy /E /R:0 "%userprofile%\appdata\roaming\align" "%SHARE%\%USER%\appdata\roaming\align"
+robocopy /E /R:0 "%userprofile%\appdata\roaming\DYMO Stamps" "%SHARE%\%USER%\appdata\roaming\DYMO Stamps"
+robocopy /E /R:0 "%userprofile%\appdata\roaming\mozilla" "%SHARE%\%USER%\appdata\roaming\mozilla" /XD "Storage"
+robocopy /E /R:0 "%userprofile%\appdata\roaming\microsoft\signatures" "%SHARE%\%USER%\appdata\roaming\microsoft\signatures"
+robocopy /E /R:0 "%userprofile%\appdata\roaming\microsoft\spelling" "%SHARE%\%USER%\appdata\roaming\microsoft\spelling"
+robocopy /E /R:0 "%userprofile%\appdata\roaming\microsoft\stationary" "%SHARE%\%USER%\appdata\roaming\microsoft\stationary"
+robocopy /E /R:0 "%userprofile%\appdata\roaming\microsoft\sticky notes" "%SHARE%\%USER%\appdata\roaming\microsoft\sticky notes"
+robocopy /E /R:0 "%userprofile%\appdata\roaming\Venga5" "%SHARE%\%USER%\appdata\roaming\Venga5"
+robocopy /E /R:0 "%userprofile%\appdata\roaming\Spark" "%SHARE%\%USER%\appdata\roaming\Spark"
+
+:STEP5
+color A0
+title BACKUP HAS SUCCESSFULLY COMPLETED
+cls
+set /P=Backup complete! Your files are located under "%SHARE%\%USER%" Press 'Enter' to finish...
+exit

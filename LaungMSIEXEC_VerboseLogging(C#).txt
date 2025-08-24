@@ -1,0 +1,9 @@
+// 5) Launch msiexec with verbose logging
+
+installDir = C:\Path\To\Installer.exe
+
+var msiexec = Path.Combine(
+    Environment.GetFolderPath(Environment.SpecialFolder.System),
+    "msiexec.exe");
+var msiLog = Path.Combine(installDir, "PowerShell7_install.log");
+var args = $"/i \"{msiPath}\" /quiet /norestart /L*V \"{msiLog}\"";
