@@ -1,12 +1,28 @@
-﻿# Check for administrative privileges
+﻿# Check for admin and relaunch hidden if needed
 $isAdmin = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 if (-not $isAdmin) {
-	Write-Host "Restarting as admin..." -ForegroundColor Yellow
     $ScriptPath = $MyInvocation.MyCommand.Definition
-    Start-Process -FilePath "powershell.exe" -ArgumentList "-ExecutionPolicy Bypass -File `"$ScriptPath`"" -Verb RunAs
-	Start-Sleep -seconds 5
+    $psi = New-Object System.Diagnostics.ProcessStartInfo
+    $psi.FileName = "powershell.exe"
+    $psi.Arguments = "-ExecutionPolicy Bypass -File `"$ScriptPath`""
+    $psi.Verb = "runas"
+    # $psi.WindowStyle = "Hidden"  # Uncomment this to run hidden
+    [System.Diagnostics.Process]::Start($psi) | Out-Null
     Exit
 }
+
+<# If already elevated, hide the current console window
+Add-Type -Name Win -Namespace Console -MemberDefinition '
+[DllImport("kernel32.dll")] public static extern IntPtr GetConsoleWindow();
+[DllImport("user32.dll")] public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+'
+$consolePtr = [Console.Win]::GetConsoleWindow()
+[Console.Win]::ShowWindow($consolePtr, 0)  # 0 = SW_HIDE
+#>
+
+# Uncomment above to make window hidden if relaunch isn't needed
+#
+#---------------------------------
 # Run DISM to repair Windows image
 Write-Host "Running DISM to repair Windows image..." -ForegroundColor Green
 DISM /Online /Cleanup-Image /RestoreHealth
