@@ -2,3 +2,5 @@
 *.db
 *.vsidx
 /.vs
+ps2exe.ps1
+wureset.bat
