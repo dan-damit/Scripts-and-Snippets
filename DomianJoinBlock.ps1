@@ -22,7 +22,7 @@ function Invoke-DomainJoinPrompt {
     # Bring in VB InputBox
     Add-Type -AssemblyName Microsoft.VisualBasic
 
-    # Loop until we get a reachable domain or blank (to skip)
+    # Loop until a reachable domain or blank (to skip)
     do {
         $domain = [Microsoft.VisualBasic.Interaction]::InputBox(
             "Enter the domain FQDN (e.g. contoso.local):",
