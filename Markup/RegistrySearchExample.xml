@@ -1,0 +1,13 @@
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs"
+	 xmlns:util="http://wixtoolset.org/schemas/v4/wxs/util">
+	
+	<Fragment>
+		<Property Id="NETDESKTOP80">
+			<RegistrySearch Id="dotnet8search"
+							Root="HKLM"
+							Key="SOFTWARE\dotnet\Setup\InstalledVersions\x64\sharedhost"
+							Type="directory"
+							Name="Path" />
+		</Property>
+	</Fragment>
+</Wix>
