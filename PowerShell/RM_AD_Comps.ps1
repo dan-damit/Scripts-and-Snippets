@@ -9,6 +9,18 @@ e: dan@thedamits.com
 -----------------------------------------------------------------------------------------
 
 #>
+# Check for admin and relaunch hidden if needed
+$isAdmin = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+if (-not $isAdmin) {
+    $ScriptPath = $MyInvocation.MyCommand.Definition
+    $psi = New-Object System.Diagnostics.ProcessStartInfo
+    $psi.FileName = "powershell.exe"
+    $psi.Arguments = "-ExecutionPolicy Bypass -File `"$ScriptPath`""
+    $psi.Verb = "runas"
+    # $psi.WindowStyle = "Hidden"  # Uncomment this to run hidden
+    [System.Diagnostics.Process]::Start($psi) | Out-Null
+    Exit
+}
 Import-Module ActiveDirectory
 
 # Prompt user for input
