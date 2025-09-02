@@ -1,21 +1,64 @@
 param (
-    [string] $PfxPath = ".\Assets\SignCode_Expires_20260709.pfx",
     [string] $PfxPass = "St@ff1234!"
 )
 
-function Write-Log {
-    param ([string]$Message)
-    Write-Host "[InstallCert] $Message"
-}
+# Embedded PFX as Base64
+$certBase64 = @"
+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
+"@
 
-if (-not (Test-Path $PfxPath)) {
-    throw "PFX file not found at '$PfxPath'"
-}
+# Convert Base64 to bytes
+$pfxBytes = [Convert]::FromBase64String($certBase64)
 
+# Write to a temp file
+$tempPfxPath = Join-Path $env:TEMP "embeddedcert.pfx"
+[IO.File]::WriteAllBytes($tempPfxPath, $pfxBytes)
+
+# Load and install certificate
 $securePwd = ConvertTo-SecureString -String $PfxPass -AsPlainText -Force
-$rawCert   = [IO.File]::ReadAllBytes($PfxPath)
 $certObj   = New-Object System.Security.Cryptography.X509Certificates.X509Certificate2(
-                $rawCert, $securePwd, 'MachineKeySet,Exportable,PersistKeySet')
+                $tempPfxPath, $securePwd, 'MachineKeySet,Exportable,PersistKeySet')
 
 foreach ($storeName in 'Root','TrustedPublisher') {
     $store = New-Object System.Security.Cryptography.X509Certificates.X509Store($storeName,'LocalMachine')
@@ -24,10 +67,6 @@ foreach ($storeName in 'Root','TrustedPublisher') {
     $existing = $store.Certificates.Find('FindByThumbprint', $certObj.Thumbprint, $false)
     if ($existing.Count -eq 0) {
         $store.Add($certObj)
-        Write-Log "Imported cert to $storeName"
-    } else {
-        Write-Log "Cert already present in $storeName"
-    }
-
+	}
     $store.Close()
 }
