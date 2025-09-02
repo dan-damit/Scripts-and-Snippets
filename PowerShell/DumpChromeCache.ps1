@@ -1,12 +1,11 @@
-# Kill Edge processes to avoid file locks
-Stop-Process -Name "msedge" -Force -ErrorAction SilentlyContinue
-Stop-Process -Name "msedgewebview2" -Force -ErrorAction SilentlyContinue
+# Kill Chrome processes to avoid file locks
+Stop-Process -Name "chrome" -Force -ErrorAction SilentlyContinue
 
-# Base path for Edge user data
-$edgeUserData = "$env:LOCALAPPDATA\Microsoft\Edge\User Data"
+# Base path for Chrome user data
+$chromeUserData = "$env:LOCALAPPDATA\Google\Chrome\User Data"
 
 # Profile folders: Default, Profile 1, Profile 2, etc.
-$profiles = Get-ChildItem -Path $edgeUserData -Directory | Where-Object {
+$profiles = Get-ChildItem -Path $chromeUserData -Directory | Where-Object {
     $_.Name -eq "Default" -or $_.Name -match "^Profile \d+$"
 }
 
