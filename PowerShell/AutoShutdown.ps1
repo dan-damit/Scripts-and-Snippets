@@ -11,7 +11,7 @@ $logRoot       = "$env:ProgramData\AutoShutdown"
 $activityLog   = Join-Path $logRoot "ActivityLog.txt"
 $transcriptLog = Join-Path $logRoot "AutoShutdown_$(Get-Date -Format 'yyyyMMdd').log"
 $errorDump     = Join-Path $logRoot "ErrorDump_$(Get-Date -Format 'yyyyMMdd').log"
-$grace         = New-TimeSpan -Hours 2
+$grace         = New-TimeSpan -Hours 36
 
 if (-not (Test-Path $logRoot)) {
     New-Item -ItemType Directory -Path $logRoot -Force | Out-Null
