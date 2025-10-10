@@ -31,3 +31,9 @@ foreach ($file in $filesToSign) {
 
 # Run batch file
 Start-Process -FilePath $batchPath -Wait -NoNewWindow
+
+# Cleanup
+if (Test-Path $batchPath) {
+    Remove-Item $batchPath -Force
+    Write-Host "🧹 Cleaned up temporary batch file: $batchPath"
+}
