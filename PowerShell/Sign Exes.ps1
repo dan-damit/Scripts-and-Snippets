@@ -1,9 +1,10 @@
 $CertPath = "C:\Users\dan\OneDrive\ADV_TECH\Scripts\Certs\SignCode_Expires_20260709.pfx"
-$CertPassword = "St@ff1234!"
 $TimestampUrl = "http://timestamp.digicert.com"
 $ToolkitDir = "C:\Users\dan\OneDrive\ADV_TECH\_Workstation.Deployment.Toolkit"
 $batchPath = "$ToolkitDir\SignAll.cmd"
-
+$secure = Read-Host "Enter certificate password" -AsSecureString
+$ptr = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($secure)
+$CertPassword = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($ptr).Trim()
 $filesToSign = @(
     "ToolkitLauncher.exe",
     "BackupWorkstation.exe",
