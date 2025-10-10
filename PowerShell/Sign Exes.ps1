@@ -1,3 +1,4 @@
+$Host.UI.RawUI.ForegroundColor = 'Yellow'
 $CertPath = "C:\Users\dan\OneDrive\ADV_TECH\Scripts\Certs\SignCode_Expires_20260709.pfx"
 $TimestampUrl = "http://timestamp.digicert.com"
 $ToolkitDir = "C:\Users\dan\OneDrive\ADV_TECH\_Workstation.Deployment.Toolkit"
@@ -37,3 +38,5 @@ if (Test-Path $batchPath) {
     Remove-Item $batchPath -Force
     Write-Host "🧹 Cleaned up temporary batch file: $batchPath"
 }
+$Host.UI.RawUI.ForegroundColor = 'Gray'
+$Host.UI.RawUI.BackgroundColor = 'Black'
