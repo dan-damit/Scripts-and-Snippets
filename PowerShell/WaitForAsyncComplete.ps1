@@ -25,6 +25,6 @@ function Wait-ForCompletion {
         }
     }
 
-    # Return the completed AsyncResult in case you need further processing
+    # Return the completed AsyncResult in case it needs further processing
     return $AsyncResult
 }
