@@ -1,0 +1,17 @@
+{
+    "$schema":  "https://aka.ms/dsc/schemas/v3/bundled/config/document.json",
+    "resources":  [
+                      {
+                          "properties":  {
+                                             "valueName":  "EnableFirewall",
+                                             "_exist":  true,
+                                             "valueData":  {
+                                                               "DWord":  1
+                                                           },
+                                             "keyPath":  "HKLM\\SYSTEM\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\StandardProfile"
+                                         },
+                          "name":  "ConfigureFirewall",
+                          "type":  "Microsoft.Windows/Registry"
+                      }
+                  ]
+}
