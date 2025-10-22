@@ -1,9 +1,29 @@
-*.json
-*.db
-*.vsidx
-/.vs
-ps2exe.ps1
-wureset.bat
+# Ignore Visual Studio folders
+.vs/
+*.bin
+
+# Ignore build artifacts
+bin/
+obj/
+Publish/
+Deploy/
+*.rtf
+*.wixpdb
+*.user
+*.suo
+*.cache
+*.log
+*.snk
+*.html
+*.htm
+
+# File to Exclude
+CDR Elite Setup.zip
 2_CDR Elite Setup.exe
 _Complete_Schick_33_Package.zip
-CDR Elite Setup.zip
+wureset.bat
+ps2exe.ps1
+BuildWS_Setup.ps1
+AcroRdrInstaller.exe
+WS_Setup.exe
+Settings.settings
