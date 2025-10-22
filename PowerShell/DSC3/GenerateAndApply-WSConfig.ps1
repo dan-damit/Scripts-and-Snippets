@@ -9,6 +9,7 @@ $outputPath   = "C:\DSC\WSConfig.Firewall.runtime.yaml"
 $dscExePath   = "C:\DSC\DSC.exe"
 
 # Ensure running elevated
+# Should not be needed when run with Ninja under SYSTEM context
 if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)) {
   Write-Host "This script must be run as Administrator." -ForegroundColor Red
   exit 1
