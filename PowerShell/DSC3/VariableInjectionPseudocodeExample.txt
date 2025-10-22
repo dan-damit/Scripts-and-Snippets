@@ -12,8 +12,7 @@ resources:
       GetScript: "Write-Output 'Checking...'"
       TestScript: "Test-Path '${{ parameters.InstallPath }}'"
       SetScript: "New-Item -ItemType Directory -Path '${{ parameters.InstallPath }}'"
-	  
-	  
+	  	  
 -------------------------------------------
 
 Invoke-DscResource -Path .\MyReusableConfig.dsc.yaml -Parameters @{InstallPath = "C:\Apps\Telemetry"}
