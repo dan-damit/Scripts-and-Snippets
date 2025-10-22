@@ -43,7 +43,7 @@ Write-FileUtf8NoBom -Path $outputPath -Content $content
 
 Write-Host "Generated config with Firewall set to '$firewallState'"
 
-# Run DSC.exe with verbose and wait, stream output
+# Run DSC.exe, stream output
 $arg = @('config','set','-f',$outputPath)
 $proc = Start-Process -FilePath $dscExePath -ArgumentList $arg -NoNewWindow -Wait -PassThru
 $exitCode = $proc.ExitCode
