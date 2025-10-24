@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dan.Damit PowerShell Profile</title>
+  <style>
+    body { font-family: Consolas, monospace; background: #1e1e1e; color: #dcdcdc; padding: 2em; }
+    pre { background: #2d2d2d; padding: 1em; border-radius: 5px; overflow-x: auto; }
+    h1, h2 { color: #9cdcfe; }
+  </style>
+</head>
+<body>
+  <h1>Get-DanPowerShellProfile</h1>
+  <pre>
+#region Technician Manifest
+# Author: Dan Damit
+# Role: Deployment Engineer & Systems Architect
+# Purpose: Define PowerShell expertise with modular clarity
+# Version: 1.0.0
+# LastUpdated: 2025-10-24
+#endregion
+
+function Get-DanPowerShellProfile {
+    [CmdletBinding()]
+    param ()
+
+    $Profile = @{
+        Name                  = 'Dan Damit'
+        Role                  = 'Deployment Engineer & Systems Architect'
+        Specialization        = 'Modular Automation, Fleet Deployments, Manifest-Driven Tooling'
+        PowerShellExpertise   = @(
+            'Designs technician-grade scripts with manifest clarity and robust error handling',
+            'Architects scalable DSCv3 pipelines with YAML parameter injection',
+            'Diagnoses edge cases in installer signing, registry toggling, and bootstrapper logic',
+            'Builds atomic helpers for firewall rule orchestration and config templating',
+            'Empowers techs with transparent logging, modular onboarding, and disaster recovery'
+        )
+        Philosophy            = 'PowerShell is not just a shell—it’s a scalpel, a blueprint, and a technician’s compass.'
+        SignatureFunction     = 'Invoke-DeploymentToolkit -Manifest $ManifestPath -Verbose -EmpowerTechs'
+    }
+
+    return $Profile
+}
+
+<footer>
+  <p>Connect with me:</p>
+  <a href="https://github.com/dan-damit" target="_blank">GitHub</a> | <a href="https://www.linkedin.com/in/daniel-damit/" target="_blank">LinkedIn</a>
+</footer>
+  </pre>
+</body>
+</html>

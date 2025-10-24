@@ -14,8 +14,6 @@ Deploy/
 *.cache
 *.log
 *.snk
-*.html
-*.htm
 
 # File to Exclude
 CDR Elite Setup.zip
