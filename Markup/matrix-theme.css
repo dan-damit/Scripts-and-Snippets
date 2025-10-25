@@ -22,6 +22,56 @@ body {
 	color: #c8facc; /* softer green */
 }
 
+/* Blinking cursor for typed-name.js */
+.cursor {
+	animation: blink 1s step-end infinite;
+}
+@keyframes blink {
+	50% {
+		opacity: 0;
+	}
+}
+
+/* Resume Download button */
+.download-btn {
+	display: inline-block;
+	margin-top: 1em;
+	padding: 0.5em 1em;
+	background-color: #0a0a0a;
+	color: white;
+	text-decoration: none;
+	border-radius: 4px;
+	font-weight: bold;
+}
+
+	.download-btn:hover {
+		background-color: black;
+		color: #00ff00;
+		border: 1px solid #00ff00;
+	}
+
+/* nav-buttons styling */
+.button-link {
+	display: inline-block;
+	margin: 0.4em 0.6em 0.4em 0;
+	padding: 0.8em 1.4em; /* increased padding */
+	font-size: 1.1rem; /* slightly larger text */
+	background-color: black;
+	color: White;
+	text-decoration: none;
+	border-radius: 4px;
+	font-weight: bold;
+	font-family: monospace;
+	transition: background-color 0.3s, color 0.3s;
+	box-shadow: 0 0 6px #00ff00; /* optional glow */
+}
+
+	.button-link:hover {
+		background-color: black;
+		color: #00ff00;
+		border: 1px solid #00ff00;
+	}
+
 /* Matrix canvas as fixed background */
 #matrix {
 	position: fixed;
@@ -46,6 +96,27 @@ body {
 	box-shadow: 0 0 10px #00ff00;
 }
 
+#branding {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-family: monospace;
+    font-size: 1.2rem;
+    color: #00ff00;
+    background-color: #0a0a0a; /* same as #content */
+    padding: 0.5em 1em;
+    border: 1px solid #00ff00;
+    border-radius: 4px;
+    max-width: fit-content;
+    z-index: 99; /* ensures it's above the canvas */
+}
+
+	#branding:hover {
+		background-color: #00ff00;
+		color: black;
+		cursor: pointer;
+	}
+
 a {
 	color: #00ff00;
 	text-decoration: none;
@@ -67,12 +138,13 @@ a {
 		margin-bottom: 1.5rem; /* or try 2rem for more space */
 	}
 
-	.section h1, h2 {
-		margin-top: 2rem;
-		color: #a8f0a5;
-		text-shadow: 0 0 5px #00ff00;
-		font-family: monospace;
-	}
+    .section h1, h2 {
+        font-size: 1.8rem;
+        margin-top: 2rem;
+        color: #a8f0a5;
+        text-shadow: 0 0 5px #00ff00;
+        font-family: monospace;
+    }
 
 	.section strong {
 		font-size: 1.2rem;
@@ -102,3 +174,20 @@ pre {
 	overflow-x: auto;
 	font-family: "Courier New", monospace;
 }
+
+.skills {
+	max-width: 450px;
+	padding-left: 1.5em;
+	margin-bottom: 1em;
+}
+
+	.skills li {
+		display: list-item;
+		margin: 0.3em;
+		padding: 0.4em 0.8em;
+		background-color: rgba(0, 255, 0, 0.1);
+		border: 1px solid #00ff00;
+		border-radius: 4px;
+		font-family: monospace;
+		color: #00ff00;
+	}

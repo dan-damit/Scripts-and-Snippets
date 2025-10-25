@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Personal PowerShell Philosophy</title>
-    <link rel="stylesheet" href="/dan/matrix-theme.css">
+    <link rel="stylesheet" href="/dan/matrix-theme.css?v=2">
     <link rel="icon" href="/dan/favicon_io/favicon.ico" type="image/x-icon">
 </head>
 
 <body>
     <canvas id="matrix"></canvas>
+    <a id="branding" href="https://github.com/dan-damit" target="_blank" rel="noopener noreferrer">Dan Damit</a>
     <div id="content" style="max-width: 1200px;">
-        <h1>Get-DanPowerShellProfile</h1>
+        <h1 id="typed-PSP-title"><span id="name-PSP-title"></span><span class="cursor">_</span></h1>
         <pre>
 #region Technician Manifest
 # Author: Dan Damit
@@ -43,7 +44,7 @@ function Get-DanPowerShellProfile {
 }
         </pre>
 
-        <p><a href="/dan/Resume.html">Back to Resume</a></p>
+        <p><a href="/dan/Resume.html">Back to Resume</a> | <a href="/dan/index.html">Home</a></p>
 
         <footer>
             <h2>Connect with me:</h2>
@@ -51,5 +52,6 @@ function Get-DanPowerShellProfile {
         </footer>
     </div>
     <script src="/dan/matrix-rain.js"></script>
+    <script src="/dan/typed-PSP-title.js"></script>
 </body>
 </html>
