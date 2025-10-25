@@ -1,0 +1,104 @@
+/* Page optimizations for mobile */
+@media (max-width: 600px) {
+	#content {
+		padding: 1rem;
+		margin: 1rem;
+		max-width: 100%;
+	}
+
+	h1, h2 {
+		font-size: 1.5rem;
+	}
+
+	p, li {
+		font-size: 0.95rem;
+	}
+}
+
+body {
+	margin: 0;
+	background-color: #000;
+	font-family: "Courier New", monospace;
+	color: #c8facc; /* softer green */
+}
+
+/* Matrix canvas as fixed background */
+#matrix {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 0;
+}
+
+/* Foreground content */
+#content {
+	position: relative;
+	z-index: 1;
+	padding: 2rem;
+	margin: 2rem auto;
+	max-width: 800px;
+	text-align: left;
+	background-color: #0a0a0a;
+	border: 1px solid #00ff00;
+	border-radius: 6px;
+	box-shadow: 0 0 10px #00ff00;
+}
+
+a {
+	color: #00ff00;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+	a:hover {
+		color: #0f0;
+		text-shadow: 0 0 5px #0f0;
+	}
+
+.section {
+	margin-bottom: 2.5rem;
+	padding-top: 1rem;
+	border-top: 1px solid #00ff00;
+}
+
+	.section ul {
+		margin-bottom: 1.5rem; /* or try 2rem for more space */
+	}
+
+	.section h1, h2 {
+		margin-top: 2rem;
+		color: #a8f0a5;
+		text-shadow: 0 0 5px #00ff00;
+		font-family: monospace;
+	}
+
+	.section strong {
+		font-size: 1.2rem;
+		color: #ffffff;
+		font-weight: 700;
+		display: inline-block;
+		margin-bottom: 0.25rem;
+	}
+
+.centered {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	height: 100px
+}
+
+pre {
+	text-align: left;
+	background-color: #0a0a0a;
+	color: #c8facc;
+	padding: 1rem;
+	border: 1px solid #00ff00;
+	border-radius: 6px;
+	box-shadow: 0 0 10px #00ff00;
+	overflow-x: auto;
+	font-family: "Courier New", monospace;
+}

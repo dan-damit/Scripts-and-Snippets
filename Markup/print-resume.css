@@ -1,0 +1,21 @@
+body {
+    background: white;
+    color: black;
+    font-family: sans-serif;
+    margin: 1in;
+}
+
+#matrix {
+    display: none;
+}
+
+a::after {
+    content: " (" attr(href) ")";
+    font-size: 0.9em;
+    color: gray;
+}
+
+.section {
+    page-break-inside: avoid;
+    margin-bottom: 1.5em;
+}
