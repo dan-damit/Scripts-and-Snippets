@@ -1,21 +1,47 @@
-body {
-    background: white;
-    color: black;
-    font-family: sans-serif;
-    margin: 1in;
-}
+@media print {
+    body {
+        background: white;
+        color: black;
+        font-family: sans-serif;
+        margin: 1in;
+    }
 
-#matrix {
-    display: none;
-}
+    #matrix {
+        display: none;
+    }
 
-a::after {
-    content: " (" attr(href) ")";
-    font-size: 0.9em;
-    color: gray;
-}
+    #branding {
+        display: none !important;
+    }
 
-.section {
-    page-break-inside: avoid;
-    margin-bottom: 1.5em;
+    a {
+        color: black;
+        text-decoration: underline;
+        font-weight: normal;
+    }
+
+        a::after {
+            content: " (" attr(href) ")";
+            font-size: 0.9em;
+            color: gray;
+        }
+
+    .corner-box a::after {
+        content: "(https://thedamits.com/dan/blog.html)";
+        font-size: 0.9em;
+        color: black;
+    }
+
+    .section {
+        page-break-inside: avoid;
+        margin-bottom: 1.5em;
+    }
+
+    .skills,
+    .skills li {
+        color: black !important;
+        font-family: sans-serif !important;
+    }
+
+    /* Add any other print-specific overrides here */
 }

@@ -15,6 +15,9 @@ Node.js script will parse this file and generate HTML in a JSON for the blog pag
 md-to-json.js will read blog.md, parse it, and output entry.json.
 blog-loader.js will read entry.json and render the blog page.
 
+More details to follow
+dan
+
 ---
 
 # Synology Config Override
@@ -56,7 +59,30 @@ After swapping that for this:
 location = /robots.txt { root /volume1/web; default_type text/plain; 
 
 (Which is my custom robots.txt file in the root web folder), BOOM!
-Disallow / became Allow / and loading into LinkedIn was possible—after restarting nginx again of course.
+Disallow / became Allow / and loading into LinkedIn was possible...after restarting nginx again of course.
 
 So hopefully this helps someone out there,
+dan
+
+---
+
+# Automating Blog Generation
+**Date:** 2025-10-25
+**Tags:** automation, blogging
+
+Started automating blog generation using Node.js scripts to parse markdown and generate HTML.
+The plan is to create a seamless workflow for adding new blog posts.
+
+### The workflow is as follows:
+
+1. Write blog posts in `blog.md` using markdown syntax.
+2. Run `md-to-json.js` to parse `blog.md` and generate `entries.json`.
+3. Use `blog-loader.js` to read `entry.json` and render the blog page
+4. Created Scheduled Task using Synology DSM to automate running `md-to-json.js` every 15 minutes.
+5. Which deploys the updated blog page to the website.
+
+All the code is on my GitHub if anyone wants to check it out.
+I'm currently working on the `watch-blog.js` to monitor changes in real-time.
+
+I love being nerdy like this!
 dan
