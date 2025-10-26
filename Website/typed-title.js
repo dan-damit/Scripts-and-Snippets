@@ -1,4 +1,4 @@
-const nameText = "Welcome to the system...";
+const nameText = "Welcome to the System...";
 const nameSpan = document.getElementById("name-title");
 let i = 0;
 
