@@ -10,18 +10,18 @@ This repository is organized by language and purpose, showcasing a range of tool
 - **C# / WPF**: UI prototypes, manifest-driven logging, and technician-friendly error handling.
 - **Markup (HTML/CSS)**: Branded layouts, print-specific overrides, and recruiter-grade resume logic.
 - **Batch / NSIS / WiX**: Packaging scripts and installer logic for fleet-scale deployment.
-- **UI Snippets**: Custom chrome, console-style navigation, and Matrix-themed polish [Website](https://thedamits.com/dan).
+- **UI Snippets**: Custom chrome, console-style navigation, and Matrix-themed polish [Website](https://thedamits.com/dan/).
 - **Schick Integration Package**: Specialized tooling for integration CDR Elite Eaglesoft sensors.
 - **Miscellaneous `.txt`**: Notes, templates, and raw logic fragments.
 
 ## 🧠 Philosophy
 
-Every snippet here is built with *clarity, resilience, and technician-grade polish*. Whether it's a shell script or a UI mockup, the goal is the same: empower techs, minimize friction, and document the journey.
+Every snippet here I tried to build with *clarity, resilience, and technician-grade polish*. Whether it's a shell script or a UI mockup, the goal is the same: empower techs, minimize friction, and document the journey.
 
 - **Manifest-first logic**: Configs and onboarding flows are declarative and transparent.
 - **Modular design**: Reusable components across scripts, stylesheets, and event handlers.
 - **Diagnostic rigor**: Scripts include sanity checks, logging, and reputation hardening.
-- **Aesthetic depth**: Console-style UI, Matrix-inspired animations, and philosophical Easter eggs.
+- **Aesthetic depth**: Console-style UI, [Matrix-inspired animations](https://thedamits.com/dan/), and philosophical Easter eggs.
 
 ## 🚀 Usage
 
@@ -37,4 +37,4 @@ This repo is a personal archive, but if you spot a bug, have a suggestion, or wa
 
 ## 🧭 About the Author
 
-Crafted by [Me](https://github.com/dan-damit), an IT Specialist specializing in modular automation, branded UI/UX, and reputation-hardened diagnostics. This repo is part of a broader mission: to document and share my resilient and transparent tooling.
+Crafted by [Me](https://github.com/dan-damit), an IT Specialist with a decade of professional development specializing in modular automation, branded UI/UX, and reputation-hardened diagnostics. This repo is part of a broader mission: to document and share my resilient and transparent tooling.
