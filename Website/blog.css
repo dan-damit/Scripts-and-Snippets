@@ -32,7 +32,9 @@ body {
     position: relative;
     z-index: 1;
     padding: 2rem;
-    margin: 2rem auto;
+    margin-top: 0.5em;
+    line-height: 1.5;
+    margin: 1rem auto;
     max-width: 800px;
     text-align: left;
     background-color: #0a0a0a;
@@ -97,20 +99,28 @@ body {
         border: 1px solid #00ff00;
     }
 
-.content {
-    margin-top: 0.5em;
-    line-height: 1.5;
-}
-
 .toggle {
-    margin-top: 0.5em;
-    background: transparent;
+    display: inline-block;
+    padding: 0.4em 0.8em;
+    margin: 0.2em;
     color: #00ff00;
-    border: 1px solid #00ff00;
-    padding: 0.3em 0.6em;
+    background-color: transparent;
+    border: 2px solid #00ff00;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
     font-family: monospace;
     cursor: pointer;
+    transition: all 0.2s ease-in-out;
 }
+
+    .toggle:hover {
+        color: #0f0;
+        border-color: #0f0;
+        box-shadow: 0 0 8px #0f0;
+        background-color: rgba(0, 255, 0, 0.05);
+        text-shadow: 0 0 5px #0f0;
+    }
 
 .reset {
     display: block;
@@ -131,6 +141,50 @@ body {
         box-shadow: 0 0 8px #00ff00, 0 0 12px #00ff00;
     }
 
+.collapse-all-button {
+    display: block;
+    margin: 2em auto 1em auto;
+    padding: 0.4em 0.8em;
+    font-family: monospace;
+    font-size: 1rem;
+    color: #00ff00;
+    background-color: black;
+    border: 1px solid #00ff00;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+    transition: box-shadow 0.3s ease;
+}
+
+    .collapse-all-button:hover {
+        box-shadow: 0 0 8px #00ff00, 0 0 12px #00ff00;
+    }
+
+.button-wrapper {
+    display: inline-grid;
+    grid-template-columns: auto auto;
+    gap: 30px;
+    margin-top: -2em;
+}
+
+    .button-wrapper button {
+        padding: 0.5em 1em;
+        font-family: monospace;
+        font-weight: bold;
+        border: 2px solid #00ff00;
+        background-color: black;
+        color: #00ff00;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+    }
+
+        .button-wrapper button:hover {
+            box-shadow: 0 0 8px #0f0;
+            background-color: black;
+            text-shadow: 0 0 5px #0f0;
+        }
+
 @media (max-width: 600px) {
   .top-left-link,
   #branding {
@@ -147,4 +201,10 @@ body {
     top: 3em; /* stacks below the top-left link */
     right: 0.5em;
   }
+
+  .button-wrapper {
+      flex-direction: column;
+      align-items: center;
+  }
+
 }

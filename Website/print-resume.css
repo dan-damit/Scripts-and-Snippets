@@ -1,21 +1,18 @@
 @media print {
     body {
         background: white;
-        color: black;
+        color: #222; /* dark gray for softer contrast */
         font-family: sans-serif;
         margin: 1in;
     }
 
-    #matrix {
-        display: none;
-    }
-
+    #matrix,
     #branding {
         display: none !important;
     }
 
     a {
-        color: black;
+        color: #000;
         text-decoration: underline;
         font-weight: normal;
     }
@@ -23,25 +20,91 @@
         a::after {
             content: " (" attr(href) ")";
             font-size: 0.9em;
-            color: gray;
+            color: #666; /* medium gray for link metadata */
         }
-
-    .corner-box a::after {
-        content: "(https://thedamits.com/dan/blog.html)";
-        font-size: 0.9em;
-        color: black;
-    }
 
     .section {
         page-break-inside: avoid;
         margin-bottom: 1.5em;
+        border: none;
+        box-shadow: none;
+        background: transparent;
+    }
+
+    .content {
+        background: #f9f9f9; /* light gray for subtle contrast */
+        border: 1px solid #ccc;
+        box-shadow: none;
+        color: #222;
+    }
+
+    * {
+        box-shadow: none !important;
+        text-shadow: none !important;
     }
 
     .skills,
     .skills li {
-        color: black !important;
+        color: #222 !important;
         font-family: sans-serif !important;
     }
 
-    /* Add any other print-specific overrides here */
+    h1, h2, h3 {
+        color: #000;
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 0.2em;
+        margin-bottom: 0.5em;
+    }
+
+    .tag {
+        background: #e0e0e0;
+        color: #333;
+        border-radius: 4px;
+        padding: 0.2em 0.5em;
+        font-size: 0.85em;
+        margin-right: 0.3em;
+    }
+
+    .content,
+    button,
+    .section,
+    .tag {
+        border-color: #999 !important; /* medium gray */
+        box-shadow: none !important;
+        background: #f9f9f9 !important; /* soft contrast */
+        color: #222 !important;
+    }
+
+    button {
+        background: #e0e0e0 !important;
+        font-weight: normal !important;
+        border-radius: 4px !important;
+        padding: 0.4em 0.8em !important;
+    }
+
+    /* Optional: QR code, timestamp, or print-only footer */
+    .print-only {
+        display: block;
+        font-size: 0.8em;
+        color: #666;
+        margin-top: 2em;
+        text-align: center;
+    }
+
+    .print-qr {
+        display: block;
+        text-align: center;
+        margin-top: 2em;
+    }
+
+        .print-qr img {
+            width: 120px;
+            height: auto;
+            margin-bottom: 0.5em;
+        }
+
+        .print-qr p {
+            font-size: 0.8em;
+            color: #666;
+        }
 }

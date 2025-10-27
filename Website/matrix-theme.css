@@ -40,6 +40,7 @@ body {
 	background-color: #0a0a0a;
 	color: white;
 	text-decoration: none;
+	border: 1px solid #00ff00;
 	border-radius: 4px;
 	font-weight: bold;
 }
@@ -48,6 +49,7 @@ body {
 		background-color: black;
 		color: #00ff00;
 		border: 1px solid #00ff00;
+		box-shadow: 0 0 8px #00ff00, 0 0 12px #00ff00;
 	}
 
 /* nav-buttons styling */
@@ -236,3 +238,25 @@ pre {
 		font-family: monospace;
 		color: #00ff00;
 	}
+
+li a {
+	color: #00ff00;
+	text-decoration: none;
+	border: 2px solid #00ff00;
+	padding: 0.3em 0.6em;
+	border-radius: 4px;
+	display: inline-block;
+	font-family: monospace;
+	transition: all 0.2s ease-in-out;
+}
+
+	li a:hover {
+		box-shadow: 0 0 8px #0f0;
+		background-color: rgba(0, 255, 0, 0.05);
+		text-shadow: 0 0 5px #0f0;
+	}
+
+/* Hide on screen */
+.print-qr {
+	display: none;
+}
