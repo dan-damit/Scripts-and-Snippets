@@ -82,29 +82,25 @@
         padding: 0.4em 0.8em !important;
     }
 
-    /* Optional: QR code, timestamp, or print-only footer */
-    .print-only {
-        display: block;
-        font-size: 0.8em;
-        color: #666;
-        margin-top: 2em;
-        text-align: center;
-    }
-
-    .print-qr {
-        display: block;
+    .qr-block {
         text-align: center;
         margin-top: 2em;
     }
 
-        .print-qr img {
+        .qr-block img {
             width: 120px;
             height: auto;
             margin-bottom: 0.5em;
         }
 
-        .print-qr p {
+        .qr-block p {
             font-size: 0.8em;
             color: #666;
         }
+
+    .qr-caption {
+        font-size: 0.9em;
+        color: #666;
+        margin-top: 0.5em;
+    }
 }

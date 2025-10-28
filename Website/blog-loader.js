@@ -43,7 +43,7 @@
           ${entry.tags.map(tag => `<span class="tag">${tag}</span>`).join(' ')}
         </div>
         <div class="content" style="display:none;">${entry.content}</div>
-        <button class="toggle">Decrypt</button>
+        <button type="button" class="toggle">Decrypt</button>
       `;
             container.appendChild(section);
         });

@@ -14,7 +14,7 @@
 
 <body>
     <canvas id="matrix"></canvas>
-    <a id="branding" href="https://www.supersummary.com/simulacra-and-simulation/summary" title="Welcome to the desert of the real." target="_blank" rel="noopener noreferrer">Invoke-Hyperreality</a>
+    <a id="branding" href="https://en.wikipedia.org/wiki/Simulacra_and_Simulation" title="Welcome to the desert of the real." target="_blank" rel="noopener noreferrer">Invoke-Hyperreality</a>
     <a href="https://thedamits.com/dan/blog.html" class="corner-box">PS C:\Users\dan> cd blog</a>
     <div id="content">
         <h1 id="typed-name"><span id="name-text"></span><span class="cursor">_</span></h1>
@@ -25,7 +25,8 @@
             <a href="mailto:dan.damit@outlook.com">Email</a> |
             <a href="https://github.com/dan-damit" target="_blank" rel="noopener noreferrer">GitHub</a> |
             <a href="https://www.linkedin.com/in/daniel-damit" target="_blank" rel="noopener noreferrer">LinkedIn</a> |
-            <button class="download-btn">📄 Download PDF</button>
+            <button class="print-pdf-btn">📄 Print</button> |
+            <button id="download-pdf" class="download-pdf-btn">📄 Download</button>
         </p>
 
         <div class="section">
@@ -160,13 +161,15 @@
             <h2>#endregion ResumeManifest</h2>
             <p><a href="https://thedamits.com/dan/">PS C:\Users\dan> cd ..</a></p>
         </div>
-        <div class="print-qr">
-            <img src="resume-qr.png" alt="Resume QR Code">
-            <p>Scan to view online resume</p>
+        <div class="qr-block section">
+            <img src="resume-qr.png" alt="Scan to view online resume" id="qr-img">
+            <p class="qr-caption">Scan to view online resume</p>
         </div>
     </div>
     <script src="matrix-rain.js?v=2"></script>
     <script src="typed-name.js?v=2"></script>
-    <script src="resume.js?v=2>"></script>
+    <script type="module" src="resume.js?v=2>"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js?v=2>"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js?v=2>"></script>
 </body>
 </html>

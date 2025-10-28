@@ -16,14 +16,21 @@ const entries = blocks.map(block => {
     // Remove metadata lines
     const contentLines = lines.filter(l => !l.startsWith('**Date:**') && !l.startsWith('**Tags:**')).slice(1);
     const content = contentLines.join('\n')
-        .replace(/^### (.+)$/gm, '<h3>$1</h3>')       // Convert ### headers
-        .replace(/^## (.+)$/gm, '<h2>$1</h2>')        // Convert ## headers
-        .replace(/^# (.+)$/gm, '<h1>$1</h1>')         // Convert # headers
-        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>') // Bold
-        .replace(/\n{2,}/g, '</p><p>')               // Paragraph breaks
-        .replace(/\n/g, '<br>')                      // Line breaks
-        .replace(/^/, '<p>')
-        .concat('</p>');
+        .replace(/\^([^\^]+)\^/g, '<code>$1</code>')
+        .replace(/```([\s\S]+?)```/g, (_, code) => {
+            const cleaned = code.replace(/^\n/, ''); // remove leading newline in code blocks
+            return `<pre><code>${cleaned}</code></pre>`;
+        })
+        .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+        .replace(/^## (.+)$/gm, '<h2>$1</h2>')
+        .replace(/^# (.+)$/gm, '<h1>$1</h1>')
+        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+        .split(/\n{2,}/) // split into paragraphs
+        .map(p => {
+            if (p.startsWith('<pre><code>')) return p; // skip <br> injection for code blocks
+            return `<p>${p.replace(/\n/g, '<br>')}</p>`;
+        })
+        .join('');
 
     return { date, title, tags, content };
 });

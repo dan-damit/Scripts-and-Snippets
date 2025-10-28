@@ -32,8 +32,8 @@ body {
 	}
 }
 
-/* Resume Download button */
-.download-btn {
+/* Resume Download buttons */
+.print-pdf-btn {
 	display: inline-block;
 	margin-top: 1em;
 	padding: 0.5em 1em;
@@ -45,7 +45,26 @@ body {
 	font-weight: bold;
 }
 
-	.download-btn:hover {
+	.print-pdf-btn:hover {
+		background-color: black;
+		color: #00ff00;
+		border: 1px solid #00ff00;
+		box-shadow: 0 0 8px #00ff00, 0 0 12px #00ff00;
+	}
+
+.download-pdf-btn {
+	display: inline-block;
+	margin-top: 1em;
+	padding: 0.5em 1em;
+	background-color: #0a0a0a;
+	color: white;
+	text-decoration: none;
+	border: 1px solid #00ff00;
+	border-radius: 4px;
+	font-weight: bold;
+}
+
+	.download-pdf-btn:hover {
 		background-color: black;
 		color: #00ff00;
 		border: 1px solid #00ff00;
@@ -255,6 +274,22 @@ li a {
 		background-color: rgba(0, 255, 0, 0.05);
 		text-shadow: 0 0 5px #0f0;
 	}
+
+.qr-block {
+	text-align: center;
+	margin-top: 2em;
+}
+
+	.qr-block img {
+		width: 120px;
+		height: auto;
+	}
+
+.qr-caption {
+	font-size: 0.9em;
+	color: #00ff00;
+	margin-top: 0.5em;
+}
 
 /* Hide on screen */
 .print-qr {
