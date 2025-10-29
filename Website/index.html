@@ -1,19 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <!-- Technician-grade metadata -->
     <meta charset="UTF-8">
 
     <!-- SEO & Preview -->
     <title>Dan Damit · Technician-grade Deployment Architect</title>
-    <meta name="description" content="Modular automation, fleet-scale deployment, and resilient engineering philosophy. Explore Dan Damit’s technician-grade resume and workstation onboarding toolkit.">
+    <meta name="description"
+        content="Modular automation, fleet-scale deployment, and resilient engineering philosophy. Explore Dan Damit’s technician-grade resume and workstation onboarding toolkit.">
     <meta name="author" content="Dan Damit">
     <meta name="robots" content="index, follow">
-    <meta name="keywords" content="Dan Damit, Deployment Architect, Systems Engineer, IT Automation, Fleet Deployment, Technician-grade Resume, Workstation Onboarding, Modular Automation, Resilient Diagnostics, PowerShell, C#, WiX Toolset, WPF/XAML">
+    <meta name="keywords"
+        content="Dan Damit, Deployment Architect, Systems Engineer, IT Automation, Fleet Deployment, Technician-grade Resume, Workstation Onboarding, Modular Automation, Resilient Diagnostics, PowerShell, C#, WiX Toolset, WPF/XAML">
 
     <!-- Open Graph for social previews -->
     <meta property="og:title" content="Dan Damit · Technician-grade Deployment Architect">
-    <meta property="og:description" content="Follow the white rabbit...Explore Dan's modular automation, resilient diagnostics, and deployment philosophy.">
+    <meta property="og:description"
+        content="Follow the white rabbit...Explore Dan's modular automation, resilient diagnostics, and deployment philosophy.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://thedamits.com/dan">
     <meta property="og:image" content="https://thedamits.com/dan/preview.png">
@@ -21,7 +25,8 @@
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Dan Damit · Technician-grade Deployment Architect">
-    <meta name="twitter:description" content="Explore Dan's modular automation, resilient diagnostics, and deployment philosophy.">
+    <meta name="twitter:description"
+        content="Explore Dan's modular automation, resilient diagnostics, and deployment philosophy.">
     <meta name="twitter:image" content="https://thedamits.com/dan/preview.png">
 
     <!-- Favicon & Manifest -->
@@ -33,21 +38,52 @@
     <!-- Matrix rain background -->
     <canvas id="matrix"></canvas>
 
-    <!-- Branding pinned top-right -->
-    <a id="branding" href="https://en.wikipedia.org/wiki/Simulacra_and_Simulation" title="Welcome to the desert of the real." target="_blank" rel="noopener noreferrer">Invoke-Hyperreality</a>
-    <a href="blog.html" class="corner-box">PS C:\Users\dan> cd blog</a>
+    <div class="page-wrapper">
 
-    <!-- Foreground content -->
-    <div id="content" class="centered">
-        <h1 id="typed-title"><span id="name-title"></span><span class="cursor">_</span></h1>
-        <div class="nav-buttons">
-            <a href="resume.html" class="button-link">💼 Get-Resume</a>
-            <a href="powershell-profile.html" class="button-link">⚡ Invoke-PSPhilosophy</a>
-            <a href="https://github.com/dan-damit" class="button-link" target="_blank" rel="noopener noreferrer">GitHub</a>
-            <a href="https://www.linkedin.com/in/daniel-damit/" class="button-link" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <!-- Branding pinned top-right -->
+        <div class="button-wrapper">
+            <a id="branding" href="https://en.wikipedia.org/wiki/Simulacra_and_Simulation" target="_blank"
+                rel="noopener noreferrer">Invoke-Hyperreality</a>
+            <a href="blog.html" class="corner-box">PS C:\Users\dan> cd blog</a>
         </div>
+
+        <!-- Foreground content -->
+        <div id="content" class="centered">
+            <h1 id="typed-title"><span id="name-title"></span><span class="cursor">_</span></h1>
+            <div class="nav-buttons-wrapper">
+                <a href="resume.html" class="button-link">💼 Get-Resume</a>
+                <a href="powershell-profile.html" class="button-link">⚡ Invoke-PSPhilosophy</a>
+                <a href="https://github.com/dan-damit" class="button-link" target="_blank"
+                    rel="noopener noreferrer">GitHub</a>
+                <a href="https://www.linkedin.com/in/daniel-damit/" class="button-link" target="_blank"
+                    rel="noopener noreferrer">LinkedIn</a>
+            </div>
+
+            <p><span class="label">Page Load:</span> <span id="load-time"></span></p>
+
+            <div class="status-widget">
+                <h2>System Diagnostics</h2>
+                <ul class="status-list">
+                    <li><span class="label">Uptime:</span> <span id="uptime">Loading...</span></li>
+                    <li><span class="label">Load Average:</span> <span id="loadavg">Loading...</span></li>
+                    <li><span class="label">Disk Usage:</span> <span id="disk">Loading...</span></li>
+                    <li><span class="label">RAID Status:</span> <span id="raid">Loading...</span></li>
+                    <li><span class="label">Last Sync:</span> <span id="last-sync">Loading...</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <footer class="manifest-footer">
+            <a href="resume.html">Resume</a> |
+            <a href="powershell-profile.html">Philosophy</a> |
+            <a href="blog.html">Journal</a>
+            <p>&copy; 2025 Dan Damit</p>
+        </footer>
     </div>
+
+    <script src="site-diagnostics.js"></script>
     <script src="matrix-rain.js?v=2"></script>
     <script src="typed-title.js?v=2"></script>
 </body>
+
 </html>

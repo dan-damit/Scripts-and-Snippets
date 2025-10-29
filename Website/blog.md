@@ -1,3 +1,18 @@
+# Shoutout to freeCodeCamp!
+**Date:** 2025-10-22
+**Tags:** coding, learning, coursework
+## This site was how I got my toes damp.
+
+I would highly recommend freeCodeCamp if you're wanting to get into any level of web coding. It was
+SUPER helpful for me getting my tooties damp...well...almost 2 years ago now at this point. 
+
+[Here is a link](https://www.freecodecamp.org/)
+
+Highly recommend it!!
+### dan
+
+---
+
 # Manifest-Driven Markdown
 **Date:** 2025-10-24  
 **Tags:** markdown, automation
@@ -9,8 +24,8 @@ Markdown parsing is next.
 Use a blog.md file to document blog posts. Each post starts with metadata: date and tags. Posts are
 separated by horizontal rules (---). Content can include headings, paragraphs, lists, and code
 snippets. Node.js script will parse this file and generate HTML in a JSON for the blog page.
-md-to-json.js will read blog.md, parse it, and output entry.json. blog-loader.js will read
-entry.json and render the blog page.
+md-to-json.js will read blog.md, parse it, and output entries.json. blog-loader.js will read
+entries.json and render the blog page.
 
 More details to follow
 ### dan
@@ -289,7 +304,17 @@ fatal errors at runtime. Basically, this disabled it entirely...
 
 From there it showballed into several other pieces of a PS script that I affectionately named
 "Onboarding.ps1" This was the catalyst for a 10 month long journey from one single PS command to a
-full blown onboarding tool complete with MahApps UI and C# backend with a WiX installation toolset
+full blown onboarding tool complete with MahApps UI, C# backend, and a WiX installation toolset,
 for a polished and professional look at install time.
 
 ## To be continued...
+
+---
+
+# Tweaking the layout
+**Date:** 2025-10-29
+**Tags:** coding, css
+## I wanted to make it look even better
+
+I wanted to make the site look better so I went back to school for a bit reading about concepts for
+website layouts, and how to hook them up.

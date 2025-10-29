@@ -1,4 +1,4 @@
-const nameText = "Dan Damit";
+const nameText = "Daniel Damit";
 const nameSpan = document.getElementById("name-text");
 let i = 0;
 

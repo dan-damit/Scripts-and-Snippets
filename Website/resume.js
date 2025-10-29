@@ -1,19 +1,24 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const printBtn = document.querySelector('.print-pdf-btn');
-    if (printBtn) {
-        printBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            window.print();
-        });
-    }
+    const pdfButtons = document.querySelectorAll('.pdf-btn');
 
-    const downloadBtn = document.getElementById('download-pdf');
-    if (downloadBtn) {
-        downloadBtn.addEventListener('click', async () => {
-            console.log("> Deploying Resume Artifact…");
-            await generateResumePDF();
-        });
-    }
+    pdfButtons.forEach((btn) => {
+        const id = btn.id;
+
+        if (id === 'print-pdf') {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                console.log("> Printing Resume Artifact...");
+                window.print();
+            });
+        }
+
+        if (id === 'download-pdf') {
+            btn.addEventListener('click', async () => {
+                console.log("> Deploying Resume Artifact...");
+                await generateResumePDF();
+            });
+        }
+    });
 });
 
 export async function generateResumePDF() {

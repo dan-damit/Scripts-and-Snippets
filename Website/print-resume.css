@@ -1,106 +1,94 @@
 @media print {
     body {
         background: white;
-        color: #222; /* dark gray for softer contrast */
+        color: black;
         font-family: sans-serif;
         margin: 1in;
+        text-align: left;
     }
 
     #matrix,
-    #branding {
+    #branding,
+    .pdf-btn,
+    .nav-buttons {
         display: none !important;
     }
 
-    a {
-        color: #000;
-        text-decoration: underline;
-        font-weight: normal;
+    #content,
+    .content {
+        background: white !important;
+        color: black !important;
+        border: none !important;
+        box-shadow: none !important;
+        margin: 0 auto;
+        text-align: left;
     }
-
-        a::after {
-            content: " (" attr(href) ")";
-            font-size: 0.9em;
-            color: #666; /* medium gray for link metadata */
-        }
 
     .section {
         page-break-inside: avoid;
         margin-bottom: 1.5em;
-        border: none;
-        box-shadow: none;
-        background: transparent;
+        border: none !important;
+        box-shadow: none !important;
+        background: transparent !important;
+        text-align: left;
     }
 
-    .content {
-        background: #f9f9f9; /* light gray for subtle contrast */
-        border: 1px solid #ccc;
-        box-shadow: none;
-        color: #222;
+    h1,
+    h2,
+    h3 {
+        color: black !important;
+        border: none !important;
+        margin-bottom: 0.5em;
+    }
+
+    p,
+    li,
+    .skills li,
+    .qr-caption,
+    .qr-block p {
+        color: black !important;
+        font-family: sans-serif !important;
+        font-size: 1rem;
+        text-align: left;
+    }
+
+    a {
+        color: black !important;
+        text-decoration: underline;
+        font-weight: normal;
+    }
+
+    a::after {
+        content: " (" attr(href) ")";
+        font-size: 0.9em;
+        color: black;
+    }
+
+    .tag {
+        background: white !important;
+        color: black !important;
+        border: 1px solid black !important;
+        border-radius: 4px;
+        padding: 0.2em 0.5em;
+        font-size: 0.85em;
+        margin-right: 0.3em;
+        display: inline-block;
+    }
+
+    .qr-block {
+        text-align: left;
+        margin-top: 2em;
+    }
+
+    .qr-block img {
+        width: 120px;
+        height: auto;
+        margin-bottom: 0.5em;
     }
 
     * {
         box-shadow: none !important;
         text-shadow: none !important;
-    }
-
-    .skills,
-    .skills li {
-        color: #222 !important;
-        font-family: sans-serif !important;
-    }
-
-    h1, h2, h3 {
-        color: #000;
-        border-bottom: 1px solid #ccc;
-        padding-bottom: 0.2em;
-        margin-bottom: 0.5em;
-    }
-
-    .tag {
-        background: #e0e0e0;
-        color: #333;
-        border-radius: 4px;
-        padding: 0.2em 0.5em;
-        font-size: 0.85em;
-        margin-right: 0.3em;
-    }
-
-    .content,
-    button,
-    .section,
-    .tag {
-        border-color: #999 !important; /* medium gray */
-        box-shadow: none !important;
-        background: #f9f9f9 !important; /* soft contrast */
-        color: #222 !important;
-    }
-
-    button {
-        background: #e0e0e0 !important;
-        font-weight: normal !important;
-        border-radius: 4px !important;
-        padding: 0.4em 0.8em !important;
-    }
-
-    .qr-block {
-        text-align: center;
-        margin-top: 2em;
-    }
-
-        .qr-block img {
-            width: 120px;
-            height: auto;
-            margin-bottom: 0.5em;
-        }
-
-        .qr-block p {
-            font-size: 0.8em;
-            color: #666;
-        }
-
-    .qr-caption {
-        font-size: 0.9em;
-        color: #666;
-        margin-top: 0.5em;
+        background: none !important;
     }
 }

@@ -5,7 +5,7 @@ const raw = fs.readFileSync('blog.md', 'utf8');
 const blocks = raw.split(/^---$/gm).map(b => b.trim()).filter(Boolean);
 
 const entries = blocks.map(block => {
-    const lines = block.split('\n');
+    const lines = block.trim().split('\n');
     const title = lines[0].trim();
     const dateLine = lines.find(l => l.startsWith('**Date:**'));
     const tagsLine = lines.find(l => l.startsWith('**Tags:**'));
@@ -25,6 +25,7 @@ const entries = blocks.map(block => {
         .replace(/^## (.+)$/gm, '<h2>$1</h2>')
         .replace(/^# (.+)$/gm, '<h1>$1</h1>')
         .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g, '<a href="$2" target="_blank">$1</a>') // links
         .split(/\n{2,}/) // split into paragraphs
         .map(p => {
             if (p.startsWith('<pre><code>')) return p; // skip <br> injection for code blocks

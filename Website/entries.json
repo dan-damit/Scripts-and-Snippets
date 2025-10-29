@@ -1,12 +1,22 @@
 [
   {
+    "date": "2025-10-22",
+    "title": "# Shoutout to freeCodeCamp!",
+    "tags": [
+      "coding",
+      "learning",
+      "coursework"
+    ],
+    "content": "<p><h2>This site was how I got my toes damp.</h2></p><p>I would highly recommend freeCodeCamp if you're wanting to get into any level of web coding. It was<br>SUPER helpful for me getting my tooties damp...well...almost 2 years ago now at this point. </p><p><a href=\"https://www.freecodecamp.org/\" target=\"_blank\">Here is a link</a></p><p>Highly recommend it!!<br><h3>dan</h3></p>"
+  },
+  {
     "date": "2025-10-24",
     "title": "# Manifest-Driven Markdown",
     "tags": [
       "markdown",
       "automation"
     ],
-    "content": "<p><h2>The structure is as follows:</h2></p><p>Started structuring the blog page to reflect my engineering mindset.  <br>Markdown parsing is next.</p><p>Use a blog.md file to document blog posts. Each post starts with metadata: date and tags. Posts are<br>separated by horizontal rules (---). Content can include headings, paragraphs, lists, and code<br>snippets. Node.js script will parse this file and generate HTML in a JSON for the blog page.<br>md-to-json.js will read blog.md, parse it, and output entry.json. blog-loader.js will read<br>entry.json and render the blog page.</p><p>More details to follow<br><h3>dan</h3></p>"
+    "content": "<p><h2>The structure is as follows:</h2></p><p>Started structuring the blog page to reflect my engineering mindset.  <br>Markdown parsing is next.</p><p>Use a blog.md file to document blog posts. Each post starts with metadata: date and tags. Posts are<br>separated by horizontal rules (---). Content can include headings, paragraphs, lists, and code<br>snippets. Node.js script will parse this file and generate HTML in a JSON for the blog page.<br>md-to-json.js will read blog.md, parse it, and output entries.json. blog-loader.js will read<br>entries.json and render the blog page.</p><p>More details to follow<br><h3>dan</h3></p>"
   },
   {
     "date": "2025-10-25",
@@ -74,6 +84,15 @@
       "setup",
       "automation"
     ],
-    "content": "<p><h2>Continuing with the story</h2></p><p>So I needed to start small. Every journey starts with step one. My step one in this case was to<br>forget about any UI integrations and just focus on commands in PowerShell to automate what I was<br>clicking on 743,879 times per project, per workstation. The first command was pretty simple:</p><pre><code>$UACRegistryPath = \"HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\"\n$UACValueName = \"EnableLUA\"\nSet-ItemProperty -Path $UACRegistryPath -Name $UACValueName -Value 0 -Type DWord \n</code></pre><p>Not the most secure option here, I know, but at the time we were working with a client that had<br>practice management software that required UAC to be disabled entirely, or parts of it would have<br>fatal errors at runtime. Basically, this disabled it entirely...</p><p>From there it showballed into several other pieces of a PS script that I affectionately named<br>\"Onboarding.ps1\" This was the catalyst for a 10 month long journey from one single PS command to a<br>full blown onboarding tool complete with MahApps UI and C# backend with a WiX installation toolset<br>for a polished and professional look at install time.</p><p><h2>To be continued...</h2></p>"
+    "content": "<p><h2>Continuing with the story</h2></p><p>So I needed to start small. Every journey starts with step one. My step one in this case was to<br>forget about any UI integrations and just focus on commands in PowerShell to automate what I was<br>clicking on 743,879 times per project, per workstation. The first command was pretty simple:</p><pre><code>$UACRegistryPath = \"HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\"\n$UACValueName = \"EnableLUA\"\nSet-ItemProperty -Path $UACRegistryPath -Name $UACValueName -Value 0 -Type DWord \n</code></pre><p>Not the most secure option here, I know, but at the time we were working with a client that had<br>practice management software that required UAC to be disabled entirely, or parts of it would have<br>fatal errors at runtime. Basically, this disabled it entirely...</p><p>From there it showballed into several other pieces of a PS script that I affectionately named<br>\"Onboarding.ps1\" This was the catalyst for a 10 month long journey from one single PS command to a<br>full blown onboarding tool complete with MahApps UI, C# backend, and a WiX installation toolset,<br>for a polished and professional look at install time.</p><p><h2>To be continued...</h2></p>"
+  },
+  {
+    "date": "2025-10-29",
+    "title": "# Tweaking the layout",
+    "tags": [
+      "coding",
+      "css"
+    ],
+    "content": "<p><h2>I wanted to make it look even better</h2></p><p>I wanted to make the site look better so I went back to school for a bit reading about concepts for<br>website layouts, and how to hook them up.</p>"
   }
 ]

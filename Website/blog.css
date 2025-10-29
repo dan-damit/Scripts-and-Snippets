@@ -32,7 +32,8 @@ body {
     position: relative;
     z-index: 1;
     padding: 2rem;
-    margin-top: 0.5em;
+    padding-top: 0;
+    margin-top: 0;
     line-height: 1.5;
     margin: 1rem auto;
     max-width: 800px;
@@ -61,6 +62,17 @@ body {
 
 #blog-container:hover {
     box-shadow: 0 0 15px #00ff00;
+}
+
+.entry .content a {
+  color: #0ff;
+  text-decoration: underline;
+}
+
+.entry .content a:hover {
+  text-decoration: none;
+  background: #0ff;
+  color: #000;
 }
 
 .entry {
@@ -208,5 +220,4 @@ body {
         flex-direction: column;
         align-items: center;
     }
-
 }
