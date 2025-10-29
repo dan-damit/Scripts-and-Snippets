@@ -317,4 +317,20 @@ for a polished and professional look at install time.
 ## I wanted to make it look even better
 
 I wanted to make the site look better so I went back to school for a bit reading about concepts for
-website layouts, and how to hook them up.
+website layouts, and how to hook them up. And so far I think it's been looking way better! The first
+piece that I wanted to adjust was the two buttons at the top. They needed to go above the main
+content div and not be transparent. That way they looked like they were floating above it all. Kind
+of like a 3d effect. I also added a hover::after piece to the <a> for some additional info for the
+clicker. 
+
+Next was a footer. And it took a bit of reading that a good practice is to wrap the whole thing in a
+div that ends with the <footer>. And in there I added a sort of nav menu. I also wanted to reduce
+the amount of glyphs that rained by 1/2. It was just too busy, and I think cutting it in half works
+perfectly.
+
+After that I cobbled together a bash script to grab hardware diag data from my server, output it to
+a json, and schedule it to run every 5 minutes. With the help of a short JavaScript file, it gets
+outputted to the index.html as a status div.
+
+I think it's coming together nicely. Just gotta keep on tinkering!
+### dan

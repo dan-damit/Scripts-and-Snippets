@@ -257,7 +257,7 @@ body {
 }
 
 .corner-box:hover::after {
-	content: " ← Blog";
+	content: " ← Journal";
 	margin-left: 0.5em;
 	font-style: italic;
 }
