@@ -65,6 +65,13 @@ function renderPage(entries, page) {
     const container = document.getElementById('blog-container');
     container.innerHTML = "";
 
+    // Inject Technician's Log title
+    const title = document.createElement('h1');
+    title.id = 'typed-title';
+    title.innerHTML = `<span id="typed-text"></span><span class="cursor">_</span>`;
+    container.appendChild(title);
+    typeBlogTitle("Technician's Log");
+
     const start = (page - 1) * entriesPerPage;
     const end = start + entriesPerPage;
     const pageEntries = entries.slice(start, end);
