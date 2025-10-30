@@ -38,12 +38,19 @@
     box-shadow: 0 0 15px #00ff00;
 }
 
+#pagination-nav {
+    display: flex;
+    justify-content: center;
+    gap: 0.5em;
+    margin-top: 2em;
+}
+
 .section h1,
 h2 {
-	font-size: 1.8rem;
-	margin-top: 2rem;
-	color: #a8f0a5;
-	text-shadow: 0 0 5px var(--neon-green);
+    font-size: 1.8rem;
+    margin-top: 2rem;
+    color: #a8f0a5;
+    text-shadow: 0 0 5px var(--neon-green);
 }
 
 .entry .content a {

@@ -123,7 +123,7 @@ function renderPaginationControls(totalEntries, currentPage, perPage) {
 
     for (let i = 1; i <= totalPages; i++) {
         const btn = document.createElement("a");
-        btn.textContent = `Page ${i}`;
+        btn.textContent = `${i}`;
         btn.href = `?page=${i}`;
         btn.className = "button-link";
         if (i === currentPage) btn.classList.add("active");
