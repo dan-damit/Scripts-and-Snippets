@@ -28,6 +28,12 @@ body {
     box-shadow: 0 0 8px #00ff00, 0 0 12px #00ff00;
 }
 
+.top-left-link:hover::after {
+    content: " ← Home";
+    margin-left: 0.5em;
+    font-style: italic;
+}
+
 .content {
     position: relative;
     z-index: 1;
@@ -48,7 +54,7 @@ body {
 
 #blog-container {
     max-width: 800px;
-    margin: 5em auto 2em auto;
+    margin: 2em auto 2em auto;
     padding: 1em;
     background-color: rgba(0, 0, 0, 0.85);
     border: 1px solid #00ff00;
@@ -65,14 +71,14 @@ body {
 }
 
 .entry .content a {
-  color: #0ff;
-  text-decoration: underline;
+    color: #0ff;
+    text-decoration: underline;
 }
 
 .entry .content a:hover {
-  text-decoration: none;
-  background: #0ff;
-  color: #000;
+    text-decoration: none;
+    background: #0ff;
+    color: #000;
 }
 
 .entry {
@@ -195,6 +201,31 @@ body {
     box-shadow: 0 0 8px #0f0;
     background-color: black;
     text-shadow: 0 0 5px #0f0;
+}
+
+.code-wrapper {
+    position: relative;
+    margin-bottom: 1em;
+    overflow: visible;
+}
+
+.copy-btn {
+    position: absolute;
+    top: 8px;
+    right: 25px;
+    background: var(--accent-color, #00c8ff);
+    color: black;
+    border: none;
+    padding: 4px 8px;
+    font-size: 0.8em;
+    cursor: pointer;
+    border-radius: 4px;
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
+}
+
+.copy-btn:hover {
+    opacity: 1;
 }
 
 @media (max-width: 600px) {

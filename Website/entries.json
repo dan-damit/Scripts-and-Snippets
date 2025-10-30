@@ -93,6 +93,15 @@
       "coding",
       "css"
     ],
-    "content": "<p><h2>I wanted to make it look even better</h2></p><p>I wanted to make the site look better so I went back to school for a bit reading about concepts for<br>website layouts, and how to hook them up. And so far I think it's been looking way better! The first<br>piece that I wanted to adjust was the two buttons at the top. They needed to go above the main<br>content div and not be transparent. That way they looked like they were floating above it all. Kind<br>of like a 3d effect. I also added a hover::after piece to the <a> for some additional info for the<br>clicker. </p><p>Next was a footer. And it took a bit of reading that a good practice is to wrap the whole thing in a<br>div that ends with the <footer>. And in there I added a sort of nav menu. I also wanted to reduce<br>the amount of glyphs that rained by 1/2. It was just too busy, and I think cutting it in half works<br>perfectly.</p><p>After that I cobbled together a bash script to grab hardware diag data from my server, output it to<br>a json, and schedule it to run every 5 minutes. With the help of a short JavaScript file, it gets<br>outputted to the index.html as a status div.</p><p>I think it's coming together nicely. Just gotta keep on tinkering!<br><h3>dan</h3></p>"
+    "content": "<p><h2>I wanted to make it look even better</h2></p><p>I wanted to make the site look better, so I went back to school for a bit reading about concepts for<br>website layouts, and how to hook them up. And so far I think it's been looking way better! The first<br>piece that I wanted to adjust were the two buttons at the top. They needed to go above the main<br>content div and not be transparent. That way they looked like they were floating above it all. Kind<br>of like a 3d effect. I also added a hover::after piece to the link for some additional info for the<br>clicker. I'm still trying to build it in a way where it can adapt to any screen resolution...</p><p>Next was a footer. And it took a bit of reading that a good practice is to wrap the whole thing in a<br>div that ends with the footer. And in there I added a sort of nav menu. I also wanted to reduce<br>the amount of glyphs that rained by 1/2. It was just too busy, and I think cutting it in half works<br>perfectly.</p><p>After that I cobbled together a bash script to grab hardware diag data from my server, output it to<br>a json, and scheduled it to run every 5 minutes. With the help of a short JavaScript file, the data<br>in the json gets outputted to the index.html as the status div.</p><p>I think it's coming together nicely. Just gotta keep on tinkering!<br><h3>dan</h3></p>"
+  },
+  {
+    "date": "2025-10-30",
+    "title": "# The System Diagnostics home page workflow",
+    "tags": [
+      "automation",
+      "scripting"
+    ],
+    "content": "<p><h2>Automating the sysdiag workflow for the home page</h2></p><p>I wanted to add more to the home page. What better to fit the theme than a system diagnostics widget.</p><p>(adding more to this later)</p><p><h3>dan</h3></p>"
   }
 ]

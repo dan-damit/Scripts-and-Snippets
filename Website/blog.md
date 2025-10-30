@@ -316,21 +316,34 @@ for a polished and professional look at install time.
 **Tags:** coding, css
 ## I wanted to make it look even better
 
-I wanted to make the site look better so I went back to school for a bit reading about concepts for
+I wanted to make the site look better, so I went back to school for a bit reading about concepts for
 website layouts, and how to hook them up. And so far I think it's been looking way better! The first
-piece that I wanted to adjust was the two buttons at the top. They needed to go above the main
+piece that I wanted to adjust were the two buttons at the top. They needed to go above the main
 content div and not be transparent. That way they looked like they were floating above it all. Kind
-of like a 3d effect. I also added a hover::after piece to the <a> for some additional info for the
-clicker. 
+of like a 3d effect. I also added a hover::after piece to the link for some additional info for the
+clicker. I'm still trying to build it in a way where it can adapt to any screen resolution...
 
 Next was a footer. And it took a bit of reading that a good practice is to wrap the whole thing in a
-div that ends with the <footer>. And in there I added a sort of nav menu. I also wanted to reduce
+div that ends with the footer. And in there I added a sort of nav menu. I also wanted to reduce
 the amount of glyphs that rained by 1/2. It was just too busy, and I think cutting it in half works
 perfectly.
 
 After that I cobbled together a bash script to grab hardware diag data from my server, output it to
-a json, and schedule it to run every 5 minutes. With the help of a short JavaScript file, it gets
-outputted to the index.html as a status div.
+a json, and scheduled it to run every 5 minutes. With the help of a short JavaScript file, the data
+in the json gets outputted to the index.html as the status div.
 
 I think it's coming together nicely. Just gotta keep on tinkering!
+### dan
+
+---
+
+# The System Diagnostics home page workflow
+**Date:** 2025-10-30
+**Tags:** automation, scripting
+## Automating the sysdiag workflow for the home page
+
+I wanted to add more to the home page. What better to fit the theme than a system diagnostics widget.
+
+(adding more to this later)
+
 ### dan

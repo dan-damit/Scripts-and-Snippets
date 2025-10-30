@@ -55,6 +55,9 @@
                 const isVisible = content.style.display === 'block';
                 content.style.display = isVisible ? 'none' : 'block';
                 btn.textContent = isVisible ? 'Decrypt' : 'Re-encrypt';
+
+                // Enhance code blocks when revealed
+                if (!isVisible) enhanceCodeBlocks(content);
             });
         });
 
@@ -87,4 +90,30 @@
                 }
             });
         });
+
+        // Copy button enhancer
+        function enhanceCodeBlocks(scope = document) {
+            scope.querySelectorAll('pre > code').forEach(code => {
+                const pre = code.parentElement;
+                if (pre.parentElement.classList.contains('code-wrapper')) return; // already wrapped
+
+                const wrapper = document.createElement('div');
+                wrapper.className = 'code-wrapper';
+
+                const button = document.createElement('button');
+                button.className = 'copy-btn';
+                button.textContent = 'Copy';
+
+                pre.parentElement.insertBefore(wrapper, pre);
+                wrapper.appendChild(button);
+                wrapper.appendChild(pre);
+
+                button.addEventListener('click', () => {
+                    navigator.clipboard.writeText(code.innerText).then(() => {
+                        button.textContent = 'Copied!';
+                        setTimeout(() => button.textContent = 'Copy', 1500);
+                    });
+                });
+            });
+        }
     });
