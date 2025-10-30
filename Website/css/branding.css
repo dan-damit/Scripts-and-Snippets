@@ -1,0 +1,97 @@
+/* ============================
+   Branding and Corner Links
+   ============================ */
+
+/* Top-right branding box */
+#branding {
+    position: absolute;
+    background-color: black;
+    top: 1rem;
+    right: 1rem;
+    max-width: fit-content;
+    z-index: 99;
+}
+
+/* Branding hover effect */
+#branding:hover {
+    color: #00ff00;
+}
+
+#branding:hover::after {
+    content: " → Simulacra & Simulation";
+    margin-left: 0.5em;
+    font-style: italic;
+    color: #00ff00;
+}
+
+/* Top-left blog link box */
+.corner-box {
+    position: absolute;
+    background-color: black;
+    top: 1em;
+    left: 1em;
+    max-width: fit-content;
+    z-index: 98;
+}
+
+/* Blog link hover effect */
+.corner-box:hover::after {
+    content: " ← Journal";
+    margin-left: 0.5em;
+    font-style: italic;
+}
+
+/* Home link top-left on blog page */
+.top-left-link {
+    position: absolute;
+    top: 1em;
+    left: 1em;
+    color: #00ff00;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1rem;
+    background-color: black;
+    border: 1px solid #00ff00;
+    padding: 0.4em 0.8em;
+    border-radius: 4px;
+    transition: box-shadow 0.3s ease;
+    z-index: 98;
+}
+
+.top-left-link:hover {
+    background-color: black;
+    color: #00ff00;
+    box-shadow: 0 0 8px #00ff00, 0 0 12px #00ff00;
+}
+
+.top-left-link:hover::after {
+    content: " ← Home";
+    margin-left: 0.5em;
+    font-style: italic;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 600px) {
+
+    .top-left-link,
+    #branding {
+        font-size: 0.85em;
+        padding: 0.3em 0.6em;
+    }
+
+    .top-left-link {
+        top: 0.5em;
+        left: 0.5em;
+    }
+
+    #branding {
+        top: 3em;
+        /* stacks below the top-left link */
+        right: 0.5em;
+    }
+
+    .button-wrapper {
+        flex-direction: column;
+        align-items: center;
+    }
+}

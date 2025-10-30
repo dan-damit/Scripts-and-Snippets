@@ -342,8 +342,12 @@ I think it's coming together nicely. Just gotta keep on tinkering!
 **Tags:** automation, scripting
 ## Automating the sysdiag workflow for the home page
 
-I wanted to add more to the home page. What better to fit the theme than a system diagnostics widget.
+I wanted to add more to the home page. What better to fit the theme than a system diagnostics
+widget?? I think it adds an additional cool factor to see real time stats of my server.
 
-(adding more to this later)
+I started with a shell script (Synology runs a sort of custom flavor of debian) to grab all the
+server's hardware info, staring with Hostname and ending with Last Sync entries. I setup a task in
+the Task Scheduler like the other md-to-json.js script to run the generate-manifest.sh script. This
+script grabs the info, and outputs it to a manifest.json file. Then, I have a 
 
 ### dan

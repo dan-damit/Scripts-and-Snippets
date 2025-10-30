@@ -1,0 +1,52 @@
+/* ============================
+   Visual Effects and Animations
+   ============================ */
+
+/* Matrix background canvas */
+#matrix {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+/* Blinking cursor effect */
+.cursor {
+    animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
+
+/* Neon hover effects */
+.neon-button:hover,
+.pdf-btn:hover,
+a:hover {
+    background-color: var(--neon-green);
+    color: black;
+    box-shadow: 0 0 10px var(--neon-green);
+    transform: scale(1.05);
+}
+
+/* Status widget glow */
+.status-widget h2 {
+    text-shadow: 0 0 4px var(--neon-green);
+}
+
+/* Code block glow */
+pre {
+    box-shadow: 0 0 6px var(--neon-green);
+}
+
+pre::before {
+    color: var(--neon-green);
+}
+
+pre::after {
+    background: linear-gradient(to left, var(--bg-dark), transparent);
+}

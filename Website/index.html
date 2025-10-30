@@ -31,7 +31,13 @@
 
     <!-- Favicon & Manifest -->
     <link rel="icon" href="faviconLibrary/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="matrix-theme.css?v=2">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/branding.css">
+    <link rel="stylesheet" href="css/code.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/effects.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/resume.css">
 </head>
 
 <body>
@@ -43,13 +49,18 @@
         <!-- Branding pinned top-right -->
         <div class="button-wrapper">
             <a id="branding" href="https://en.wikipedia.org/wiki/Simulacra_and_Simulation" target="_blank"
-                rel="noopener noreferrer">Invoke-Hyperreality</a>
+                title="Welcome to the desert of the real." rel="noopener noreferrer">Invoke-Hyperreality</a>
             <a href="blog.html" class="corner-box">PS C:\Users\dan> cd blog</a>
         </div>
 
         <!-- Foreground content -->
         <div id="content" class="centered">
-            <h1 id="typed-title"><span id="name-title"></span><span class="cursor">_</span></h1>
+            <div class="title-wrapper home-mode">
+                <h1 id="typed-title">
+                    <span id="name-title"></span><span class="cursor">_</span>
+                </h1>
+            </div>
+
             <div class="nav-buttons-wrapper">
                 <a href="resume.html" class="button-link">💼 Get-Resume</a>
                 <a href="powershell-profile.html" class="button-link">⚡ Invoke-PSPhilosophy</a>
@@ -90,9 +101,9 @@
         </footer>
     </div>
 
-    <script src="site-diagnostics.js"></script>
-    <script src="matrix-rain.js?v=2"></script>
-    <script src="typed-title.js?v=2"></script>
+    <script src="js/site-diagnostics.js"></script>
+    <script src="js/matrix-rain.js"></script>
+    <script src="js/typed-title.js"></script>
 </body>
 
 </html>

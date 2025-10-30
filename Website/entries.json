@@ -102,6 +102,6 @@
       "automation",
       "scripting"
     ],
-    "content": "<p><h2>Automating the sysdiag workflow for the home page</h2></p><p>I wanted to add more to the home page. What better to fit the theme than a system diagnostics widget.</p><p>(adding more to this later)</p><p><h3>dan</h3></p>"
+    "content": "<p><h2>Automating the sysdiag workflow for the home page</h2></p><p>I wanted to add more to the home page. What better to fit the theme than a system diagnostics<br>widget?? I think it adds an additional cool factor to see real time stats of my server.</p><p>I started with a shell script (Synology runs a sort of custom flavor of debian) to grab all the<br>server's hardware info, staring with Hostname and ending with Last Sync entries. I setup a task in<br>the Task Scheduler like the other md-to-json.js script to run the generate-manifest.sh script. This<br>script grabs the info, and outputs it to a manifest.json file. Then, I have a </p><p><h3>dan</h3></p>"
   }
 ]

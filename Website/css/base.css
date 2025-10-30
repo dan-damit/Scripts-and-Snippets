@@ -1,0 +1,38 @@
+/* ============================
+   Base Styles and Variables
+   ============================ */
+
+/* Global theme variables */
+:root {
+    --neon-green: #00ff00;
+    --soft-green: #c8facc;
+    --bg-dark: #0a0a0a;
+}
+
+/* Global body styling */
+body {
+    margin: 0;
+    min-width: 600px;
+    background-color: #000;
+    font-family: "Courier New", monospace;
+    color: var(--soft-green);
+}
+
+/* Page layout scaffold */
+.page-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Centered layout utility */
+.centered {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: center;
+    min-height: 100px;
+    height: auto;
+    width: 100%;
+}
