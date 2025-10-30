@@ -33,6 +33,13 @@ a:hover {
     transform: scale(1.05);
 }
 
+/* Active button effect */
+.button-link.active {
+  background-color: var(--neon-green);
+  color: black;
+  box-shadow: 0 0 10px var(--neon-green);
+}
+
 /* Status widget glow */
 .status-widget h2 {
     text-shadow: 0 0 4px var(--neon-green);

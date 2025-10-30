@@ -164,6 +164,9 @@ research. Trial and error. Not to mention some late nights coding and debugging.
 
 All my code is posted on my GitHub! Please feel as free as Zion after Smith's destruction to reach
 out!
+
+[GitHub Website Code repo](https://github.com/dan-damit/Scripts-and-Snippets/tree/main/Website)
+
 ### dan
 
 ---
@@ -348,6 +351,33 @@ widget?? I think it adds an additional cool factor to see real time stats of my 
 I started with a shell script (Synology runs a sort of custom flavor of debian) to grab all the
 server's hardware info, staring with Hostname and ending with Last Sync entries. I setup a task in
 the Task Scheduler like the other md-to-json.js script to run the generate-manifest.sh script. This
-script grabs the info, and outputs it to a manifest.json file. Then, I have a 
+script grabs the info, and outputs it to a manifest.json file. Then, I have a small js file that
+grabs the info in the json to pop it on the home scree.
+
+### dan
+
+---
+
+# Refactoring the CSS and JS code
+**Date:** 2025-10-31
+**Tags:** coding, css, javascript
+## The idea was to stay with my preferred modular code style
+
+I wanted to say in line with my preferred design philosophy about keeping things as modular as
+possible for clarity, maintainability, and "separation of concerns" in the structure of the site;
+just like I prefer in other coding/scripting areas like PowerShell. Modularity is one of my core
+prinicples when it comes to ...well... anything in my life, not just coding. 
+
+[Check out the new structure here](https://github.com/dan-damit/Scripts-and-Snippets/tree/main/Website)
+
+The more I added, the longer and longer the matrix-theme.css became, and it was on its way to 1000
+lines with the rate I was going. Breaking that out into 7 separate css files and restructuring the
+site folders only made sense. It was going to be easier to refactor stuff now versus a few months
+from now when I have a dozen pages and not just the four currently.
+
+Now I wonder how long it is until my blog gets so large that it takes forever to load on someone's
+browser window... then what? break it up into multiple pages with like 10 or 15 per page?
+
+Something to think about for sure...
 
 ### dan

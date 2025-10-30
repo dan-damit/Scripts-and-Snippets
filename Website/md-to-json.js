@@ -36,5 +36,19 @@ const entries = blocks.map(block => {
     return { date, title, tags, content };
 });
 
+/* Pagination Info */
+const perPage = 10;
+const totalEntries = entries.length;
+const totalPages = Math.ceil(totalEntries / perPage);
+
+const output = {
+    entries,
+    pagination: {
+        perPage,
+        totalEntries,
+        totalPages
+    }
+};
+
 fs.writeFileSync('entries.json', JSON.stringify(entries, null, 2));
 console.log(`✅ Parsed ${entries.length} entries into entries.json`);
