@@ -108,6 +108,18 @@
     color: var(--soft-green);
 }
 
+/* Visitor counter styling */
+#visitor-counter script,
+#visitor-counter img,
+#visitor-counter a,
+#visitor-counter {
+    margin-top: 0rem;
+    text-align: center;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
 /* Responsive tweaks */
 @media (max-width: 600px) {
     #content {
