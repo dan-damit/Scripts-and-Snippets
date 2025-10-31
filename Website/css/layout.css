@@ -148,4 +148,19 @@
             opacity: 1;
         }
     }
+
+    .blog-mode #pagination-nav {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        justify-content: flex-start;
+        padding: 0 1em;
+    }
+
+    .blog-mode #pagination-nav .button-link {
+        flex: 0 0 auto;
+        white-space: nowrap;
+        font-size: 0.85em;
+        padding: 0.3em 0.6em;
+        margin: 0.2em;
+    }
 }

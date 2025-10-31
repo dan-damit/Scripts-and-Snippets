@@ -102,30 +102,6 @@
     color: black;
 }
 
-/* Blog page specific nav button styles */
-.blog-mode #pagination-nav .button-link {
-    padding: 0.3em 0.6em;
-    font-size: 0.85em;
-    border: 1px solid var(--neon-green);
-    background-color: transparent;
-    color: var(--neon-green);
-    text-decoration: none;
-    border-radius: 4px;
-    transition: background-color 0.2s ease;
-    box-shadow: none;
-}
-
-.blog-mode #pagination-nav .button-link:hover {
-    background-color: var(--neon-green);
-    color: black;
-}
-
-.blog-mode #pagination-nav .button-link.active {
-    background-color: var(--neon-green);
-    color: black;
-    box-shadow: 0 0 6px var(--neon-green);
-}
-
 /* Status widget */
 .status-widget {
     margin-top: 2rem;
