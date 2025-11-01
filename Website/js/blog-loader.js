@@ -10,7 +10,7 @@ fetch('entries.json')
 
         // Create outer wrapper for centering
         const outerWrapper = document.createElement('div');
-        outerWrapper.style.textAlign = 'center';
+        outerWrapper.className = 'blog-global-buttons-wrapper';
 
         // Create a wrapper for global buttons
         const buttonWrapper = document.createElement('div');
