@@ -11,7 +11,7 @@
     box-shadow: 0 0 10px #00ff00;
     color: #00ff00;
     font-family: "Courier New", monospace;
-    z-index: 2;
+    z-index: 12;
     position: relative;
     border-radius: 6px;
 }
@@ -31,6 +31,7 @@
     padding: 0 1em;
     max-width: 100%;
     width: fit-content;
+    z-index: 12;
 }
 
 .blog-mode #pagination-nav .button-link {

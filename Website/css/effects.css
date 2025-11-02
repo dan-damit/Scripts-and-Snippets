@@ -2,16 +2,6 @@
    Visual Effects and Animations
    ============================ */
 
-/* Matrix background canvas */
-#matrix {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-}
-
 /* Blinking cursor effect */
 .cursor {
     animation: blink 1s step-end infinite;
@@ -21,6 +11,35 @@
     50% {
         opacity: 0;
     }
+}
+
+/* ============================
+   Matrix Background Styles
+   ============================ */
+
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    z-index: 1;
+}
+
+.blur {
+    filter: blur(4px);
+    transition: filter 0.5s ease-in-out;
+}
+
+.opacity-4 {
+    opacity: 0.4;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.opacity-8 {
+    opacity: 0.8;
+    transition: opacity 0.5s ease-in-out;
 }
 
 /* Neon hover effects */
@@ -35,9 +54,9 @@ a:hover {
 
 /* Active button effect */
 .button-link.active {
-  background-color: var(--neon-green);
-  color: black;
-  box-shadow: 0 0 10px var(--neon-green);
+    background-color: var(--neon-green);
+    color: black;
+    box-shadow: 0 0 10px var(--neon-green);
 }
 
 /* Status widget glow */

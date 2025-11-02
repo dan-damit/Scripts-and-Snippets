@@ -19,7 +19,14 @@
 </head>
 
 <body>
-    <canvas id="matrix"></canvas>
+    <!-- First Layer -->
+    <canvas id="matrixCanvas1"></canvas>
+    <!-- Second Layer -->
+    <canvas id="matrixCanvas2" class="opacity-4"></canvas>
+    <!-- Third Layer -->
+    <canvas id="matrixCanvas3" class="blur opacity-4"></canvas>
+    <!-- Foreground Canvas -->
+    <canvas id="overlayCanvas" class="blur opacity-4"></canvas>
 
     <div class="page-wrapper">
 
@@ -29,7 +36,7 @@
                 title="Welcome to the desert of the real." rel="noopener noreferrer">Invoke-Hyperreality</a>
         </div>
 
-        <div id="content">
+        <div id="content" style="align-items: flex-start;">
             <h1 id="typed-PSP-title"><span id="name-PSP-title"></span><span class="cursor">_</span></h1>
             <pre>
 #region Technician Manifest

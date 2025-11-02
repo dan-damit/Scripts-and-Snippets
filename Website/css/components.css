@@ -248,6 +248,7 @@ a {
     max-width: 1000px;
     margin: auto;
     box-sizing: border-box;
+    z-index: 25;
 }
 
 .button-wrapper button {

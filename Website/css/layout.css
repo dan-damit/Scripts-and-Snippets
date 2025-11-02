@@ -11,6 +11,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
+    z-index: 11;
 
     padding: 1rem 1rem;
     margin: auto;
@@ -41,13 +42,14 @@
     margin-top: -1rem;
     padding: 1rem 1rem;
 
-    background-color: var(--bg-dark);
+    background-color: rgba(0, 0, 0, 0.75);
     border: 1px solid var(--neon-green);
     border-radius: 6px;
     box-shadow: 0 0 10px var(--neon-green);
 
     box-sizing: border-box;
     text-align: left;
+    z-index: 11;
 }
 
 /* Title wrapper for dynamic positioning */
@@ -106,6 +108,7 @@
     text-align: center;
     font-size: 0.85rem;
     color: var(--soft-green);
+    z-index: 11;
 }
 
 /* Visitor counter styling */
