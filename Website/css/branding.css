@@ -4,11 +4,12 @@
 
 /* Top-right branding box */
 #branding {
-    position: absolute;
+    position: relative;
+    left: 0;
     background-color: black;
-    top: 1rem;
-    right: 1rem;
     max-width: fit-content;
+    font-size: 1rem;
+    margin-left: 0;
     z-index: 99;
 }
 
@@ -26,11 +27,12 @@
 
 /* Top-left blog link box */
 .corner-box {
-    position: absolute;
+    position: relative;
+    right: 0;
     background-color: black;
-    top: 1em;
-    left: 1em;
     max-width: fit-content;
+    font-size: 1rem;
+    margin-right: 0;
     z-index: 98;
 }
 
@@ -43,9 +45,7 @@
 
 /* Home link top-left on blog page */
 .top-left-link {
-    position: absolute;
-    top: 1em;
-    left: 1em;
+    position: relative;
     color: #00ff00;
     text-decoration: none;
     font-weight: bold;

@@ -2,33 +2,15 @@
    Blog Page Styles
    ============================ */
 
-.content {
-    position: relative;
-    z-index: 1;
-    padding: 2rem;
-    padding-top: 0;
-    margin-top: 0;
-    line-height: 1.5;
-    margin: 1rem auto;
-    max-width: 800px;
-    text-align: left;
-    background-color: #0a0a0a;
-    border: 1px solid #00ff00;
-    border-radius: 6px;
-    box-shadow: 0 0 10px #00ff00;
-    transition: max-height 0.3s ease;
-    overflow: hidden;
-}
-
 #blog-container {
     max-width: 800px;
-    margin: 2em auto 2em auto;
+    margin: -1em auto 2em auto;
     padding: 1em;
     background-color: rgba(0, 0, 0, 0.75);
     border: 1px solid #00ff00;
     box-shadow: 0 0 10px #00ff00;
     color: #00ff00;
-    font-family: monospace;
+    font-family: "Courier New", monospace;
     z-index: 2;
     position: relative;
     border-radius: 6px;
@@ -57,7 +39,7 @@
     justify-content: center;
     flex: 0 0 auto;
     white-space: nowrap;
-    padding: 0.3em 0.6em;
+    padding: 0.3em 0.3em;
     font-size: 0.85em;
     border: 1px solid var(--neon-green);
     border-radius: 4px;
@@ -133,7 +115,7 @@ h2 {
     border: 1px solid #00ff00;
 }
 
-@media (max-width: 500px) {
+@media (max-width: 400px) {
     .blog-mode #pagination-nav {
         display: flex;
         flex-wrap: nowrap;
@@ -152,7 +134,7 @@ h2 {
         width: auto;
         max-width: none;
         font-size: 0.85em;
-        padding: 0.3em 0.6em;
+        padding: 0.3em 0.3em;
         margin: 0.2em;
         box-shadow: none;
     }

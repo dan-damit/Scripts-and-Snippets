@@ -9,25 +9,25 @@
     display: flex;
     flex: 1;
     flex-direction: column;
-    align-items: left;
+    align-items: center;
     justify-content: flex-start;
 
     padding: 1rem 1rem;
     margin: auto;
-    margin-top: -2rem;
+    margin-top: -1rem;
     width: 100%;
     max-width: 800px;
 
-    text-align: left;
     background-color: rgba(0, 0, 0, 0.75);
     border: 1px solid var(--neon-green);
     border-radius: 6px;
     box-shadow: 0 0 10px var(--neon-green);
 
     box-sizing: border-box;
+    text-align: left;
 }
 
-#content-page-wrapper {
+#resume-content-page-wrapper {
     position: relative;
     z-index: 1;
     display: flex;
@@ -38,7 +38,7 @@
     width: 100%;
     max-width: 800px;
     margin: auto;
-    margin-top: -2rem;
+    margin-top: -1rem;
     padding: 1rem 1rem;
 
     background-color: var(--bg-dark);
@@ -121,15 +121,15 @@
 }
 
 /* Responsive tweaks */
-@media (max-width: 500px) {
+@media (max-width: 600px) {
     #content {
         padding: 1rem;
     }
 
     .top-left-link,
     #branding {
-        font-size: 0.85em;
-        padding: 0.3em 0.6em;
+        font-size: 0.80em;
+        padding: .5em;
     }
 
     .top-left-link {
@@ -137,10 +137,15 @@
         left: 0.5em;
     }
 
+    .corner-box {
+        top: 0.1em;
+        left: 0.5em;
+    }
+
     #branding {
-        top: 3em;
+        top: 1.5em;
         /* stacks below the top-left link */
-        right: 0.5em;
+        right: auto;
     }
 
     h1,
@@ -154,7 +159,7 @@
     }
 
     .nav-buttons-wrapper {
-        flex-direction: column;
+        flex-direction: row;
         gap: 10px;
     }
 
@@ -163,8 +168,8 @@
     }
 
     .button-wrapper {
-        flex-direction: column;
-        align-items: center;
+        flex-direction: row;
+        align-items: left;
     }
 
     .home-mode .title-wrapper {
@@ -204,5 +209,15 @@
         font-size: 0.85em;
         padding: 0.3em 0.6em;
         margin: 0.2em;
+    }
+    
+    .blog-global-buttons-wrapper {
+        justify-content: center;
+        padding: 0 1em;
+    }
+
+    .blog-global-buttons-wrapper button {
+        width: fit-content;
+        max-width: 100%;
     }
 }

@@ -1,6 +1,6 @@
 async function generateResumePDF() {
     const { jsPDF } = window.jspdf || window.jspdf.jsPDF;
-    const resume = document.getElementById('content-page-wrapper');
+    const resume = document.getElementById('resume-content-page-wrapper');
 
     // Now safe to render
     const canvas = await html2canvas(resume, {

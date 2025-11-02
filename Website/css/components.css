@@ -205,7 +205,10 @@ a {
 }
 
 .blog-global-buttons-wrapper {
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
     margin-top: 1em;
 }
 
@@ -234,13 +237,17 @@ a {
 
 /* Button wrapper grid */
 .button-wrapper {
-    display: inline-flex;
-    position: relative;
+    display: flex;
     padding: 0.5em;
     gap: 1em;
     height: 3em;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: space-between;
+    width: 100%;
+    min-width: unset;
+    max-width: 1000px;
+    margin: auto;
+    box-sizing: border-box;
 }
 
 .button-wrapper button {
