@@ -11,36 +11,12 @@
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    z-index: 11;
 
     padding: 1rem 1rem;
     margin: auto;
     margin-top: -1rem;
     width: 100%;
     max-width: 800px;
-
-    background-color: rgba(0, 0, 0, 0.75);
-    border: 1px solid var(--neon-green);
-    border-radius: 6px;
-    box-shadow: 0 0 10px var(--neon-green);
-
-    box-sizing: border-box;
-    text-align: left;
-}
-
-#resume-content-page-wrapper {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-
-    width: 100%;
-    max-width: 800px;
-    margin: auto;
-    margin-top: -1rem;
-    padding: 1rem 1rem;
 
     background-color: rgba(0, 0, 0, 0.75);
     border: 1px solid var(--neon-green);

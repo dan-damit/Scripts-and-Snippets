@@ -4,7 +4,7 @@ let allEntries = [];
 fetch('entries.json')
     .then(res => res.json())
     .then(entries => {
-        allEntries = entries;
+        allEntries = entries.reverse(); // Show newest first
 
         const container = document.getElementById('blog-container');
 

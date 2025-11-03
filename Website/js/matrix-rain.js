@@ -7,7 +7,7 @@ const characters = matrixChars.split("");
 // Utility: Set canvas dimensions to window size
 function resizeCanvas(canvas) {
     canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    canvas.height = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
 }
 
 // Matrix Rain Animation
@@ -18,7 +18,12 @@ function matrixRain(canvasId, { speedFactor = 0.9, color = "#0F0", opacity = 0.0
     // Set initial canvas size
     resizeCanvas(canvas);
 
-    const columns = Math.floor(canvas.width / fontSize);
+    // Dynamically scale font size based on canvas height
+    const baseHeight = 1080;
+    const heightScale = canvas.height / baseHeight;
+    const scaledFontSize = Math.max(20, Math.floor(fontSize / heightScale));
+
+    const columns = Math.floor(canvas.width / scaledFontSize);
     const drops = new Array(columns).fill(0);
     const delays = new Array(columns).fill(0); // Delay timers for each column
 
@@ -29,26 +34,26 @@ function matrixRain(canvasId, { speedFactor = 0.9, color = "#0F0", opacity = 0.0
 
         // Set text style
         ctx.fillStyle = color;
-        ctx.font = `${fontSize}px monospace`;
+        ctx.font = `${scaledFontSize}px monospace`;
 
         for (let i = 0; i < drops.length; i++) {
             const text = characters[Math.floor(Math.random() * characters.length)];
-            const x = i * fontSize;
-            const y = drops[i] * fontSize;
+            const x = i * scaledFontSize;
+            const y = drops[i] * scaledFontSize;
 
             ctx.fillText(text, x, y);
 
             // Move the drop down based on delay
             if (delays[i] <= 0) {
-                drops[i] += 1; // Move down one step
-                delays[i] = Math.random() * (delayFactor / speedFactor); // Reset delay with layer-specific delayFactor
+                drops[i] += 1;
+                delays[i] = Math.random() * (delayFactor / speedFactor);
             } else {
-                delays[i] -= 1; // Reduce delay
+                delays[i] -= 1;
             }
 
             // Reset drop to the top randomly
             if (y > canvas.height && Math.random() > 0.975) {
-                drops[i] = 0; // Reset to the top
+                drops[i] = 0;
             }
         }
 
@@ -117,7 +122,7 @@ function toggleBlurWithAnimation(canvasId, interval = 1000) {
 }
 
 // Start animations
-matrixRain("matrixCanvas1", { speedFactor: 0.9, fontSize: 8, delayFactor: 1 });  // Faster updates
+matrixRain("matrixCanvas1", { speedFactor: 0.9, fontSize: 12, delayFactor: 1 });  // Faster updates
 matrixRain("matrixCanvas2", { speedFactor: 0.6, fontSize: 12, delayFactor: 6 }); // Balanced speed
 matrixRain("matrixCanvas3", { speedFactor: 0.8, fontSize: 12, delayFactor: 4 }); // Slower, dramatic effect
 

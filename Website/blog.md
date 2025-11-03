@@ -381,3 +381,36 @@ browser window... then what? break it up into multiple pages with like 10 or 15 
 Something to think about for sure...
 
 ### dan
+
+---
+
+# Updating the matrix-rain.js behavior
+**Date:** 2025-11-2
+**Tags:** coding, javascript, css
+## I found a nifty upgrade to the matrix rain canvas online
+
+Surfing the web. My favorite passtime. I stumbled across an articke on medium.com about the matrix
+rain effect on a canvas element that added what I think is a cool effect on the characters "raining"
+in the background. They achieved it using a method that had not occured to me. Layering with
+multiple canvas elements, but also adding a blurring affect to the chacters that fade to clear then
+back to blurry after a short time passes. It's brilliant. 
+
+I want to make the Matrix rain canvas as close to one of the final chapers in the first film. When
+Neo decides he doesn't want to die after the encounter with Smith. He gets up in the ratty hallway
+of the apartment building, and you get your first glimpse of what Neo sees. That rain affect is on
+every surface; the walls, the floor, the ceiling....the agents. The 4 layers deep work together to
+get really close to that effect on the canvas backdrop on the site.
+
+[Here is the code](https://github.com/dan-damit/Scripts-and-Snippets/blob/main/Website/js/matrix-rain.js) 
+
+I modified it a little bit to better fit on some of my pages that have a decent vertical scroll. 
+
+```
+canvas { height: 100% }
+
+canvas.height = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+```
+
+The CSS and JS combo above slowed it down on the taller total px number on the resume.html page
+
+### dan
