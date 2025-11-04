@@ -43,9 +43,7 @@ fetch('entries.json')
 
         // Global reset button
         resetBtn.addEventListener('click', () => {
-            document.querySelectorAll('.entry').forEach(entry => {
-                entry.style.display = 'block';
-            });
+            renderPage(allEntries, 1); // Reset to full archive, page 1
         });
 
         // Global collapse all button
@@ -61,7 +59,7 @@ fetch('entries.json')
         });
     });
 
-function renderPage(entries, page) {
+function renderPage(entries, page, activeTag = null) {
     const container = document.getElementById('blog-container');
     container.innerHTML = "";
 
@@ -71,6 +69,14 @@ function renderPage(entries, page) {
     title.innerHTML = `<span id="typed-text"></span><span class="cursor">_</span>`;
     container.appendChild(title);
     typeBlogTitle("Technician's Log");
+
+    // Inject tag info if a tag is active
+    if (activeTag) {
+        const tagInfo = document.createElement('div');
+        tagInfo.className = 'tag-info';
+        tagInfo.textContent = `Showing ${entries.length} entries tagged "${activeTag}"`;
+        container.appendChild(tagInfo);
+    }
 
     const start = (page - 1) * entriesPerPage;
     const end = start + entriesPerPage;
@@ -108,10 +114,12 @@ function wireEntryInteractions() {
     document.querySelectorAll('.tag').forEach(tag => {
         tag.addEventListener('click', () => {
             const selected = tag.textContent;
-            document.querySelectorAll('.entry').forEach(entry => {
-                const tags = Array.from(entry.querySelectorAll('.tag')).map(t => t.textContent);
-                entry.style.display = tags.includes(selected) ? 'block' : 'none';
-            });
+            const filtered = allEntries.filter(entry =>
+                entry.tags.includes(selected)
+            );
+            renderPage(filtered, 1, selected);
+
+            console.log(`[TagFilter] ${selected} → ${filtered.length} entries`);
         });
     });
 }

@@ -204,6 +204,15 @@ a {
     text-shadow: 0 0 5px #0f0;
 }
 
+.tag-info {
+    margin: 1em 0;
+    padding: 0.5em 1em;
+    background-color: rgba(0, 0, 0, 0.75);
+    color: #0f0;
+    font-family: monospace;
+    border-left: 4px solid #0f0;
+}
+
 .blog-global-buttons-wrapper {
     display: flex;
     justify-content: center;

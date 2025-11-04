@@ -103,12 +103,13 @@
 @media (max-width: 600px) {
     #content {
         padding: 1rem;
+        background-color: rgba(0, 0, 0, 0.50);
     }
 
-    .top-left-link,
-    #branding {
-        font-size: 0.80em;
-        padding: .5em;
+    .corner-box,
+    .top-left-link {
+        font-size: 1em;
+        padding: auto;
     }
 
     .top-left-link {
@@ -122,9 +123,11 @@
     }
 
     #branding {
+        font-size: .90em;
         top: 1.5em;
         /* stacks below the top-left link */
         right: auto;
+        padding: auto;
     }
 
     h1,

@@ -414,3 +414,34 @@ canvas.height = Math.max(document.body.scrollHeight, document.documentElement.sc
 The CSS and JS combo above slowed it down on the taller total px number on the resume.html page
 
 ### dan
+
+---
+
+# Constant improvement
+**Date:** 2025-11-3
+**Tags:** javascript, coding
+## I broke my matrix-rain.js trying to introduce scaling font size
+
+I was trying to slow down the animation and make the glyphs larger based on the current window
+resolution. It started well, but ended up getting to the point where each glyph was getting drawn
+like 12 times in one square. So, as the number of frames increased, it would blog down the browser
+performance exponentially. It was honestly kind of funny...
+
+```
+matrixRain("matrixCanvas3", { speedFactor: 0.8, fontSize: 12, delayFactor: 4 });
+```
+
+Adding to the delayFactor slowed the downward movement of the glyphs, but they still were drawing at
+the same speed. Need some more thinking on this to see if a combination of speedFactor and
+delayFactor can slow down the draw speed and downward movement in a way that doesn't completely
+crash the browser. But it all has a different affect depending on the innerWidth and innerHeight...
+
+Anyway, I had to go back to several revisions earlier in the matrix-rain.js because...well if the browser
+crashes after trying to run the script longer than 15 seconds... not cool.
+
+[Codeupdated](https://github.com/dan-damit/Scripts-and-Snippets/blob/main/Website/js/matrix-rain.js)
+
+Anyway, I think as this blog grows, I think I'll add a sort of tag list to the right side of the
+blog-container with like 25px of margin, but keeping the blog-container centered.
+
+### dan
