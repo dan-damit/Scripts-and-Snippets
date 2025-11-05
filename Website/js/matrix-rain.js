@@ -36,7 +36,7 @@ function draw() {
 // Optional: Adjust on resize
 function resizeCanvasAndDrops() {
     canvas.width = window.innerWidth;
-    canvas.height = Math.min(window.innerHeight, document.body.scrollHeight);
+    canvas.height = window.innerHeight;
 
     const newColumns = Math.floor(canvas.width / fontSize);
     const newDrops = new Array(newColumns).fill(1);
