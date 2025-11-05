@@ -485,52 +485,6 @@ const canvases = document.querySelectorAll('#matrixCanvasMain');
 
 One main canvas instead of 4. 
 
-```
-const drawMatrix = () => {
-   frameCount++;
-   if (frameCount % 2 !== 0) {
-      requestAnimationFrame(drawMatrix);
-      return;
-   }
-
-    // Clear the canvas with a trailing effect
-   ctx.fillStyle = `rgba(0, 0, 0, ${opacity})`;
-   ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-   // Set text style
-   ctx.fillStyle = color;
-   ctx.font = `${fontSize}px monospace`;
-
-   for (let i = 0; i < drops.length; i++) {
-      if (Math.random() > skipRates[i]) continue;
-
-      const text = characters[Math.floor(Math.random() * characters.length)];
-      const x = i * fontSizes[i];
-      const y = drops[i] * fontSizes[i];
-      ctx.font = `${fontSizes[i]}px monospace`;
-
-      const blurAmount = Math.random() > 0.85 ? Math.floor(Math.random() * 3 + 1) : 0;
-      ctx.filter = blurAmount ? `blur(${blurAmount}px)` : "none";
-
-      ctx.fillText(text, x, y);
-      ctx.filter = "none";
-
-      if (delays[i] <= 0) {
-          drops[i] += 1;
-            delays[i] = Math.random() * (delayFactor / speedFactor);
-      } else {
-            delays[i] -= 1;
-      }
-
-      if (y > canvas.height && Math.random() > 0.975) {
-            drops[i] = 0;
-      }
-   }
-
-   requestAnimationFrame(drawMatrix);
-};
-```
-
 Now it looks as good but not super blurry at times on 2 of the 4 layers. I also tried to randomize
 glyph size and speed too
 
