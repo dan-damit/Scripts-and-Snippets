@@ -18,32 +18,12 @@
    ============================ */
 
 canvas {
-    image-rendering: pixelated;
-    touch-action: none;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    display: block;
+    width: 100vw;
+    height: 100vh;
     z-index: 1;
-}
-
-.blur {
-    filter: blur(4px);
-    transition: filter 0.5s ease-in-out;
-    will-change: filter;
-}
-
-canvas.blur {
-    backdrop-filter: blur(4px);
-}
-
-.opacity-4,
-.opacity-8 {
-    transition: opacity 0.5s ease-in-out;
-    will-change: opacity;
 }
 
 /* Neon hover effects */

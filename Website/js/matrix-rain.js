@@ -33,10 +33,28 @@ function draw() {
     }
 }
 
-setInterval(draw, 50);
-
 // Optional: Adjust on resize
-window.addEventListener('resize', () => {
+function resizeCanvasAndDrops() {
     canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    canvas.height = Math.min(window.innerHeight, document.body.scrollHeight);
+
+    const newColumns = Math.floor(canvas.width / fontSize);
+    const newDrops = new Array(newColumns).fill(1);
+    for (let i = 0; i < Math.min(drops.length, newColumns); i++) {
+        newDrops[i] = drops[i];
+    }
+
+    drops.length = 0;
+    drops.push(...newDrops);
+}
+
+// Debounce resize events
+let resizeTimeout;
+window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(resizeCanvasAndDrops, 100);
 });
+
+// Start the animation
+window.addEventListener('load', resizeCanvasAndDrops);
+setInterval(draw, 50);
