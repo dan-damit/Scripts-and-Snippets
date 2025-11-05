@@ -436,6 +436,29 @@ the same speed. Need some more thinking on this to see if a combination of speed
 delayFactor can slow down the draw speed and downward movement in a way that doesn't completely
 crash the browser. But it all has a different affect depending on the innerWidth and innerHeight...
 
+```
+for (let i = 0; i < drops.length; i++) {
+   const text = characters[Math.floor(Math.random() * characters.length)];
+   const x = i * fontSize;
+   const y = drops[i] * fontSize;
+
+   ctx.fillText(text, x, y);
+
+   // Move the drop down based on delay
+   if (delays[i] <= 0) {
+       drops[i] += 1; // Move down one step
+       delays[i] = Math.random() * (delayFactor / speedFactor); // Reset delay with layer-specific delayFactor
+   } else {
+       delays[i] -= 1; // Reduce delay
+   }
+
+   // Reset drop to the top randomly
+   if (y > canvas.height && Math.random() > 0.975) {
+       drops[i] = 0; // Reset to the top
+   }
+}
+```
+
 Anyway, I had to go back to several revisions earlier in the matrix-rain.js because...well if the browser
 crashes after trying to run the script longer than 15 seconds... not cool.
 
@@ -445,3 +468,72 @@ Anyway, I think as this blog grows, I think I'll add a sort of tag list to the r
 blog-container with like 25px of margin, but keeping the blog-container centered.
 
 ### dan
+
+---
+
+# Waaaay too many glyphs
+**Date:** 2025-11-4
+**Tags:** javascript, coding
+## The 4 layered approach crushed slower PCs
+
+The title says it all for this one. Having 4 canvases caused slower CPU/CPU combos to lag out
+horribly. So I adjusted it back to 1 layer. The updated code loop is below:
+
+```
+const canvases = document.querySelectorAll('#matrixCanvasMain');
+```
+
+One main canvas instead of 4. 
+
+```
+const drawMatrix = () => {
+   frameCount++;
+   if (frameCount % 2 !== 0) {
+      requestAnimationFrame(drawMatrix);
+      return;
+   }
+
+    // Clear the canvas with a trailing effect
+   ctx.fillStyle = `rgba(0, 0, 0, ${opacity})`;
+   ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+   // Set text style
+   ctx.fillStyle = color;
+   ctx.font = `${fontSize}px monospace`;
+
+   for (let i = 0; i < drops.length; i++) {
+      if (Math.random() > skipRates[i]) continue;
+
+      const text = characters[Math.floor(Math.random() * characters.length)];
+      const x = i * fontSizes[i];
+      const y = drops[i] * fontSizes[i];
+      ctx.font = `${fontSizes[i]}px monospace`;
+
+      const blurAmount = Math.random() > 0.85 ? Math.floor(Math.random() * 3 + 1) : 0;
+      ctx.filter = blurAmount ? `blur(${blurAmount}px)` : "none";
+
+      ctx.fillText(text, x, y);
+      ctx.filter = "none";
+
+      if (delays[i] <= 0) {
+          drops[i] += 1;
+            delays[i] = Math.random() * (delayFactor / speedFactor);
+      } else {
+            delays[i] -= 1;
+      }
+
+      if (y > canvas.height && Math.random() > 0.975) {
+            drops[i] = 0;
+      }
+   }
+
+   requestAnimationFrame(drawMatrix);
+};
+```
+
+Now it looks as good but not super blurry at times on 2 of the 4 layers. I also tried to randomize
+glyph size and speed too
+
+[UpdatedCode](https://github.com/dan-damit/Scripts-and-Snippets/blob/main/Website/js/matrix-rain.js)
+
+###dan
