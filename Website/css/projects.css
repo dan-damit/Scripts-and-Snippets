@@ -41,4 +41,12 @@
 .project-link:hover {
     text-decoration: underline;
     color: black;
+    box-shadow: 0 0 8px var(--neon-green);
+}
+
+@media (max-width: 480px) {
+    .project-grid {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+    }
 }

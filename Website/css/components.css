@@ -81,6 +81,13 @@
     transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
+.nav-buttons-wrapper .button-link:hover {
+    text-decoration: underline;
+    background-color: var(--neon-green);
+    color: black;
+    transform: scale(1.15);
+}
+
 /* Status widget */
 .status-widget {
     margin-top: 2rem;
