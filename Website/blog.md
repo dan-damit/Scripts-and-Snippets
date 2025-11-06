@@ -491,3 +491,21 @@ glyph size and speed too
 [UpdatedCode](https://github.com/dan-damit/Scripts-and-Snippets/blob/main/Website/js/matrix-rain.js)
 
 ###dan
+
+---
+
+# Creating a new page
+**Date:** 2025-11-5
+**Tags:** html, css, coding
+## I added a "current projects" page
+
+Complete with links to their GitHub pages. I wanted to add another page and this seemed like a good
+next step to sort of showcase what I'm currently working on. I love to tinker... It was a great
+opportunity to learn about "cards" in html. Each project gets a "card"
+
+[Code Here](https://github.com/dan-damit/Scripts-and-Snippets/blob/main/Website/projects.html)
+
+Next up, I think I'm going to add that floating side menu on the blog page that will list all of the
+tags currently indexed.
+
+### dan

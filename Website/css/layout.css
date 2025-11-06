@@ -141,7 +141,10 @@
     }
 
     .nav-buttons-wrapper {
+        display: flex;
         flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
         gap: 10px;
     }
 
@@ -192,7 +195,7 @@
         padding: 0.3em 0.6em;
         margin: 0.2em;
     }
-    
+
     .blog-global-buttons-wrapper {
         justify-content: center;
         padding: 0 1em;

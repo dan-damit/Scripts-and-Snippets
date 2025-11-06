@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Projects — Dan</title>
+    <title>Dan Damit's Projects</title>
     <meta name="description" content="Project hub listing demos, repos and short descriptions." />
 
     <!-- Site stylesheets -->
@@ -12,9 +12,9 @@
     <link rel="stylesheet" href="css/base.css" />
     <link rel="stylesheet" href="css/branding.css" />
     <link rel="stylesheet" href="css/components.css" />
-    <link rel="stylesheet" href="css/effects.css" />
     <link rel="stylesheet" href="css/layout.css" />
     <link rel="stylesheet" href="css/projects.css" />
+    <link rel="stylesheet" href="css/effects.css" />
 
 </head>
 
@@ -22,24 +22,68 @@
     <!-- First Layer -->
     <canvas id="matrixCanvasMain"></canvas>
 
-    <div id="content" class="page-wrapper">
+    <div class="page-wrapper">
+
         <!-- Branding pinned top-right -->
         <div class="button-wrapper">
             <a href="blog.html" class="corner-box">PS C:\Users\dan> cd blog</a>
             <a id="branding" href="https://en.wikipedia.org/wiki/Simulacra_and_Simulation" target="_blank"
                 title="Welcome to the desert of the real." rel="noopener noreferrer">Invoke-Hyperreality</a>
         </div>
-        
-        <!-- Foreground content -->
-        <div class="nav-buttons-wrapper">
-            <a href="resume.html" class="button-link">💼 Get-Resume</a>
-            <a href="powershell-profile.html" class="button-link">⚡ Invoke-PSPhilosophy</a>
-            <a href="https://github.com/dan-damit" class="button-link" target="_blank"
-                rel="noopener noreferrer">GitHub</a>
-            <a href="https://www.linkedin.com/in/daniel-damit/" class="button-link" target="_blank"
-                rel="noopener noreferrer">LinkedIn</a>
+
+        <div id="content" class="centered">
+            <h1 id="proj-typed-title"><span id="typed-title"></span><span class="cursor">_</span></h1>
+
+            <div class="nav-buttons-wrapper">
+                <a href="resume.html" class="button-link">💼 Get-Resume</a>
+                <a href="powershell-profile.html" class="button-link">⚡ Invoke-PSPhilosophy</a>
+                <a href="projects.html" class="button-link">🛠️ Get-Projects</a>
+            </div>
+            <div class="nav-buttons-wrapper secondary-nav">
+                <a href="https://github.com/dan-damit" class="button-link" target="_blank"
+                    rel="noopener noreferrer">GitHub</a>
+                <a href="https://www.linkedin.com/in/daniel-damit/" class="button-link" target="_blank"
+                    rel="noopener noreferrer">LinkedIn</a>
+            </div>
+
+
+            <section class="project-grid">
+                <div class="project-card">
+                    <h2 class="project-title">Matrix Rain Engine</h2>
+                    <p class="project-description">
+                        Cinematic canvas animation inspired by the original Matrix film. Modular, performant, and
+                        customizable with blur, glyph density, and diagnostic overlays.
+                    </p>
+                    <a href="https://github.com/dan-damit/Scripts-and-Snippets/blob/main/Website/js/matrix-rain.js" class="project-link" target="_blank">View on
+                        GitHub</a>
+                </div>
+
+                <div class="project-card">
+                    <h2 class="project-title">Modular Deployment Framework</h2>
+                    <p class="project-description">
+                        Technician-grade orchestration for fleet-scale automation. Includes manifest-driven logging,
+                        branded
+                        diagnostics, and stealthy telemetry endpoints.
+                    </p>
+                    <a href="https://github.com/dan-damit/WS_Setup_6" class="project-link"
+                        target="_blank">View on
+                        GitHub</a>
+                </div>
+
+                <!-- Add more project cards here -->
+            </section>
         </div>
+
+        <footer class="manifest-footer">
+            <a href="resume.html">Resume</a> |
+            <a href="powershell-profile.html">Philosophy</a> |
+            <a href="blog.html">Journal</a> |
+            <a href="projects.html">Projects</a>
+            <p>&copy; 2025 Dan Damit</p>
+        </footer>
     </div>
+
+    <script src="js/proj-typed-title.js" defer></script>
     <script src="js/matrix-rain.js"></script>
 </body>
 
