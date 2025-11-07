@@ -509,3 +509,38 @@ Next up, I think I'm going to add that floating side menu on the blog page that 
 tags currently indexed.
 
 ### dan
+
+---
+
+# Adding the All Tags pane
+**Date:** 2025-11-7
+**Tags:** html, css, javascript
+## Took a lot of restructuring
+
+Just to get a little pane on the right that shows the list of all parsed tags was a little tougher
+than I originally anticipated. I didn't want to mess too much with the blog-loader.js only needed to
+add a foreach loop to grab all the tags and output them to a list. Getting the layout right was the
+tricky part. It took, other than the forEach loop in the blog-loader.js, a restructure of the html
+in the blog.html file with an addidional flexbot wrapper.
+
+I also made it so the all tags list display:none for small resolutions like mobile browsers. It just
+looked cleaner that way.
+
+```
+allTags.forEach(tag => {
+    const tagBtn = document.createElement('button');
+    tagBtn.className = 'tag-index-button';
+    tagBtn.textContent = tag;
+    tagBtn.type = 'button';
+    tagBtn.addEventListener('click', () => {
+        const filtered = allEntries.filter(entry => entry.tags.includes(tag));
+        renderPage(filtered, 1, tag);
+        console.log(`[TagIndex] ${tag} → ${filtered.length} entries`);
+    });
+    tagIndex.appendChild(tagBtn);
+});
+```
+
+[Update Here](https://github.com/dan-damit/Scripts-and-Snippets/tree/main/Website)
+
+### dan

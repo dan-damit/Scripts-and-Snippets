@@ -151,5 +151,15 @@
       "coding"
     ],
     "content": "<p><h2>I added a \"current projects\" page</h2></p><p>Complete with links to their GitHub pages. I wanted to add another page and this seemed like a good<br>next step to sort of showcase what I'm currently working on. I love to tinker... It was a great<br>opportunity to learn about \"cards\" in html. Each project gets a \"card\"</p><p><a href=\"https://github.com/dan-damit/Scripts-and-Snippets/blob/main/Website/projects.html\" target=\"_blank\">Code Here</a></p><p>Next up, I think I'm going to add that floating side menu on the blog page that will list all of the<br>tags currently indexed.</p><p><h3>dan</h3></p>"
+  },
+  {
+    "date": "2025-11-7",
+    "title": "# Adding the All Tags pane",
+    "tags": [
+      "html",
+      "css",
+      "javascript"
+    ],
+    "content": "<p><h2>Took a lot of restructuring</h2></p><p>Just to get a little pane on the right that shows the list of all parsed tags was a little tougher<br>than I originally anticipated. I didn't want to mess too much with the blog-loader.js only needed to<br>add a foreach loop to grab all the tags and output them to a list. Getting the layout right was the<br>tricky part. It took, other than the forEach loop in the blog-loader.js, a restructure of the html<br>in the blog.html file with an addidional flexbot wrapper.</p><p>I also made it so the all tags list display:none for small resolutions like mobile browsers. It just<br>looked cleaner that way.</p><pre><code>allTags.forEach(tag => {\n    const tagBtn = document.createElement('button');\n    tagBtn.className = 'tag-index-button';\n    tagBtn.textContent = tag;\n    tagBtn.type = 'button';\n    tagBtn.addEventListener('click', () => {\n        const filtered = allEntries.filter(entry => entry.tags.includes(tag));\n        renderPage(filtered, 1, tag);\n        console.log(`[TagIndex] ${tag} → ${filtered.length} entries`);\n    });\n    tagIndex.appendChild(tagBtn);\n});\n</code></pre><p><a href=\"https://github.com/dan-damit/Scripts-and-Snippets/tree/main/Website\" target=\"_blank\">Update Here</a></p><p><h3>dan</h3></p>"
   }
 ]

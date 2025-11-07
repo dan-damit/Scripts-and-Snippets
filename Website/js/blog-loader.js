@@ -6,7 +6,10 @@ fetch('entries.json')
     .then(entries => {
         allEntries = entries.reverse(); // Show newest first
 
-        const container = document.getElementById('blog-container');
+        // Initialize global variables
+        const allTags = [...new Set(entries.flatMap(entry => entry.tags))].sort(); // Unique sorted tags
+        const paginationNav = document.getElementById('pagination-nav');
+        const tagIndex = document.getElementById('tag-index');
 
         // Create outer wrapper for centering
         const outerWrapper = document.createElement('div');
@@ -27,14 +30,6 @@ fetch('entries.json')
         collapseAllBtn.textContent = 'Re-encrypt All Entries';
         collapseAllBtn.className = 'collapse-all-button';
         collapseAllBtn.type = 'button';
-
-        // Append buttons to wrapper
-        buttonWrapper.appendChild(resetBtn);
-        buttonWrapper.appendChild(collapseAllBtn);
-        outerWrapper.appendChild(buttonWrapper);
-
-        // Insert wrapper after container
-        container.after(outerWrapper);
 
         // Initial render
         const params = new URLSearchParams(window.location.search);
@@ -57,6 +52,28 @@ fetch('entries.json')
                 }
             });
         });
+
+        // Populate tag buttons
+        allTags.forEach(tag => {
+            const tagBtn = document.createElement('button');
+            tagBtn.className = 'tag-index-button';
+            tagBtn.textContent = tag;
+            tagBtn.type = 'button';
+
+            tagBtn.addEventListener('click', () => {
+                const filtered = allEntries.filter(entry => entry.tags.includes(tag));
+                renderPage(filtered, 1, tag);
+                console.log(`[TagIndex] ${tag} → ${filtered.length} entries`);
+            });
+
+            tagIndex.appendChild(tagBtn);
+        });
+
+        // Append buttons to wrapper
+        buttonWrapper.appendChild(resetBtn);
+        buttonWrapper.appendChild(collapseAllBtn);
+        outerWrapper.appendChild(buttonWrapper);
+        paginationNav.parentElement.insertBefore(outerWrapper, paginationNav);
     });
 
 function renderPage(entries, page, activeTag = null) {
