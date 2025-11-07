@@ -7,10 +7,7 @@
         text-align: left;
     }
 
-    #matrixCanvas1,
-    #matrixCanvas2,
-    #matrixCanvas3,
-    #overlayCanvas,
+    #matrixCanvasMain,
     #branding,
     .pdf-btn,
     .nav-buttons {
