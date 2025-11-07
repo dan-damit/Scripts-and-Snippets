@@ -1,3 +1,5 @@
+# Author: Dan.Damit https://github.com/dan-damit
+
 # Set external NTP source and only used if NTP server isn't found locally
 w32tm /config /syncfromflags:all /manualpeerlist:"time.windows.com,0x1" /reliable:YES /update
 

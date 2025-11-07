@@ -1,3 +1,5 @@
+### Author: Dan.Damit https://github.com/dan-damit
+
 ### Set external NTP source and mark this server as reliable
 w32tm /config /manualpeerlist:"time.windows.com,0x1" /syncfromflags:manual /reliable:YES /update
 
