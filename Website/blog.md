@@ -544,3 +544,60 @@ allTags.forEach(tag => {
 [Update Here](https://github.com/dan-damit/Scripts-and-Snippets/tree/main/Website)
 
 ### dan
+
+---
+
+# Home networking improvements
+**Date:** 2025-11-8
+**Tags:** networking, firewall
+## GeoIP Firewalling and IoT VLANing
+
+I wanted to harden up my network since several ports are open directly to my server. Mikrotik
+doesn't have a fancy checkbox for geoip blocking. I had to leverage the Mikrotik Wiki with a lot of
+reading to wrap the brain stem around how to block high risk countries. Mikrotik has IP lists that
+they reqularly update with the IP blocks for these country. I created a short script to download
+these from Mikrotik and apply them in my top firewall rule. That rule combined with a all, all, deny
+type of rule at the very bottom meant nothing would be getting through unless I explicitly made a
+rule or a NAT for it. Which is what I did next. 
+
+Ports 25,80,443,587,465 are all I ended up opening on the edge firewall - the hEX S. Next up was the
+firewall on the server. I opened these ports along with some others that were required for DSM and
+other Synology apps to function correctly. I applied the same firewalling logic to the server's 
+firewall as well. Geoip blocking at the top; all, all, deny at the bottom. Only opened the necessary
+port in between them.
+
+```
+/tool/fetch url="https://mikrotik-geoip.com/free/?version=7&family=ipv4&type=firewall&country=CN" output=file dst-path=MikroTik-GeoIP-CN.rsc
+/import file-name=MikroTik-GeoIP-CN.rsc
+```
+
+I used the above commands to retrieve China's IP blocks, along with several other high risk
+countries like Russia and Irag/Iran. All that was needed was changing the country code in the
+command and it grabbed that country's IP blocks into the .rsc file. 
+
+```
+/ip firewall filter add chain=input src-address-list=CN action=drop comment="GeoIP Block - China"
+```
+
+Then created rules based on the coutnry code in the files. I also looked into keeping these .rsc
+files current
+
+```
+/system scheduler add name="UpdateGeoIP_CN" interval=1d on-event="/tool/fetch url=\"https://mikrotik-geoip.com/free/?version=7&family=ipv4&type=firewall&country=CN\" output=file dst-path=GeoIP-CN.rsc; /import file-name=GeoIP-CN.rsc"
+```
+
+I did this for roughly 12 countries in total that are considered "high risk"
+
+## IoT VLANing
+
+So I wanted to segment the network into the IoT stuff that likes to phone home often like Roku
+devices, and the secure devices like my server and Desktop Rig. I already had the SSIDs and their
+separate security in place, so it was just a matter of getting the rest of the config correct under
+the hood. I even already had the VLAN sub interface attached to the bridge correctly. All I needed
+to do to finish up the config was attach a DCHP scope to the VLAN interface and create the firewall
+rules to limit cross-vlan traffic. The only things that the IoT devices can talk to is Plex server 
+and Pihole for DNS filtering. Everything is allowed the other direction, however.
+
+Network security is on point now.
+
+### dan
