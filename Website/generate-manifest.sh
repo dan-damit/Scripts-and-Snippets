@@ -20,7 +20,7 @@ firewallstatus=$(iptables -L | grep -q "Chain INPUT" && echo "Enabled" || echo "
 # ─── TIMESTAMP ──────────────────────────────────────────────────────────
 lastsync=$(date +"%Y-%m-%d %H:%M:%S")
 
-# --- SMART Health -------------------------------------------------------
+# ─── SMART Health ───────────────────────────────────────────────────────
 smartstatus=""
 for dev in /dev/sata?; do
   status=$(smartctl -H -d sat "$dev" 2>/dev/null | grep "SMART overall-health" | awk -F: '{print $2}' | xargs)
@@ -28,7 +28,7 @@ for dev in /dev/sata?; do
   smartstatus="$smartstatus$dev: $status; "
 done
 
-# --- Bad Sector Count ---------------------------------------------------
+# ─── Bad Sector Count ───────────────────────────────────────────────────
 for dev in /dev/sata?; do
   reallocated=$(smartctl -A -d sat "$dev" 2>/dev/null | grep -i "Reallocated_Sector_Ct" | awk '{print $10}')
   pending=$(smartctl -A -d sat "$dev" 2>/dev/null | grep -i "Current_Pending_Sector" | awk '{print $10}')
