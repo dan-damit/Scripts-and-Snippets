@@ -169,6 +169,20 @@
         transition: all 0.3s ease;
     }
 
+    .manifest-footer a {
+        font-size: 0.9em;
+        padding: 0;
+        background: none;
+        box-shadow: none;
+        border: none;
+    }
+
+    .manifest-footer a.active {
+        background: none;
+        box-shadow: none;
+        font-weight: normal;
+    }
+
     @keyframes slideDown {
         from {
             top: -2em;
