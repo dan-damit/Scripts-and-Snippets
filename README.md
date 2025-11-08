@@ -10,7 +10,7 @@ This repository is organized by language and purpose, showcasing a range of tool
 - **C# / WPF**: UI prototypes, manifest-driven logging, and technician-friendly error handling.
 - **Markup (HTML/CSS)**: Branded layouts, print-specific overrides, and recruiter-grade resume logic.
 - **Batch / NSIS / WiX**: Packaging scripts and installer logic for fleet-scale deployment.
-- **UI Snippets**: Custom chrome, console-style navigation, and Matrix-themed polish [Website](https://thedamits.com/dan/).
+- **UI Snippets**: Custom chrome, console-style navigation, and Matrix-themed polish [Website](https://dan.thedamits.com).
 - **Schick Integration Package**: Specialized tooling for integration CDR Elite Eaglesoft sensors.
 - **Miscellaneous `.txt`**: Notes, templates, and raw logic fragments.
 
@@ -21,7 +21,7 @@ Every snippet here I tried to build with *clarity, resilience, and technician-gr
 - **Manifest-first logic**: Configs and onboarding flows are declarative and transparent.
 - **Modular design**: Reusable components across scripts, stylesheets, and event handlers.
 - **Diagnostic rigor**: Scripts include sanity checks, logging, and reputation hardening.
-- **Aesthetic depth**: Console-style UI, [Matrix-inspired animations](https://thedamits.com/dan/), and philosophical Easter eggs.
+- **Aesthetic depth**: Console-style UI, [Matrix-inspired animations](https://dan.thedamits.com), and philosophical Easter eggs.
 
 ## 🚀 Usage
 
