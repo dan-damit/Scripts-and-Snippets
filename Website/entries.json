@@ -140,7 +140,7 @@
       "javascript",
       "coding"
     ],
-    "content": "<p><h2>The 4 layered approach crushed slower PCs</h2></p><p>The title says it all for this one. Having 4 canvases caused slower CPU/CPU combos to lag out<br>horribly. So I adjusted it back to 1 layer. The updated code loop is below:</p><pre><code>const canvases = document.querySelectorAll('#matrixCanvasMain');\n</code></pre><p>One main canvas instead of 4. </p><p>Now it looks as good but not super blurry at times on 2 of the 4 layers. I also tried to randomize<br>glyph size and speed too</p><p><a href=\"https://github.com/dan-damit/Scripts-and-Snippets/blob/main/Website/js/matrix-rain.js\" target=\"_blank\">UpdatedCode</a></p><p>###dan</p>"
+    "content": "<p><h2>The 4 layered approach crushed slower PCs</h2></p><p>The title says it all for this one. Having 4 canvases caused slower CPU/CPU combos to lag out<br>horribly. So I adjusted it back to 1 layer. The updated code loop is below:</p><pre><code>const canvases = document.querySelectorAll('#matrixCanvasMain');\n</code></pre><p>One main canvas instead of 4. </p><p>Now it looks as good but not super blurry at times on 2 of the 4 layers. I also tried to randomize<br>glyph size and speed too</p><p><a href=\"https://github.com/dan-damit/Scripts-and-Snippets/blob/main/Website/js/matrix-rain.js\" target=\"_blank\">UpdatedCode</a></p><p><h3>dan</h3></p>"
   },
   {
     "date": "2025-11-5",

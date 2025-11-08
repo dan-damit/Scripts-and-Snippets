@@ -1,4 +1,4 @@
-﻿const entriesPerPage = 10;
+﻿const entriesPerPage = 5;
 let allEntries = [];
 
 fetch('entries.json')
@@ -34,11 +34,19 @@ fetch('entries.json')
         // Initial render
         const params = new URLSearchParams(window.location.search);
         const currentPage = parseInt(params.get("page")) || 1;
-        renderPage(allEntries, currentPage);
+        const activeTag = params.get("tag");
+
+        if (activeTag) {
+            const filtered = allEntries.filter(entry => entry.tags.includes(activeTag));
+            renderPage(filtered, currentPage, activeTag);
+        } else {
+            renderPage(allEntries, currentPage);
+        }
 
         // Global reset button
         resetBtn.addEventListener('click', () => {
-            renderPage(allEntries, 1); // Reset to full archive, page 1
+            history.replaceState(null, '', '?page=1');
+            renderPage(allEntries, 1);
         });
 
         // Global collapse all button
@@ -114,7 +122,7 @@ function renderPage(entries, page, activeTag = null) {
     });
 
     wireEntryInteractions();
-    renderPaginationControls(entries.length, page, entriesPerPage);
+    renderPaginationControls(entries.length, page, entriesPerPage, activeTag);
 }
 
 function wireEntryInteractions() {
@@ -141,7 +149,7 @@ function wireEntryInteractions() {
     });
 }
 
-function renderPaginationControls(totalEntries, currentPage, perPage) {
+function renderPaginationControls(totalEntries, currentPage, perPage, activeTag = null) {
     const totalPages = Math.ceil(totalEntries / perPage);
     const nav = document.getElementById("pagination-nav");
     nav.innerHTML = "";
@@ -149,7 +157,7 @@ function renderPaginationControls(totalEntries, currentPage, perPage) {
     for (let i = 1; i <= totalPages; i++) {
         const btn = document.createElement("a");
         btn.textContent = `${i}`;
-        btn.href = `?page=${i}`;
+        btn.href = activeTag ? `?page=${i}&tag=${encodeURIComponent(activeTag)}` : `?page=${i}`;
         btn.className = "button-link";
         if (i === currentPage) btn.classList.add("active");
 

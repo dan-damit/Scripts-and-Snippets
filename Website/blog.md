@@ -490,7 +490,7 @@ glyph size and speed too
 
 [UpdatedCode](https://github.com/dan-damit/Scripts-and-Snippets/blob/main/Website/js/matrix-rain.js)
 
-###dan
+### dan
 
 ---
 
