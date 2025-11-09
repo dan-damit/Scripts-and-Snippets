@@ -4,87 +4,87 @@
 
 /* Resume content wrapper */
 #content {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
 
-    padding: 1rem 1rem;
-    margin: auto;
-    margin-top: -1rem;
-    width: 100%;
-    max-width: 800px;
+  padding: 1rem 1rem;
+  margin: auto;
+  margin-top: -1rem;
+  width: 100%;
+  max-width: 800px;
 
-    background-color: rgba(0, 0, 0, 0.75);
-    border: 1px solid var(--neon-green);
-    border-radius: 6px;
-    box-shadow: 0 0 10px var(--neon-green);
+  background-color: rgba(0, 0, 0, 0.75);
+  border: 1px solid var(--neon-green);
+  border-radius: 6px;
+  box-shadow: 0 0 10px var(--neon-green);
 
-    box-sizing: border-box;
-    text-align: left;
-    z-index: 11;
+  box-sizing: border-box;
+  text-align: left;
+  z-index: 11;
 }
 
 /* Title wrapper for dynamic positioning */
 .title-wrapper {
-    position: relative;
-    top: 0;
-    transition: top 0.4s ease;
+  position: relative;
+  top: 0;
+  transition: top 0.4s ease;
 }
 
 /* Only on homepage and narrow screens */
 .home-mode .title-wrapper {
-    top: 0;
+  top: 0;
 }
 
 /* Skills list */
 .skills {
-    max-width: 450px;
-    padding-left: 1.5em;
-    margin-bottom: 1em;
+  max-width: 450px;
+  padding-left: 1.5em;
+  margin-bottom: 1em;
 }
 
 .skills li {
-    display: list-item;
-    margin: 0.3em;
-    padding: 0.4em 0.8em;
-    background-color: rgba(0, 255, 0, 0.1);
-    border: 1px solid var(--neon-green);
-    border-radius: 4px;
-    color: var(--neon-green);
-    font-family: monospace;
+  display: list-item;
+  margin: 0.3em;
+  padding: 0.4em 0.8em;
+  background-color: rgba(0, 255, 0, 0.1);
+  border: 1px solid var(--neon-green);
+  border-radius: 4px;
+  color: var(--neon-green);
+  font-family: monospace;
 }
 
 /* QR block layout */
 .qr-block {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 2rem;
 }
 
 .qr-block img {
-    max-width: 180px;
-    margin-bottom: 0.5rem;
+  max-width: 180px;
+  margin-bottom: 0.5rem;
 }
 
 .qr-caption {
-    font-size: 0.85rem;
-    color: var(--soft-green);
-    text-align: center;
+  font-size: 0.85rem;
+  color: var(--soft-green);
+  text-align: center;
 }
 
 /* Manifest footer layout */
 .manifest-footer {
-    margin-top: 3rem;
-    padding-top: 2rem;
-    text-align: center;
-    font-size: 0.85rem;
-    color: var(--soft-green);
-    z-index: 11;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--soft-green);
+  z-index: 11;
 }
 
 /* Visitor counter styling */
@@ -92,106 +92,106 @@
 #visitor-counter img,
 #visitor-counter a,
 #visitor-counter {
-    margin-top: 0rem;
-    text-align: center;
-    border: none !important;
-    box-shadow: none !important;
-    outline: none !important;
+  margin-top: 0rem;
+  text-align: center;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
 }
 
 /* Responsive tweaks */
 @media (max-width: 600px) {
-    #content {
-        padding: 1rem;
-        background-color: rgba(0, 0, 0, 0.50);
+  #content {
+    padding: 1rem;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+  .corner-box,
+  .top-left-link {
+    font-size: 1em;
+    padding: auto;
+  }
+
+  .top-left-link {
+    top: 0.5em;
+    left: 0.5em;
+  }
+
+  .corner-box {
+    top: 0.1em;
+    left: 0.5em;
+  }
+
+  #branding {
+    font-size: 0.9em;
+    top: 1.5em;
+    /* stacks below the top-left link */
+    right: auto;
+    padding: auto;
+  }
+
+  h1,
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  p,
+  li {
+    font-size: 0.9rem;
+  }
+
+  .nav-buttons-wrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .nav-buttons-wrapper .button-link {
+    max-width: 100%;
+  }
+
+  .button-wrapper {
+    flex-direction: row;
+    align-items: left;
+  }
+
+  .home-mode .title-wrapper {
+    animation: slideDown 0.5s ease forwards;
+  }
+
+  .home-mode .title-wrapper h1 {
+    text-align: left;
+    font-size: 1.5rem;
+    margin-left: 1rem;
+    transform: translateX(-10px);
+    transition: all 0.3s ease;
+  }
+
+  .manifest-footer a {
+    font-size: 0.9em;
+    padding: 0;
+    background: none;
+    box-shadow: none;
+    border: none;
+  }
+
+  .manifest-footer a.active {
+    background: none;
+    box-shadow: none;
+    font-weight: normal;
+  }
+
+  @keyframes slideDown {
+    from {
+      top: -2em;
+      opacity: 0;
     }
 
-    .corner-box,
-    .top-left-link {
-        font-size: 1em;
-        padding: auto;
+    to {
+      top: 2em;
+      opacity: 1;
     }
-
-    .top-left-link {
-        top: 0.5em;
-        left: 0.5em;
-    }
-
-    .corner-box {
-        top: 0.1em;
-        left: 0.5em;
-    }
-
-    #branding {
-        font-size: .90em;
-        top: 1.5em;
-        /* stacks below the top-left link */
-        right: auto;
-        padding: auto;
-    }
-
-    h1,
-    h2 {
-        font-size: 1.5rem;
-    }
-
-    p,
-    li {
-        font-size: 0.9rem;
-    }
-
-    .nav-buttons-wrapper {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 10px;
-    }
-
-    .nav-buttons-wrapper .button-link {
-        max-width: 100%;
-    }
-
-    .button-wrapper {
-        flex-direction: row;
-        align-items: left;
-    }
-
-    .home-mode .title-wrapper {
-        animation: slideDown 0.5s ease forwards;
-    }
-
-    .home-mode .title-wrapper h1 {
-        text-align: left;
-        font-size: 1.5rem;
-        margin-left: 1rem;
-        transform: translateX(-10px);
-        transition: all 0.3s ease;
-    }
-
-    .manifest-footer a {
-        font-size: 0.9em;
-        padding: 0;
-        background: none;
-        box-shadow: none;
-        border: none;
-    }
-
-    .manifest-footer a.active {
-        background: none;
-        box-shadow: none;
-        font-weight: normal;
-    }
-
-    @keyframes slideDown {
-        from {
-            top: -2em;
-            opacity: 0;
-        }
-
-        to {
-            top: 2em;
-            opacity: 1;
-        }
-    }
+  }
 }

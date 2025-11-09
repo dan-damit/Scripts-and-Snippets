@@ -4,68 +4,70 @@
 
 /* Blinking cursor effect */
 .cursor {
-    animation: blink 1s step-end infinite;
+  display: inline-block;
+  width: 0.6em;
+  height: 1em;
+  background-color: var(--neon-green);
+  animation: blink 1s steps(1) infinite;
+  vertical-align: bottom;
 }
 
 @keyframes blink {
-
-    0%,
-    100% {
-        opacity: 1;
-    }
-
-    50% {
-        opacity: 0;
-    }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
 }
-
 
 /* ============================
    Matrix Background Styles
    ============================ */
 
 canvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    pointer-events: none;
-    will-change: transform, opacity;
-    z-index: 1;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  will-change: transform, opacity;
+  z-index: 1;
 }
 
 /* Neon hover effects */
 .neon-button:hover,
 .pdf-btn:hover,
 a:hover {
-    background-color: var(--neon-green);
-    color: black;
-    box-shadow: 0 0 10px var(--neon-green);
-    transform: scale(1.05);
+  background-color: var(--neon-green);
+  color: black;
+  box-shadow: 0 0 10px var(--neon-green);
+  transform: scale(1.05);
 }
 
 /* Active button effect */
 .button-link.active {
-    background-color: var(--neon-green);
-    color: black;
-    box-shadow: 0 0 10px var(--neon-green);
+  background-color: var(--neon-green);
+  color: black;
+  box-shadow: 0 0 10px var(--neon-green);
 }
 
 /* Status widget glow */
 .status-widget h2 {
-    text-shadow: 0 0 4px var(--neon-green);
+  text-shadow: 0 0 4px var(--neon-green);
 }
 
 /* Code block glow */
 pre {
-    box-shadow: 0 0 6px var(--neon-green);
+  box-shadow: 0 0 6px var(--neon-green);
 }
 
 pre::before {
-    color: var(--neon-green);
+  color: var(--neon-green);
 }
 
 pre::after {
-    background: linear-gradient(to left, var(--bg-dark), transparent);
+  background: linear-gradient(to left, var(--bg-dark), transparent);
 }

@@ -4,65 +4,65 @@
 
 /* Preformatted code blocks */
 pre {
-    display: block;
-    background-color: #111;
-    color: whitesmoke;
-    font-family: 'Courier New', monospace;
-    font-size: 0.95rem;
-    padding: 1em;
-    margin: 1.5em 0;
-    border: 1px solid var(--neon-green);
-    border-radius: 6px;
-    box-shadow: 0 0 6px var(--neon-green);
-    white-space: pre;
-    overflow-x: auto;
-    max-width: 100%;
-    box-sizing: border-box;
+  display: block;
+  background-color: #111;
+  color: whitesmoke;
+  font-family: "Courier New", monospace;
+  font-size: 0.95rem;
+  padding: 1em;
+  margin: 1.5em 0;
+  border: 1px solid var(--neon-green);
+  border-radius: 6px;
+  box-shadow: 0 0 6px var(--neon-green);
+  white-space: pre;
+  overflow-x: auto;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 /* Code block label */
 pre::before {
-    content: "Code Block";
-    display: block;
-    font-size: 0.8rem;
-    color: var(--neon-green);
-    margin-bottom: 0.5em;
+  content: "Code Block";
+  display: block;
+  font-size: 0.8rem;
+  color: var(--neon-green);
+  margin-bottom: 0.5em;
 }
 
 /* Right-side fade effect */
 pre::after {
-    content: '';
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: 30px;
-    height: 100%;
-    background: linear-gradient(to left, var(--bg-dark), transparent);
-    pointer-events: none;
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 30px;
+  height: 100%;
+  background: linear-gradient(to left, var(--bg-dark), transparent);
+  pointer-events: none;
 }
 
 /* Wrapper for code block and copy button */
 .code-wrapper {
-    position: relative;
-    margin-bottom: 1em;
-    overflow: visible;
+  position: relative;
+  margin-bottom: 1em;
+  overflow: visible;
 }
 
 .copy-btn {
-    position: absolute;
-    top: 8px;
-    right: 30px;
-    background: var(--accent-color, #00c8ff);
-    color: black;
-    border: none;
-    padding: 4px 8px;
-    font-size: 0.8em;
-    cursor: pointer;
-    border-radius: 4px;
-    opacity: 0.8;
-    transition: opacity 0.2s ease;
+  position: absolute;
+  top: 8px;
+  right: 30px;
+  background: var(--accent-color, #00c8ff);
+  color: black;
+  border: none;
+  padding: 4px 8px;
+  font-size: 0.8em;
+  cursor: pointer;
+  border-radius: 4px;
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
 }
 
 .copy-btn:hover {
-    opacity: 1;
+  opacity: 1;
 }

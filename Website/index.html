@@ -1,115 +1,193 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <!-- Technician-grade metadata -->
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
 
     <!-- SEO & Preview -->
     <title>Daniel Damit · Technician-grade Deployment Architect</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description"
-        content="Modular automation, fleet-scale deployment, and resilient engineering philosophy. Explore Daniel Damit's technician-grade resume and workstation onboarding toolkit.">
-    <meta name="author" content="Daniel Damit">
-    <meta name="robots" content="index, follow">
-    <meta name="keywords"
-        content="Daniel Damit, Deployment Architect, Systems Engineer, IT Automation, Fleet Deployment, Technician-grade Resume, Workstation Onboarding, Modular Automation, Resilient Diagnostics, PowerShell, C#, WiX Toolset, WPF/XAML">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Modular automation, fleet-scale deployment, and resilient engineering philosophy. Explore Daniel Damit's technician-grade resume and workstation onboarding toolkit."
+    />
+    <meta name="author" content="Daniel Damit" />
+    <meta name="robots" content="index, follow" />
+    <meta
+      name="keywords"
+      content="Daniel Damit, Deployment Architect, Systems Engineer, IT Automation, Fleet Deployment, Technician-grade Resume, Workstation Onboarding, Modular Automation, Resilient Diagnostics, PowerShell, C#, WiX Toolset, WPF/XAML"
+    />
 
     <!-- Open Graph for social previews -->
-    <meta property="og:title" content="Follow the white rabbit · Daniel Damit · Technician-grade Deployment Architect">
-    <meta property="og:description"
-        content="Follow the white rabbit...Explore Dan's modular automation, resilient diagnostics, and deployment philosophy.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://dan.thedamits.com/">
-    <meta property="og:image" content="https://dan.thedamits.com/img/preview.png">
+    <meta
+      property="og:title"
+      content="Follow the white rabbit · Daniel Damit · Technician-grade Deployment Architect"
+    />
+    <meta
+      property="og:description"
+      content="Follow the white rabbit...Explore Dan's modular automation, resilient diagnostics, and deployment philosophy."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://dan.thedamits.com/" />
+    <meta
+      property="og:image"
+      content="https://dan.thedamits.com/img/preview.png"
+    />
 
     <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Follow the white rabbit · Daniel Damit · Technician-grade Deployment Architect">
-    <meta name="twitter:description"
-        content="Explore Dan's modular automation, resilient diagnostics, and deployment philosophy.">
-    <meta name="twitter:image" content="https://dan.thedamits.com/img/preview.png">
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Follow the white rabbit · Daniel Damit · Technician-grade Deployment Architect"
+    />
+    <meta
+      name="twitter:description"
+      content="Explore Dan's modular automation, resilient diagnostics, and deployment philosophy."
+    />
+    <meta
+      name="twitter:image"
+      content="https://dan.thedamits.com/img/preview.png"
+    />
 
     <!-- Favicon & Manifest -->
-    <link rel="icon" href="faviconLibrary/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="css/base.css">
-    <link rel="stylesheet" href="css/branding.css">
-    <link rel="stylesheet" href="css/code.css">
-    <link rel="stylesheet" href="css/components.css">
-    <link rel="stylesheet" href="css/effects.css">
-    <link rel="stylesheet" href="css/layout.css">
-    <link rel="stylesheet" href="css/resume.css">
-</head>
+    <link rel="icon" href="faviconLibrary/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/branding.css" />
+    <link rel="stylesheet" href="css/code.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/effects.css" />
+    <link rel="stylesheet" href="css/layout.css" />
+    <link rel="stylesheet" href="css/resume.css" />
+  </head>
 
-<body>
+  <body>
     <!-- First Layer -->
     <canvas id="matrixCanvasMain"></canvas>
 
     <div class="page-wrapper">
+      <!-- Branding pinned top-right -->
+      <div class="button-wrapper">
+        <a href="blog.html" class="corner-box">PS C:\Users\dan> cd blog</a>
+        <a
+          id="branding"
+          href="https://en.wikipedia.org/wiki/Simulacra_and_Simulation"
+          target="_blank"
+          title="Welcome to the desert of the real."
+          rel="noopener noreferrer"
+          >Invoke-Hyperreality</a
+        >
+      </div>
 
-        <!-- Branding pinned top-right -->
-        <div class="button-wrapper">
-            <a href="blog.html" class="corner-box">PS C:\Users\dan> cd blog</a>
-            <a id="branding" href="https://en.wikipedia.org/wiki/Simulacra_and_Simulation" target="_blank"
-                title="Welcome to the desert of the real." rel="noopener noreferrer">Invoke-Hyperreality</a>
+      <!-- Foreground content -->
+      <div id="content" class="centered">
+        <div class="home-mode title-wrapper">
+          <h1 id="typed-title">
+            <span id="name-title"></span><span class="cursor"></span>
+          </h1>
         </div>
 
-        <!-- Foreground content -->
-        <div id="content" class="centered">
-            <div class="home-mode title-wrapper">
-                <h1 id="typed-title">
-                    <span id="name-title"></span><span class="cursor">_</span>
-                </h1>
-            </div>
-
-            <div class="nav-buttons-wrapper">
-                <a href="resume.html" class="button-link">💼 Get-Resume</a>
-                <a href="powershell-profile.html" class="button-link">⚡ Invoke-PSPhilosophy</a>
-                <a href="projects.html" class="button-link">🛠️ Get-Projects</a>
-            </div>
-            <div class="nav-buttons-wrapper secondary-nav">
-                <a href="https://github.com/dan-damit" class="button-link" target="_blank"
-                    rel="noopener noreferrer">GitHub</a>
-                <a href="https://www.linkedin.com/in/daniel-damit/" class="button-link" target="_blank"
-                    rel="noopener noreferrer">LinkedIn</a>
-            </div>
-
-            <p><span class="label">Page Load:</span> <span id="load-time"></span></p>
-
-            <div class="status-widget">
-                <h2>System Diagnostics</h2>
-                <ul class="status-list">
-                    <li><span class="label">Hostname: </span> <span id="hostname">Loading...</span></li>
-                    <li><span class="label">DSM Version: </span> <span id="dsm">Loading...</span></li>
-                    <li><span class="label">Uptime: </span> <span id="uptime">Loading...</span></li>
-                    <li><span class="label">Load Average: </span> <span id="loadavg">Loading...</span></li>
-                    <li><span class="label">CPU Model: </span> <span id="cpu">Loading...</span></li>
-                    <li><span class="label">Memory Total: </span> <span id="memtotal">Loading...</span></li>
-                    <li><span class="label">Memory Used: </span> <span id="memused">Loading...</span></li>
-                    <li><span class="label">Disk Usage: </span> <span id="disk">Loading...</span></li>
-                    <li><span class="label">RAID Status: </span> <span id="raid">Loading...</span></li>
-                    <li><span class="label">SSH Status: </span> <span id="ssh">Loading...</span></li>
-                    <li><span class="label">Firewall Status: </span> <span id="firewall">Loading...</span></li>
-                    <li><span class="label">SMART Status: </span> <span id="smart">Loading...</span></li>
-                    <li><span class="label">Bad Sector Status: </span> <span id="badsectorstatus">Loading...</span></li>
-                    <li><span class="label">Last Sync:</span> <span id="last-sync">Loading...</span></li>
-                </ul>
-            </div>
+        <div class="nav-buttons-wrapper">
+          <a href="resume.html" class="button-link">💼 Get-Resume</a>
+          <a href="powershell-profile.html" class="button-link"
+            >⚡ Invoke-PSPhilosophy</a
+          >
+          <a href="projects.html" class="button-link">🛠️ Get-Projects</a>
+        </div>
+        <div class="nav-buttons-wrapper secondary-nav">
+          <a
+            href="https://github.com/dan-damit"
+            class="button-link"
+            target="_blank"
+            rel="noopener noreferrer"
+            >GitHub</a
+          >
+          <a
+            href="https://www.linkedin.com/in/daniel-damit/"
+            class="button-link"
+            target="_blank"
+            rel="noopener noreferrer"
+            >LinkedIn</a
+          >
         </div>
 
-        <footer class="manifest-footer">
-            <a href="index.html">Home</a> |
-            <a href="resume.html">Resume</a> |
-            <a href="powershell-profile.html">Philosophy</a> |
-            <a href="blog.html">Journal</a> |
-            <a href="projects.html">Projects</a>
-            <p>&copy; 2025 Dan Damit</p>
-        </footer>
+        <p>
+          <span class="label">Page Load:</span> <span id="load-time"></span>
+        </p>
+
+        <div class="status-widget">
+          <h2>System Diagnostics</h2>
+          <ul class="status-list">
+            <li>
+              <span class="label">Hostname: </span>
+              <span id="hostname">Loading...</span>
+            </li>
+            <li>
+              <span class="label">DSM Version: </span>
+              <span id="dsm">Loading...</span>
+            </li>
+            <li>
+              <span class="label">Uptime: </span>
+              <span id="uptime">Loading...</span>
+            </li>
+            <li>
+              <span class="label">Load Average: </span>
+              <span id="loadavg">Loading...</span>
+            </li>
+            <li>
+              <span class="label">CPU Model: </span>
+              <span id="cpu">Loading...</span>
+            </li>
+            <li>
+              <span class="label">Memory Total: </span>
+              <span id="memtotal">Loading...</span>
+            </li>
+            <li>
+              <span class="label">Memory Used: </span>
+              <span id="memused">Loading...</span>
+            </li>
+            <li>
+              <span class="label">Disk Usage: </span>
+              <span id="disk">Loading...</span>
+            </li>
+            <li>
+              <span class="label">RAID Status: </span>
+              <span id="raid">Loading...</span>
+            </li>
+            <li>
+              <span class="label">SSH Status: </span>
+              <span id="ssh">Loading...</span>
+            </li>
+            <li>
+              <span class="label">Firewall Status: </span>
+              <span id="firewall">Loading...</span>
+            </li>
+            <li>
+              <span class="label">SMART Status: </span>
+              <span id="smart">Loading...</span>
+            </li>
+            <li>
+              <span class="label">Bad Sector Status: </span>
+              <span id="badsectorstatus">Loading...</span>
+            </li>
+            <li>
+              <span class="label">Last Sync:</span>
+              <span id="last-sync">Loading...</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <footer class="manifest-footer">
+        <a href="index.html">Home</a> | <a href="resume.html">Resume</a> |
+        <a href="powershell-profile.html">Philosophy</a> |
+        <a href="blog.html">Journal</a> |
+        <a href="projects.html">Projects</a>
+        <p>&copy; 2025 Dan Damit</p>
+      </footer>
     </div>
 
     <script src="js/site-diagnostics.js"></script>
     <script src="js/matrix-rain.js"></script>
     <script src="js/typed-title.js"></script>
-</body>
-
+  </body>
 </html>

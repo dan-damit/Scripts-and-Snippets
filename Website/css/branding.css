@@ -4,68 +4,68 @@
 
 /* Top-right branding box */
 #branding {
-    position: relative;
-    left: 0;
-    background-color: black;
-    max-width: fit-content;
-    font-size: 1rem;
-    margin-left: 0;
-    z-index: 99;
+  position: relative;
+  left: 0;
+  background-color: black;
+  max-width: fit-content;
+  font-size: 1rem;
+  margin-left: 0;
+  z-index: 99;
 }
 
 /* Branding hover effect */
 #branding:hover {
-    color: #00ff00;
+  color: #00ff00;
 }
 
 #branding:hover::after {
-    content: " → Simulacra & Simulation";
-    margin-left: 0.5em;
-    font-style: italic;
-    color: #00ff00;
+  content: " → Simulacra & Simulation";
+  margin-left: 0.5em;
+  font-style: italic;
+  color: #00ff00;
 }
 
 /* Top-left blog link box */
 .corner-box {
-    position: relative;
-    right: 0;
-    background-color: black;
-    max-width: fit-content;
-    font-size: 1rem;
-    margin-right: 0;
-    z-index: 98;
+  position: relative;
+  right: 0;
+  background-color: black;
+  max-width: fit-content;
+  font-size: 1rem;
+  margin-right: 0;
+  z-index: 98;
 }
 
 /* Blog link hover effect */
 .corner-box:hover::after {
-    content: " ← Journal";
-    margin-left: 0.5em;
-    font-style: italic;
+  content: " ← Journal";
+  margin-left: 0.5em;
+  font-style: italic;
 }
 
 /* Home link top-left on blog page */
 .top-left-link {
-    position: relative;
-    color: #00ff00;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 1rem;
-    background-color: black;
-    border: 1px solid #00ff00;
-    padding: 0.4em 0.8em;
-    border-radius: 4px;
-    transition: box-shadow 0.3s ease;
-    z-index: 98;
+  position: relative;
+  color: #00ff00;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1rem;
+  background-color: black;
+  border: 1px solid #00ff00;
+  padding: 0.4em 0.8em;
+  border-radius: 4px;
+  transition: box-shadow 0.3s ease;
+  z-index: 98;
 }
 
 .top-left-link:hover {
-    background-color: black;
-    color: #00ff00;
-    box-shadow: 0 0 8px #00ff00, 0 0 12px #00ff00;
+  background-color: black;
+  color: #00ff00;
+  box-shadow: 0 0 8px #00ff00, 0 0 12px #00ff00;
 }
 
 .top-left-link:hover::after {
-    content: " ← Home";
-    margin-left: 0.5em;
-    font-style: italic;
+  content: " ← Home";
+  margin-left: 0.5em;
+  font-style: italic;
 }

@@ -1,12 +1,17 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Dan Damit's Projects</title>
-    <meta name="description" content="Project hub listing demos, repos and short descriptions." />
-    <meta property="og:image" content="https://dan.thedamits.com/img/preview.png">
+    <meta
+      name="description"
+      content="Project hub listing demos, repos and short descriptions."
+    />
+    <meta
+      property="og:image"
+      content="https://dan.thedamits.com/img/preview.png"
+    />
 
     <!-- Site stylesheets -->
     <link rel="icon" href="faviconLibrary/favicon.ico" type="image/x-icon" />
@@ -16,116 +21,160 @@
     <link rel="stylesheet" href="css/layout.css" />
     <link rel="stylesheet" href="css/projects.css" />
     <link rel="stylesheet" href="css/effects.css" />
+  </head>
 
-</head>
-
-<body>
+  <body>
     <!-- First Layer -->
     <canvas id="matrixCanvasMain"></canvas>
 
     <div class="page-wrapper">
+      <!-- Branding pinned top-right -->
+      <div class="button-wrapper">
+        <a href="blog.html" class="corner-box">PS C:\Users\dan> cd blog</a>
+        <a
+          id="branding"
+          href="https://en.wikipedia.org/wiki/Simulacra_and_Simulation"
+          target="_blank"
+          title="Welcome to the desert of the real."
+          rel="noopener noreferrer"
+          >Invoke-Hyperreality</a
+        >
+      </div>
 
-        <!-- Branding pinned top-right -->
-        <div class="button-wrapper">
-            <a href="blog.html" class="corner-box">PS C:\Users\dan> cd blog</a>
-            <a id="branding" href="https://en.wikipedia.org/wiki/Simulacra_and_Simulation" target="_blank"
-                title="Welcome to the desert of the real." rel="noopener noreferrer">Invoke-Hyperreality</a>
+      <div id="content" class="centered">
+        <h1 id="proj-typed-title">
+          <span id="typed-title"></span><span class="cursor"></span>
+        </h1>
+
+        <div class="nav-buttons-wrapper">
+          <a href="resume.html" class="button-link">💼 Get-Resume</a>
+          <a href="powershell-profile.html" class="button-link"
+            >⚡ Invoke-PSPhilosophy</a
+          >
+          <a href="projects.html" class="button-link">🛠️ Get-Projects</a>
+        </div>
+        <div class="nav-buttons-wrapper secondary-nav">
+          <a
+            href="https://github.com/dan-damit"
+            class="button-link"
+            target="_blank"
+            rel="noopener noreferrer"
+            >GitHub</a
+          >
+          <a
+            href="https://www.linkedin.com/in/daniel-damit/"
+            class="button-link"
+            target="_blank"
+            rel="noopener noreferrer"
+            >LinkedIn</a
+          >
         </div>
 
-        <div id="content" class="centered">
-            <h1 id="proj-typed-title"><span id="typed-title"></span><span class="cursor">_</span></h1>
+        <section class="project-grid">
+          <div class="project-card">
+            <h2 class="project-title">Matrix Rain Engine</h2>
+            <p class="project-description">
+              Cinematic canvas animation inspired by the original Matrix film.
+              Modular, performant, and customizable with blur, glyph density,
+              and diagnostic overlays.
+            </p>
+            <a
+              href="https://github.com/dan-damit/Scripts-and-Snippets/blob/main/Website/js/matrix-rain.js"
+              class="project-link"
+              target="_blank"
+              >View on GitHub</a
+            >
+          </div>
 
-            <div class="nav-buttons-wrapper">
-                <a href="resume.html" class="button-link">💼 Get-Resume</a>
-                <a href="powershell-profile.html" class="button-link">⚡ Invoke-PSPhilosophy</a>
-                <a href="projects.html" class="button-link">🛠️ Get-Projects</a>
-            </div>
-            <div class="nav-buttons-wrapper secondary-nav">
-                <a href="https://github.com/dan-damit" class="button-link" target="_blank"
-                    rel="noopener noreferrer">GitHub</a>
-                <a href="https://www.linkedin.com/in/daniel-damit/" class="button-link" target="_blank"
-                    rel="noopener noreferrer">LinkedIn</a>
-            </div>
+          <div class="project-card">
+            <h2 class="project-title">Workstation.Deployment.Toolkit</h2>
+            <p class="project-description">
+              Technician-grade orchestration for fleet-scale automation.
+              Includes manifest-driven logging, branded diagnostics, and
+              stealthy telemetry endpoints.
+            </p>
+            <a
+              href="https://github.com/dan-damit/WS_Setup_6"
+              class="project-link"
+              target="_blank"
+              >View on GitHub</a
+            >
+          </div>
 
+          <div class="project-card">
+            <h2 class="project-title">Typed Title Animation</h2>
+            <p class="project-description">
+              JavaScript module for dynamic typing effects on web pages.
+              Configurable speed, cursor style, and text sequences for engaging
+              user experiences.
+            </p>
+            <a
+              href="https://github.com/dan-damit/Scripts-and-Snippets/blob/main/Website/js/typed-title.js"
+              class="project-link"
+              target="_blank"
+              >View on GitHub</a
+            >
+          </div>
 
-            <section class="project-grid">
-                <div class="project-card">
-                    <h2 class="project-title">Matrix Rain Engine</h2>
-                    <p class="project-description">
-                        Cinematic canvas animation inspired by the original Matrix film. Modular, performant, and
-                        customizable with blur, glyph density, and diagnostic overlays.
-                    </p>
-                    <a href="https://github.com/dan-damit/Scripts-and-Snippets/blob/main/Website/js/matrix-rain.js"
-                        class="project-link" target="_blank">View on GitHub</a>
-                </div>
+          <div class="project-card">
+            <h2 class="project-title">PowerShell Script Dump</h2>
+            <p class="project-description">
+              A collection of PowerShell scripts and modules designed for
+              streamlined deployment processes, including error handling,
+              logging, and modular component management.
+            </p>
+            <a
+              href="https://github.com/dan-damit/Scripts-and-Snippets/tree/main/PowerShell"
+              class="project-link"
+              target="_blank"
+              >View on GitHub</a
+            >
+          </div>
 
-                <div class="project-card">
-                    <h2 class="project-title">Workstation.Deployment.Toolkit</h2>
-                    <p class="project-description">
-                        Technician-grade orchestration for fleet-scale automation. Includes manifest-driven logging,
-                        branded diagnostics, and stealthy telemetry endpoints.
-                    </p>
-                    <a href="https://github.com/dan-damit/WS_Setup_6" class="project-link" target="_blank">View on
-                        GitHub</a>
-                </div>
+          <div class="project-card">
+            <h2 class="project-title">Backup Workstation Tool</h2>
+            <p class="project-description">
+              A C#-based utility for automating workstation backups. Features
+              include full backups of data that users and techs care about, and
+              logging for technician review.
+            </p>
+            <a
+              href="https://github.com/dan-damit/BackupWorkstation"
+              class="project-link"
+              target="_blank"
+              >View on GitHub</a
+            >
+          </div>
 
-                <div class="project-card">
-                    <h2 class="project-title">Typed Title Animation</h2>
-                    <p class="project-description">
-                        JavaScript module for dynamic typing effects on web pages. Configurable speed, cursor style,
-                        and text sequences for engaging user experiences.
-                    </p>
-                    <a href="https://github.com/dan-damit/Scripts-and-Snippets/blob/main/Website/js/typed-title.js"
-                        class="project-link" target="_blank">View on GitHub</a>
-                </div>
+          <div class="project-card">
+            <h2 class="project-title">Restore Workstation Tool</h2>
+            <p class="project-description">
+              A C#-based utility for restoring the data backed up from the
+              companion BackupWorkstation tool, including all of the
+              directories, and the HKCU registry keys.
+            </p>
+            <a
+              href="https://github.com/dan-damit/RestoreWorkstation"
+              class="project-link"
+              target="_blank"
+              >View on GitHub</a
+            >
+          </div>
 
-                <div class="project-card">
-                    <h2 class="project-title">PowerShell Script Dump</h2>
-                    <p class="project-description">
-                        A collection of PowerShell scripts and modules designed for streamlined deployment processes,
-                        including error handling, logging, and modular component management.
-                    </p>
-                    <a href="https://github.com/dan-damit/Scripts-and-Snippets/tree/main/PowerShell"
-                        class="project-link" target="_blank">View on GitHub</a>
-                </div>
+          <!-- Add more project cards here -->
+        </section>
+      </div>
 
-                <div class="project-card">
-                    <h2 class="project-title">Backup Workstation Tool</h2>
-                    <p class="project-description">
-                        A C#-based utility for automating workstation backups. Features include
-                        full backups of data that users and techs care about, and logging for technician
-                        review.
-                    </p>
-                    <a href="https://github.com/dan-damit/BackupWorkstation" class="project-link" target="_blank">View
-                        on GitHub</a>
-                </div>
-
-                <div class="project-card">
-                    <h2 class="project-title">Restore Workstation Tool</h2>
-                    <p class="project-description">
-                        A C#-based utility for restoring the data backed up from the companion
-                        BackupWorkstation tool, including all of the directories, and the HKCU registry keys.
-                    </p>
-                    <a href="https://github.com/dan-damit/RestoreWorkstation" class="project-link" target="_blank">View
-                        on GitHub</a>
-                </div>
-
-                <!-- Add more project cards here -->
-            </section>
-        </div>
-
-        <footer class="manifest-footer">
-            <a href="index.html">Home</a> |
-            <a href="resume.html">Resume</a> |
-            <a href="powershell-profile.html">Philosophy</a> |
-            <a href="blog.html">Journal</a> |
-            <a href="projects.html">Projects</a>
-            <p>&copy; 2025 Dan Damit</p>
-        </footer>
+      <footer class="manifest-footer">
+        <a href="index.html">Home</a> | <a href="resume.html">Resume</a> |
+        <a href="powershell-profile.html">Philosophy</a> |
+        <a href="blog.html">Journal</a> |
+        <a href="projects.html">Projects</a>
+        <p>&copy; 2025 Dan Damit</p>
+      </footer>
     </div>
 
     <script src="js/proj-typed-title.js" defer></script>
     <script src="js/matrix-rain.js"></script>
-</body>
-
+  </body>
 </html>

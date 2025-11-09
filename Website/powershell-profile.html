@@ -1,39 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description"
-        content="Personal PowerShell philosophy outlining modular automation, fleet deployments, and technician empowerment.">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Personal PowerShell philosophy outlining modular automation, fleet deployments, and technician empowerment."
+    />
     <title>Personal PowerShell Philosophy</title>
-    <link rel="stylesheet" href="css/base.css">
-    <link rel="stylesheet" href="css/branding.css">
-    <link rel="stylesheet" href="css/code.css">
-    <link rel="stylesheet" href="css/components.css">
-    <link rel="stylesheet" href="css/effects.css">
-    <link rel="stylesheet" href="css/layout.css">
-    <link rel="stylesheet" href="css/resume.css">
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/branding.css" />
+    <link rel="stylesheet" href="css/code.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/effects.css" />
+    <link rel="stylesheet" href="css/layout.css" />
+    <link rel="stylesheet" href="css/resume.css" />
 
-    <link rel="icon" href="faviconLibrary/favicon.ico" type="image/x-icon">
-    <meta property="og:image" content="https://dan.thedamits.com/img/preview.png">
-</head>
+    <link rel="icon" href="faviconLibrary/favicon.ico" type="image/x-icon" />
+    <meta
+      property="og:image"
+      content="https://dan.thedamits.com/img/preview.png"
+    />
+  </head>
 
-<body>
+  <body>
     <!-- First Layer -->
     <canvas id="matrixCanvasMain"></canvas>
 
     <div class="page-wrapper">
+      <div class="button-wrapper">
+        <a href="blog.html" class="corner-box">PS C:\Users\dan> cd blog</a>
+        <a
+          id="branding"
+          href="https://en.wikipedia.org/wiki/Simulacra_and_Simulation"
+          target="_blank"
+          title="Welcome to the desert of the real."
+          rel="noopener noreferrer"
+          >Invoke-Hyperreality</a
+        >
+      </div>
 
-        <div class="button-wrapper">
-            <a href="blog.html" class="corner-box">PS C:\Users\dan> cd blog</a>
-            <a id="branding" href="https://en.wikipedia.org/wiki/Simulacra_and_Simulation" target="_blank"
-                title="Welcome to the desert of the real." rel="noopener noreferrer">Invoke-Hyperreality</a>
-        </div>
-
-        <div id="content" style="align-items: flex-start;">
-            <h1 id="typed-PSP-title"><span id="name-PSP-title"></span><span class="cursor">_</span></h1>
-            <pre>
+      <div id="content" style="align-items: flex-start">
+        <h1 id="typed-PSP-title">
+          <span id="name-PSP-title"></span><span class="cursor"></span>
+        </h1>
+        <pre>
 #region Technician Manifest
 # Author: Dan Damit
 # Role: Deployment Engineer & Systems Architect
@@ -65,30 +76,39 @@ function Get-DanPowerShellProfile {
 }
         </pre>
 
-            <p>
-                <a href="resume.html">PS C:\Users\dan> Get-Resume</a> | <a href="index.html">PS
-                    C:\Users\dan> cd ..</a> | <a href="projects.html">PS C:\Users\dan> Get-Projects</a>
-            </p>
+        <p>
+          <a href="resume.html">PS C:\Users\dan> Get-Resume</a> |
+          <a href="index.html">PS C:\Users\dan> cd ..</a> |
+          <a href="projects.html">PS C:\Users\dan> Get-Projects</a>
+        </p>
 
-            <footer>
-                <h2>Connect with me:</h2>
-                <a href="https://github.com/dan-damit" target="_blank" rel="noopener noreferrer">GitHub</a> | <a
-                    href="https://www.linkedin.com/in/daniel-damit/" target="_blank"
-                    rel="noopener noreferrer">LinkedIn</a>
-            </footer>
-        </div>
-
-        <footer class="manifest-footer">
-            <a href="index.html">Home</a> |
-            <a href="resume.html">Resume</a> |
-            <a href="powershell-profile.html">Philosophy</a> |
-            <a href="blog.html">Journal</a> |
-            <a href="projects.html">Projects</a>
-            <p>&copy; 2025 Dan Damit</p>
+        <footer>
+          <h2>Connect with me:</h2>
+          <a
+            href="https://github.com/dan-damit"
+            target="_blank"
+            rel="noopener noreferrer"
+            >GitHub</a
+          >
+          |
+          <a
+            href="https://www.linkedin.com/in/daniel-damit/"
+            target="_blank"
+            rel="noopener noreferrer"
+            >LinkedIn</a
+          >
         </footer>
+      </div>
+
+      <footer class="manifest-footer">
+        <a href="index.html">Home</a> | <a href="resume.html">Resume</a> |
+        <a href="powershell-profile.html">Philosophy</a> |
+        <a href="blog.html">Journal</a> |
+        <a href="projects.html">Projects</a>
+        <p>&copy; 2025 Dan Damit</p>
+      </footer>
     </div>
     <script src="js/matrix-rain.js"></script>
     <script src="js/typed-PSP-title.js"></script>
-</body>
-
+  </body>
 </html>

@@ -1,64 +1,74 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Technical blog focused on automation, deployment tooling, and UI design.">
-    <meta name="rating" content="safe for kids">
-    <meta name="robots" content="index, follow">
-    <meta name="classification" content="technical blog">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Dan Damit - Technician's Blog">
-    <meta property="og:description" content="Deployment philosophy, automation tooling, and modular UI design.">
-    <meta property="og:url" content="https://dan.thedamits.com/blog.html">
-    <meta property="og:image" content="https://dan.thedamits.com/img/preview.png">
+    <meta
+      name="description"
+      content="Technical blog focused on automation, deployment tooling, and UI design."
+    />
+    <meta name="rating" content="safe for kids" />
+    <meta name="robots" content="index, follow" />
+    <meta name="classification" content="technical blog" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Dan Damit - Technician's Blog" />
+    <meta
+      property="og:description"
+      content="Deployment philosophy, automation tooling, and modular UI design."
+    />
+    <meta property="og:url" content="https://dan.thedamits.com/blog.html" />
+    <meta
+      property="og:image"
+      content="https://dan.thedamits.com/img/preview.png"
+    />
     <title>Dan's Technician Log</title>
-    <link rel="icon" href="faviconLibrary/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="css/base.css">
-    <link rel="stylesheet" href="css/branding.css">
-    <link rel="stylesheet" href="css/code.css">
-    <link rel="stylesheet" href="css/components.css">
-    <link rel="stylesheet" href="css/effects.css">
-    <link rel="stylesheet" href="css/layout.css">
-    <link rel="stylesheet" href="css/resume.css">
+    <link rel="icon" href="faviconLibrary/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/branding.css" />
+    <link rel="stylesheet" href="css/code.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/effects.css" />
+    <link rel="stylesheet" href="css/layout.css" />
+    <link rel="stylesheet" href="css/resume.css" />
     <link rel="stylesheet" href="css/blog.css" />
-</head>
+  </head>
 
-<body>
+  <body>
     <canvas id="matrixCanvasMain"></canvas>
     <div id="blog-layout">
-        <div class="page-wrapper blog-mode">
-
-            <div class="button-wrapper">
-                <a href="index.html" class="top-left-link">PS C:\Users\dan> cd ..</a>
-                <a id="branding" href="https://en.wikipedia.org/wiki/Simulacra_and_Simulation"
-                    title="Welcome to the desert of the real." target="_blank"
-                    rel="noopener noreferrer">Invoke-Hyperreality</a>
-            </div>
-
-            <div id="blog-container"></div>
-            <div id="pagination-nav" class="blog-mode"></div>
-            <div class="layout-spacer"></div>
-
-            <footer class="manifest-footer">
-                <a href="index.html">Home</a> |
-                <a href="resume.html">Resume</a> |
-                <a href="powershell-profile.html">Philosophy</a> |
-                <a href="blog.html">Journal</a> |
-                <a href="projects.html">Projects</a>
-                <p>&copy; 2025 Dan Damit</p>
-            </footer>
+      <div class="page-wrapper blog-mode">
+        <div class="button-wrapper">
+          <a href="index.html" class="top-left-link">PS C:\Users\dan> cd ..</a>
+          <a
+            id="branding"
+            href="https://en.wikipedia.org/wiki/Simulacra_and_Simulation"
+            title="Welcome to the desert of the real."
+            target="_blank"
+            rel="noopener noreferrer"
+            >Invoke-Hyperreality</a
+          >
         </div>
 
-        <div id="tag-index">
-            <h2>All Tags</h2>
-        </div>
+        <div id="blog-container"></div>
+        <div id="pagination-nav" class="blog-mode"></div>
+        <div class="layout-spacer"></div>
+
+        <footer class="manifest-footer">
+          <a href="index.html">Home</a> | <a href="resume.html">Resume</a> |
+          <a href="powershell-profile.html">Philosophy</a> |
+          <a href="blog.html">Journal</a> |
+          <a href="projects.html">Projects</a>
+          <p>&copy; 2025 Dan Damit</p>
+        </footer>
+      </div>
+
+      <div id="tag-index">
+        <h2>All Tags</h2>
+      </div>
     </div>
 
     <script src="js/blog-loader.js" defer></script>
     <script src="js/typed-blog-title.js" defer></script>
     <script src="js/matrix-rain.js"></script>
-</body>
-
+  </body>
 </html>
