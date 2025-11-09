@@ -16,6 +16,7 @@ Deploy/
 *.snk
 
 # File to Exclude
+entries.json
 CDR Elite Setup.zip
 2_CDR Elite Setup.exe
 _Complete_Schick_33_Package.zip
