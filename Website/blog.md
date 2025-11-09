@@ -1,21 +1,26 @@
 # Shoutout to freeCodeCamp!
+
 **Date:** 2025-10-22
 **Tags:** coding, learning, coursework
+
 ## This site was how I got my toes damp.
 
 I would highly recommend freeCodeCamp if you're wanting to get into any level of web coding. It was
-SUPER helpful for me getting my tooties damp...well...almost 2 years ago now at this point. 
+SUPER helpful for me getting my tooties damp...well...almost 2 years ago now at this point.
 
 [Here is a link](https://www.freecodecamp.org/)
 
 Highly recommend it!!
+
 ### dan
 
 ---
 
 # Manifest-Driven Markdown
+
 **Date:** 2025-10-24  
 **Tags:** markdown, automation
+
 ## The structure is as follows:
 
 Started structuring the blog page to reflect my engineering mindset.  
@@ -28,24 +33,27 @@ md-to-json.js will read blog.md, parse it, and output entries.json. blog-loader.
 entries.json and render the blog page.
 
 More details to follow
+
 ### dan
 
 ---
 
 # Synology Config Override
+
 **Date:** 2025-10-25  
 **Tags:** diagnostics, server
+
 ## The process is below:
 
 Documented the robots.txt override fix for Synology. Planning to blog the diagnostic process.
 
 The issue I was having was related to how my NAS builds the nginx config files.  
 Okay let me back up a bit... I have a Synology DS720+ that hosts all of my stuff... media, backups,
-files... this website, etc. I wanted to link my landing page to LinkedIn's Featured section. 
+files... this website, etc. I wanted to link my landing page to LinkedIn's Featured section.
 
 No biggie!
 
-```Invoke-TrumpWrongGIF...```
+`Invoke-TrumpWrongGIF...`
 
 LinkedIn was having none of it. After some digging, I discovered a page on the LinkedIn site that
 would render how a post would look. This little tool was super helpful, and pointed me toward the
@@ -68,27 +76,30 @@ startup, but there is one overriding little piece in a hidden usr dir.
 DSM has a hidden user dir: ^/usr/syno^ that houses numerous automation and conf files.  
 A quick grep for robots.txt in /usr/syno/ location revealed the culprit. A...
 
-```sudo vi /usr/syno/share/nginx/optimization.mustache``` 
+`sudo vi /usr/syno/share/nginx/optimization.mustache`
 
 concealed a snippet that had this:
 
-```location = /robots.txt { allow all; access_log off; log_not_found off; }```
+`location = /robots.txt { allow all; access_log off; log_not_found off; }`
 
 After swapping that for this:
 
-```location = /robots.txt { root /volume1/web; default_type text/plain; }```
+`location = /robots.txt { root /volume1/web; default_type text/plain; }`
 
 (Which is my custom robots.txt file in the root web folder), BOOM! Disallow / became Allow / and
 loading into LinkedIn was possible...after restarting nginx again of course.
 
 So hopefully this helps someone out there,
+
 ### dan
 
 ---
 
 # Automating Blog Generation
-**Date:** 2025-10-25 
+
+**Date:** 2025-10-25
 **Tags:** automation, blogging
+
 ## The workflow is as follows:
 
 Started automating blog generation using Node.js scripts to parse markdown and generate HTML. The
@@ -104,13 +115,16 @@ All the code is on my GitHub if anyone wants to check it out. I'm currently work
 watch-blog.js to monitor changes in real-time.
 
 I love being nerdy like this!
+
 ### dan
 
 ---
 
 # Building This Website
-**Date:** 2025-10-26 
+
+**Date:** 2025-10-26
 **Tags:** coding, server, networking
+
 ## Below are some thoughts on the process:
 
 Started with an idea to have a centralized resume to eliminate juggling dozens of file versions.
@@ -118,7 +132,7 @@ Easier this way to manage formatting and versioning.
 
 I had to figure out how to get the server alias portal setup in DSM ... Synology's DSM is pretty
 unique. I didn't want it to interfere with the DSM interface and site, so the alias of /dan/ was a
-good compromise. 
+good compromise.
 
 The site files are all housed in that dir. /volume1/web is the default webserver dir, so the alias
 lived in my folder /dan.
@@ -146,7 +160,7 @@ Google and Copilot came in handy to find all, or most, of the characters used in
 Coding this blog was probably my favorite nerd hack. I automated the process (and documented it in a
 previous post) where all I need to do is update the blog.md file and save to the server. The
 automated task runs my md-to-json.js script to parse it into a json that is easily digestable by
-HTML. 
+HTML.
 
 My next favorite was making a print-resume.css and a new button on the resume.html that renders a
 very recruiter friendly version. Clicking the Download PDF button opens a browser print window with
@@ -155,7 +169,7 @@ the specialized recruiter friendly version.
 From the style of Baudrillard, the link in the upper right corner was my tip of the cap. In one of
 the first chapters of the first film, Neo has his programs hidden in a book by Baudrillard.
 
-```Welcome to the desert of the real...```
+`Welcome to the desert of the real...`
 
 I tought the connection between that book by Baudrillard and the film trilogy is uncanny.
 
@@ -172,8 +186,10 @@ out!
 ---
 
 # Securing Synology DSM
-**Date:** 2025-10-26 
+
+**Date:** 2025-10-26
 **Tags:** security, server, firewall
+
 ## Documented my Synology DSM hardening process to enhance security.
 
 Started with basic firewall rules, then moved to advanced settings.
@@ -198,13 +214,16 @@ Started with basic firewall rules, then moved to advanced settings.
 7. Regularly updated DSM and installed packages to ensure all security patches
 
 More to come soon on details of each step.
+
 ### dan
 
 ---
 
 # Creating w32time Config Scripts
-**Date:** 2025-10-27 
+
+**Date:** 2025-10-27
 **Tags:** scripting, server, client
+
 ## Why is this workstation's time two minutes off?
 
 NTP server issues most likely
@@ -234,7 +253,7 @@ $action = New-ScheduledTaskAction -Execute "C:\Windows\System32\w32tm.exe" -Argu
 
 $trigger = New-ScheduledTaskTrigger -Daily -At 12:00PM
 
-Register-ScheduledTask -TaskName "DailyNTPServerResync" -Action $action -Trigger $trigger -User "SYSTEM" -RunLevel Highest -Force 
+Register-ScheduledTask -TaskName "DailyNTPServerResync" -Action $action -Trigger $trigger -User "SYSTEM" -RunLevel Highest -Force
 ```
 
 The clients should be listening to the PDC by default when they are joined to the domain. As long as
@@ -252,33 +271,36 @@ $action = New-ScheduledTaskAction -Execute "C:\Windows\System32\w32tm.exe" -Argu
 
 $trigger = New-ScheduledTaskTrigger -Daily -At 12:00PM
 
-Register-ScheduledTask -TaskName "DailyTimeResync" -Action $action -Trigger $trigger -User "SYSTEM" -RunLevel Highest -Force 
+Register-ScheduledTask -TaskName "DailyTimeResync" -Action $action -Trigger $trigger -User "SYSTEM" -RunLevel Highest -Force
 ```
 
 Protip: Paste the code block into PowerShell IDE and press play, or make it a script to run from an
 elevated PS console.
+
 ### dan
 
 ---
 
 # Creating my Workstation Deployment software suite
+
 **Date:** 2025-10-28
 **Tags:** coding, setup, automation
+
 ## This one was born almost out of necessity
 
 I am always looking to develop very indepth knowledge of PowerShell and gain a deeper understanding
-of Windows itself. My idea was to try and make the SOP for the company I worked for off of a piece 
-of paper and into a script. Manually doing every step on a PC was not only tedious, it was very 
-errorprone, which was causing a bit of blowback when I missed a step here and there. The 
-post-projects team audited each workstation, so we'd here about it if we were missing stuff. 
+of Windows itself. My idea was to try and make the SOP for the company I worked for off of a piece
+of paper and into a script. Manually doing every step on a PC was not only tedious, it was very
+errorprone, which was causing a bit of blowback when I missed a step here and there. The
+post-projects team audited each workstation, so we'd here about it if we were missing stuff.
 
 ### ENTER THE POWERSHELL SCRIPT!!
 
 I just knew there had to be a way to make a reliable automated system for each workstation to run
-through in the order on the SOP, never missing a step. It was a huge undertaking, and therefore a 
-huge challenge, but I was more than up for it. (This was a personal project and goal for me by 
+through in the order on the SOP, never missing a step. It was a huge undertaking, and therefore a
+huge challenge, but I was more than up for it. (This was a personal project and goal for me by
 the way). I was just starting to get my feet back under me after a health problem caused some s
-cognitive decline until it was "cured" (I can dive into that later, but it's personal...This 
+cognitive decline until it was "cured" (I can dive into that later, but it's personal...This
 blog is more of a technical blog, and less of a personal nature). Anyway let's dive into the
 WS_Setup_6 project instead!
 
@@ -287,8 +309,10 @@ WS_Setup_6 project instead!
 ---
 
 # Workstation Deployment Software suite (cont.)
+
 **Date:** 2025-10-28
 **Tags:** coding, setup, automation
+
 ## Continuing with the story
 
 So I needed to start small. Every journey starts with step one. My step one in this case was to
@@ -298,7 +322,7 @@ clicking on 743,879 times per project, per workstation. The first command was pr
 ```
 $UACRegistryPath = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System"
 $UACValueName = "EnableLUA"
-Set-ItemProperty -Path $UACRegistryPath -Name $UACValueName -Value 0 -Type DWord 
+Set-ItemProperty -Path $UACRegistryPath -Name $UACValueName -Value 0 -Type DWord
 ```
 
 Not the most secure option here, I know, but at the time we were working with a client that had
@@ -315,8 +339,10 @@ for a polished and professional look at install time.
 ---
 
 # Tweaking the layout
+
 **Date:** 2025-10-29
 **Tags:** coding, css
+
 ## I wanted to make it look even better
 
 I wanted to make the site look better, so I went back to school for a bit reading about concepts for
@@ -336,13 +362,16 @@ a json, and scheduled it to run every 5 minutes. With the help of a short JavaSc
 in the json gets outputted to the index.html as the status div.
 
 I think it's coming together nicely. Just gotta keep on tinkering!
+
 ### dan
 
 ---
 
 # The System Diagnostics home page workflow
+
 **Date:** 2025-10-30
 **Tags:** automation, scripting
+
 ## Automating the sysdiag workflow for the home page
 
 I wanted to add more to the home page. What better to fit the theme than a system diagnostics
@@ -359,14 +388,16 @@ grabs the info in the json to pop it on the home scree.
 ---
 
 # Refactoring the CSS and JS code
+
 **Date:** 2025-10-31
 **Tags:** coding, css, javascript
+
 ## The idea was to stay with my preferred modular code style
 
 I wanted to say in line with my preferred design philosophy about keeping things as modular as
 possible for clarity, maintainability, and "separation of concerns" in the structure of the site;
 just like I prefer in other coding/scripting areas like PowerShell. Modularity is one of my core
-prinicples when it comes to ...well... anything in my life, not just coding. 
+prinicples when it comes to ...well... anything in my life, not just coding.
 
 [Check out the new structure here](https://github.com/dan-damit/Scripts-and-Snippets/tree/main/Website)
 
@@ -385,15 +416,17 @@ Something to think about for sure...
 ---
 
 # Updating the matrix-rain.js behavior
+
 **Date:** 2025-11-2
 **Tags:** coding, javascript, css
+
 ## I found a nifty upgrade to the matrix rain canvas online
 
 Surfing the web. My favorite passtime. I stumbled across an articke on medium.com about the matrix
 rain effect on a canvas element that added what I think is a cool effect on the characters "raining"
 in the background. They achieved it using a method that had not occured to me. Layering with
 multiple canvas elements, but also adding a blurring affect to the chacters that fade to clear then
-back to blurry after a short time passes. It's brilliant. 
+back to blurry after a short time passes. It's brilliant.
 
 I want to make the Matrix rain canvas as close to one of the final chapers in the first film. When
 Neo decides he doesn't want to die after the encounter with Smith. He gets up in the ratty hallway
@@ -401,9 +434,9 @@ of the apartment building, and you get your first glimpse of what Neo sees. That
 every surface; the walls, the floor, the ceiling....the agents. The 4 layers deep work together to
 get really close to that effect on the canvas backdrop on the site.
 
-[Here is the code](https://github.com/dan-damit/Scripts-and-Snippets/blob/main/Website/js/matrix-rain.js) 
+[Here is the code](https://github.com/dan-damit/Scripts-and-Snippets/blob/main/Website/js/matrix-rain.js)
 
-I modified it a little bit to better fit on some of my pages that have a decent vertical scroll. 
+I modified it a little bit to better fit on some of my pages that have a decent vertical scroll.
 
 ```
 canvas { height: 100% }
@@ -418,8 +451,10 @@ The CSS and JS combo above slowed it down on the taller total px number on the r
 ---
 
 # Constant improvement
+
 **Date:** 2025-11-3
 **Tags:** javascript, coding
+
 ## I broke my matrix-rain.js trying to introduce scaling font size
 
 I was trying to slow down the animation and make the glyphs larger based on the current window
@@ -472,8 +507,10 @@ blog-container with like 25px of margin, but keeping the blog-container centered
 ---
 
 # Waaaay too many glyphs
+
 **Date:** 2025-11-4
 **Tags:** javascript, coding
+
 ## The 4 layered approach crushed slower PCs
 
 The title says it all for this one. Having 4 canvases caused slower CPU/CPU combos to lag out
@@ -483,7 +520,7 @@ horribly. So I adjusted it back to 1 layer. The updated code loop is below:
 const canvases = document.querySelectorAll('#matrixCanvasMain');
 ```
 
-One main canvas instead of 4. 
+One main canvas instead of 4.
 
 Now it looks as good but not super blurry at times on 2 of the 4 layers. I also tried to randomize
 glyph size and speed too
@@ -495,8 +532,10 @@ glyph size and speed too
 ---
 
 # Creating a new page
+
 **Date:** 2025-11-5
 **Tags:** html, css, coding
+
 ## I added a "current projects" page
 
 Complete with links to their GitHub pages. I wanted to add another page and this seemed like a good
@@ -513,8 +552,10 @@ tags currently indexed.
 ---
 
 # Adding the All Tags pane
+
 **Date:** 2025-11-7
 **Tags:** html, css, javascript
+
 ## Took a lot of restructuring
 
 Just to get a little pane on the right that shows the list of all parsed tags was a little tougher
@@ -548,8 +589,10 @@ allTags.forEach(tag => {
 ---
 
 # Home networking improvements
+
 **Date:** 2025-11-8
 **Tags:** networking, firewall
+
 ## GeoIP Firewalling and IoT VLANing
 
 I wanted to harden up my network since several ports are open directly to my server. Mikrotik
@@ -558,11 +601,11 @@ reading to wrap the brain stem around how to block high risk countries. Mikrotik
 they reqularly update with the IP blocks for these country. I created a short script to download
 these from Mikrotik and apply them in my top firewall rule. That rule combined with a all, all, deny
 type of rule at the very bottom meant nothing would be getting through unless I explicitly made a
-rule or a NAT for it. Which is what I did next. 
+rule or a NAT for it. Which is what I did next.
 
 Ports 25,80,443,587,465 are all I ended up opening on the edge firewall - the hEX S. Next up was the
 firewall on the server. I opened these ports along with some others that were required for DSM and
-other Synology apps to function correctly. I applied the same firewalling logic to the server's 
+other Synology apps to function correctly. I applied the same firewalling logic to the server's
 firewall as well. Geoip blocking at the top; all, all, deny at the bottom. Only opened the necessary
 port in between them.
 
@@ -573,7 +616,7 @@ port in between them.
 
 I used the above commands to retrieve China's IP blocks, along with several other high risk
 countries like Russia and Irag/Iran. All that was needed was changing the country code in the
-command and it grabbed that country's IP blocks into the .rsc file. 
+command and it grabbed that country's IP blocks into the .rsc file.
 
 ```
 /ip firewall filter add chain=input src-address-list=CN action=drop comment="GeoIP Block - China"
@@ -595,7 +638,7 @@ devices, and the secure devices like my server and Desktop Rig. I already had th
 separate security in place, so it was just a matter of getting the rest of the config correct under
 the hood. I even already had the VLAN sub interface attached to the bridge correctly. All I needed
 to do to finish up the config was attach a DCHP scope to the VLAN interface and create the firewall
-rules to limit cross-vlan traffic. The only things that the IoT devices can talk to is Plex server 
+rules to limit cross-vlan traffic. The only things that the IoT devices can talk to is Plex server
 and Pihole for DNS filtering. Everything is allowed the other direction, however.
 
 Network security is on point now.
@@ -605,8 +648,10 @@ Network security is on point now.
 ---
 
 # Changing the styling of the blog
+
 **Date:** 2025-11-9
 **Tags:** css, javascript
+
 ## I love the cards look
 
 I love the way the projects page turned out with the use of cards, so I wanted to adapt that and
