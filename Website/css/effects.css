@@ -5,11 +5,11 @@
 /* Blinking cursor effect */
 .cursor {
   display: inline-block;
-  width: 0.6em;
-  height: 1em;
+  width: 0.85rem;
+  height: 1.5rem;
   background-color: var(--neon-green);
   animation: blink 1s steps(1) infinite;
-  vertical-align: bottom;
+  vertical-align: center;
 }
 
 @keyframes blink {

@@ -7,6 +7,7 @@
   --neon-green: #00ff00;
   --soft-green: #c8facc;
   --bg-dark: #0a0a0a;
+  --semi-transparent-black: rgba(0, 0, 0, 0.75);
 }
 
 /* Global body styling */

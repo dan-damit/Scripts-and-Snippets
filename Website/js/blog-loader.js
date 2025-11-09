@@ -95,7 +95,7 @@ function renderPage(entries, page, activeTag = null) {
   title.id = "typed-title";
   title.innerHTML = `<span id="typed-text"></span><span class="cursor"></span>`;
   container.appendChild(title);
-  typeBlogTitle("Technician's Log");
+  typeBlogTitle("Technician's Log...");
 
   // Inject tag info if a tag is active
   if (activeTag) {
@@ -110,17 +110,20 @@ function renderPage(entries, page, activeTag = null) {
   const pageEntries = entries.slice(start, end);
 
   pageEntries.forEach((entry) => {
-    const section = document.createElement("article");
-    section.className = "entry";
-    section.innerHTML = `
-      <h2>${entry.date}: ${entry.title}</h2>
+    const card = document.createElement("div");
+    card.className = "blog-card";
+    card.setAttribute("data-tags", entry.tags.join(","));
+
+    card.innerHTML = `
+      <h2 class="blog-title">${entry.date}: ${entry.title}</h2>
       <div class="tags">
         ${entry.tags.map((tag) => `<span class="tag">${tag}</span>`).join(" ")}
       </div>
       <div class="content" style="display:none;">${entry.content}</div>
       <button type="button" class="toggle">Decrypt</button>
     `;
-    container.appendChild(section);
+
+    container.appendChild(card);
   });
 
   wireEntryInteractions();

@@ -11,27 +11,89 @@
   z-index: 12;
 }
 
+h1#typed-title {
+  color: var(--soft-green);
+  text-shadow: 0 0 1px var(--soft-green);
+}
+
 #blog-container {
   width: 100%;
   min-width: 0;
-  max-width: 800px;
+  max-width: 900px;
   margin: -1em auto;
   padding: 1em;
   background-color: rgba(0, 0, 0, 0.75);
-  border: 1px solid #00ff00;
-  box-shadow: 0 0 10px #00ff00;
-  color: #00ff00;
+  border: 1px solid var(--neon-green);
+  box-shadow: 0 0 10px var(--neon-green);
+  color: var(--neon-green);
   font-family: "Courier New", monospace;
   z-index: 12;
   border-radius: 6px;
 }
 
 #blog-container:hover {
-  box-shadow: 0 0 15px #00ff00;
+  box-shadow: 0 0 15px var(--neon-green);
 }
 
 .layout-spacer {
   flex-grow: 1;
+}
+
+.content {
+  font-family: "Courier New", Courier, monospace;
+  font-size: .85em;
+  color: #ccc;
+  margin-top: 0.5em;
+  line-height: 1.6;
+}
+
+.content p a {
+  display: inline-block;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 1.2em;
+  padding: 0.3em 0.6em;
+  margin: 0.2em 0.4em;
+  color: #0ff;
+  background-color: rgba(0, 255, 255, 0.1);
+  border: 1px solid #0ff;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.content p a:hover {
+  background-color: #0ff;
+  color: black;
+  box-shadow: 0 0 6px #0ff;
+  text-shadow: 0 0 3px #0ff;
+}
+
+.blog-card {
+  background-color: transparent;
+  border: 2px solid var(--neon-green);
+  border-radius: 6px;
+  padding: 1em;
+  margin: 1em 0;
+  font-family: "Courier New", Courier, monospace;
+  box-shadow: 0 0 10px var(--neon-green);
+  transition: transform 0.2s ease-in-out;
+}
+
+.blog-card:hover {
+  transform: scale(1.02);
+}
+
+.blog-title {
+  font-family: "Courier New", Courier, monospace;
+  font-size: 1.5em;
+  color: var(--soft-green);
+  margin-bottom: 0.5em;
+}
+
+h2.blog-title {
+  margin-top: 0.5em; /* Try 0.25em for tighter spacing */
+  padding-top: 0;    /* Only needed if padding is contributing */
 }
 
 /* Blog specific styles */
@@ -39,32 +101,32 @@
   display: inline-block;
   padding: 0.4em 0.8em;
   margin: 0.2em;
-  color: #00ff00;
+  color: var(--neon-green);
   background-color: transparent;
-  border: 2px solid #00ff00;
+  border: 2px solid var(--neon-green);
   border-radius: 4px;
   text-decoration: none;
   font-weight: bold;
-  font-family: monospace;
+  font-family: "Courier New", Courier, monospace;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
 }
 
 .toggle:hover {
-  color: #0f0;
-  border-color: #0f0;
-  box-shadow: 0 0 8px #0f0;
+  color: var(--neon-green);
+  border-color: var(--neon-green);
+  box-shadow: 0 0 8px var(--neon-green);
   background-color: rgba(0, 255, 0, 0.05);
-  text-shadow: 0 0 5px #0f0;
+  text-shadow: 0 0 5px var(--neon-green);
 }
 
 .tag-info {
   margin: 1em 0;
   padding: 0.5em 1em;
   background-color: rgba(0, 0, 0, 0.75);
-  color: #0f0;
-  font-family: monospace;
-  border-left: 4px solid #0f0;
+  color: var(--neon-green);
+  font-family: "Courier New", Courier, monospace;
+  border-left: 4px solid var(--neon-green);
 }
 
 .blog-global-buttons-wrapper {
@@ -84,7 +146,8 @@
   background-color: rgba(0, 0, 0, 0.75);
   border-left: 2px solid var(--neon-green);
   padding: 1rem;
-  font-family: monospace;
+  padding-top: 0;
+  font-family: "Courier New", Courier, monospace;
   z-index: 12;
 }
 
@@ -98,6 +161,7 @@
   border: 1px solid var(--neon-green);
   border-radius: 4px;
   text-align: left;
+  font-family: "Courier New", Courier, monospace;
   cursor: pointer;
 }
 
@@ -159,38 +223,11 @@
 }
 
 .section h1,
-h1,
 h2 {
-  font-size: 1.8rem;
+  font-size: 1.2rem;
   margin-top: 2rem;
   color: #a8f0a5;
-  text-shadow: 0 0 5px var(--neon-green);
-}
-
-.entry .content a {
-  color: #0ff;
-  text-decoration: underline;
-}
-
-.entry .content a:hover {
-  text-decoration: none;
-  background: #0ff;
-  color: #000;
-}
-
-.entry {
-  margin-top: 0.5em;
-  margin-bottom: 2em;
-  border-left: 2px solid #00ff00;
-  padding-left: 1em;
-  background-color: rgba(0, 0, 0, 0.6);
-  color: #00ff00;
-  font-family: monospace;
-}
-
-.entry h2 {
-  font-size: 1.2rem;
-  margin-bottom: 0.5em;
+  text-shadow: 0 0 2px var(--neon-green);
 }
 
 .tags {
@@ -201,17 +238,17 @@ h2 {
   display: inline-block;
   margin-right: 0.5em;
   padding: 0.2em 0.5em;
-  background-color: #00ff00;
+  background-color: var(--neon-green);
   color: black;
-  font-family: monospace;
+  font-family: "Courier New", Courier, monospace;
   border-radius: 3px;
   cursor: pointer;
 }
 
 .tag:hover {
   background-color: black;
-  color: #00ff00;
-  border: 1px solid #00ff00;
+  color: var(--neon-green);
+  border: 1px solid var(--neon-green);
 }
 
 .reset,
@@ -220,9 +257,9 @@ h2 {
   padding: 0.5em 1em;
   font-family: monospace;
   font-weight: bold;
-  border: 2px solid #00ff00;
+  border: 2px solid var(--neon-green);
   background-color: rgba(0, 0, 0, 0.75);
-  color: #00ff00;
+  color: var(--neon-green);
   border-radius: 4px;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
@@ -230,29 +267,14 @@ h2 {
 }
 
 .reset:hover {
-  box-shadow: 0 0 8px #00ff00, 0 0 12px #00ff00;
+  box-shadow: 0 0 8px var(--neon-green), 0 0 12px var(--neon-green);
 }
 
 .collapse-all-button:hover {
-  box-shadow: 0 0 8px #00ff00, 0 0 12px #00ff00;
+  box-shadow: 0 0 8px var(--neon-green), 0 0 12px var(--neon-green);
 }
 
 @media (max-width: 600px) {
-  .blog-mode #pagination-nav {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    justify-content: flex-start;
-    padding: 0 1em;
-  }
-
-  .blog-mode #pagination-nav .button-link {
-    flex: 0 0 auto;
-    white-space: nowrap;
-    font-size: 0.85em;
-    padding: 0.3em 0.6em;
-    margin: 0.2em;
-  }
-
   .blog-global-buttons-wrapper {
     justify-content: center;
     padding: 0 1em;

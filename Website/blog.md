@@ -601,3 +601,39 @@ and Pihole for DNS filtering. Everything is allowed the other direction, however
 Network security is on point now.
 
 ### dan
+
+---
+
+# Changing the styling of the blog
+**Date:** 2025-11-9
+**Tags:** css, javascript
+## I love the cards look
+
+I love the way the projects page turned out with the use of cards, so I wanted to adapt that and
+apply it to the blog. I think it turned out awesome, and I rewored the font-family to be the same
+across the blog page. All it took was a little change to the renderPage function and a few small
+additions to the blog.css. I went through the blog.css as well and paired it down a bit. I noticed
+that I had several duplicate classes.
+
+```
+pageEntries.forEach((entry) => {
+    const card = document.createElement("div");
+    card.className = "blog-card";
+    card.setAttribute("data-tags", entry.tags.join(","));
+
+    card.innerHTML = `
+      <h2 class="blog-title">${entry.date}: ${entry.title}</h2>
+      <div class="tags">
+        ${entry.tags.map((tag) => `<span class="tag">${tag}</span>`).join(" ")}
+      </div>
+      <div class="content" style="display:none;">${entry.content}</div>
+      <button type="button" class="toggle">Decrypt</button>
+    `;
+
+    container.appendChild(card);
+  });
+```
+
+[Code here](https://github.com/dan-damit/Scripts-and-Snippets/blob/main/Website/js/blog-loader.js)
+
+### dan
