@@ -34,6 +34,47 @@
   flex-grow: 1;
 }
 
+/* Blog specific styles */
+.toggle {
+  display: inline-block;
+  padding: 0.4em 0.8em;
+  margin: 0.2em;
+  color: #00ff00;
+  background-color: transparent;
+  border: 2px solid #00ff00;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: bold;
+  font-family: monospace;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.toggle:hover {
+  color: #0f0;
+  border-color: #0f0;
+  box-shadow: 0 0 8px #0f0;
+  background-color: rgba(0, 255, 0, 0.05);
+  text-shadow: 0 0 5px #0f0;
+}
+
+.tag-info {
+  margin: 1em 0;
+  padding: 0.5em 1em;
+  background-color: rgba(0, 0, 0, 0.75);
+  color: #0f0;
+  font-family: monospace;
+  border-left: 4px solid #0f0;
+}
+
+.blog-global-buttons-wrapper {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 2em;
+}
+
 /* Tag index styles */
 #tag-index {
   margin-top: 4rem;
@@ -100,7 +141,7 @@
   font-size: 0.85em;
   border: 1px solid var(--neon-green);
   border-radius: 4px;
-  background-color: transparent;
+  background-color: rgba(0, 0, 0, 0.75);
   color: var(--neon-green);
   text-decoration: none;
   transition: background-color 0.2s ease;
@@ -171,6 +212,29 @@ h2 {
   background-color: black;
   color: #00ff00;
   border: 1px solid #00ff00;
+}
+
+.reset,
+.collapse-all-button {
+  max-width: fit-content;
+  padding: 0.5em 1em;
+  font-family: monospace;
+  font-weight: bold;
+  border: 2px solid #00ff00;
+  background-color: rgba(0, 0, 0, 0.75);
+  color: #00ff00;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  box-sizing: border-box;
+}
+
+.reset:hover {
+  box-shadow: 0 0 8px #00ff00, 0 0 12px #00ff00;
+}
+
+.collapse-all-button:hover {
+  box-shadow: 0 0 8px #00ff00, 0 0 12px #00ff00;
 }
 
 @media (max-width: 600px) {
