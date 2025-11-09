@@ -41,7 +41,7 @@ h1#typed-title {
 
 .content {
   font-family: "Courier New", Courier, monospace;
-  font-size: .85em;
+  font-size: 0.85em;
   color: #ccc;
   margin-top: 0.5em;
   line-height: 1.6;
@@ -77,11 +77,15 @@ h1#typed-title {
   margin: 1em 0;
   font-family: "Courier New", Courier, monospace;
   box-shadow: 0 0 10px var(--neon-green);
-  transition: transform 0.2s ease-in-out;
+  transition: transform 0.25s ease-in-out;
+  z-index: 20;
 }
 
 .blog-card:hover {
-  transform: scale(1.02);
+  transform: scale(1.25) translateY(75px);
+  background-color: black;
+  box-shadow: 0 0 25px var(--soft-green);
+  z-index: 250;
 }
 
 .blog-title {
@@ -93,7 +97,7 @@ h1#typed-title {
 
 h2.blog-title {
   margin-top: 0.5em; /* Try 0.25em for tighter spacing */
-  padding-top: 0;    /* Only needed if padding is contributing */
+  padding-top: 0; /* Only needed if padding is contributing */
 }
 
 /* Blog specific styles */
@@ -135,6 +139,7 @@ h2.blog-title {
   flex-wrap: wrap;
   gap: 1rem;
   margin-top: 2em;
+  z-index: 9;
 }
 
 /* Tag index styles */
@@ -148,7 +153,7 @@ h2.blog-title {
   padding: 1rem;
   padding-top: 0;
   font-family: "Courier New", Courier, monospace;
-  z-index: 12;
+  z-index: 8;
 }
 
 .tag-index-button {
@@ -192,7 +197,7 @@ h2.blog-title {
   padding: 0 1em;
   max-width: 100%;
   width: fit-content;
-  z-index: 12;
+  z-index: 9;
 }
 
 .blog-mode #pagination-nav .button-link {
@@ -264,6 +269,7 @@ h2 {
   cursor: pointer;
   transition: all 0.2s ease-in-out;
   box-sizing: border-box;
+  z-index: 9;
 }
 
 .reset:hover {
@@ -310,5 +316,11 @@ h2 {
 
   #tag-index {
     display: none;
+  }
+
+  .blog-card:hover {
+    transform: none;
+    box-shadow: 0 0 10px var(--neon-green); /* optional: revert glow */
+    background-color: transparent; /* optional: revert bg */
   }
 }

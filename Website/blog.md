@@ -679,6 +679,31 @@ pageEntries.forEach((entry) => {
   });
 ```
 
+Also I wanted to make the hover effect really zoom in on the entry.
+
+```
+.blog-card {
+  background-color: transparent;
+  border: 2px solid var(--neon-green);
+  border-radius: 6px;
+  padding: 1em;
+  margin: 1em 0;
+  font-family: "Courier New", Courier, monospace;
+  box-shadow: 0 0 10px var(--neon-green);
+  transition: transform 0.25s ease-in-out;
+  z-index: 20;
+}
+
+.blog-card:hover {
+  transform: scale(1.25);
+  background-color: black;
+  box-shadow: 0 0 25px var(--soft-green);
+  z-index: 25;
+}
+```
+
+The effect is pretty awesome when you hover over the card now!
+
 [Code here](https://github.com/dan-damit/Scripts-and-Snippets/blob/main/Website/js/blog-loader.js)
 
 ### dan
