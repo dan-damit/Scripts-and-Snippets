@@ -26,7 +26,7 @@ h1#typed-title {
   border: 1px solid var(--neon-green);
   box-shadow: 0 0 10px var(--neon-green);
   color: var(--neon-green);
-  font-family: "Courier New", monospace;
+  font-family: "Courier New", Courier, monospace;
   z-index: 12;
   border-radius: 6px;
 }
