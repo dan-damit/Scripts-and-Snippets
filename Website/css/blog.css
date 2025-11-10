@@ -67,6 +67,7 @@ h1#typed-title {
   color: black;
   box-shadow: 0 0 6px #0ff;
   text-shadow: 0 0 3px #0ff;
+  text-decoration: underline;
 }
 
 .blog-card {

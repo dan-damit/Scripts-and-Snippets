@@ -434,7 +434,7 @@ of the apartment building, and you get your first glimpse of what Neo sees. That
 every surface; the walls, the floor, the ceiling....the agents. The 4 layers deep work together to
 get really close to that effect on the canvas backdrop on the site.
 
-[Here is the code](https://github.com/dan-damit/Scripts-and-Snippets/blob/main/Website/js/matrix-rain.js)
+[Code Here](https://github.com/dan-damit/Scripts-and-Snippets/blob/main/Website/js/matrix-rain.js)
 
 I modified it a little bit to better fit on some of my pages that have a decent vertical scroll.
 
@@ -497,7 +497,7 @@ for (let i = 0; i < drops.length; i++) {
 Anyway, I had to go back to several revisions earlier in the matrix-rain.js because...well if the browser
 crashes after trying to run the script longer than 15 seconds... not cool.
 
-[Codeupdated](https://github.com/dan-damit/Scripts-and-Snippets/blob/main/Website/js/matrix-rain.js)
+[Code Here](https://github.com/dan-damit/Scripts-and-Snippets/blob/main/Website/js/matrix-rain.js)
 
 Anyway, I think as this blog grows, I think I'll add a sort of tag list to the right side of the
 blog-container with like 25px of margin, but keeping the blog-container centered.
@@ -525,7 +525,7 @@ One main canvas instead of 4.
 Now it looks as good but not super blurry at times on 2 of the 4 layers. I also tried to randomize
 glyph size and speed too
 
-[UpdatedCode](https://github.com/dan-damit/Scripts-and-Snippets/blob/main/Website/js/matrix-rain.js)
+[Code Here](https://github.com/dan-damit/Scripts-and-Snippets/blob/main/Website/js/matrix-rain.js)
 
 ### dan
 
@@ -582,7 +582,7 @@ allTags.forEach(tag => {
 });
 ```
 
-[Update Here](https://github.com/dan-damit/Scripts-and-Snippets/tree/main/Website)
+[Code Here](https://github.com/dan-damit/Scripts-and-Snippets/tree/main/Website)
 
 ### dan
 
@@ -704,6 +704,6 @@ Also I wanted to make the hover effect really zoom in on the entry.
 
 The effect is pretty awesome when you hover over the card now!
 
-[Code here](https://github.com/dan-damit/Scripts-and-Snippets/blob/main/Website/js/blog-loader.js)
+[Code Here](https://github.com/dan-damit/Scripts-and-Snippets/blob/main/Website/js/blog-loader.js)
 
 ### dan
