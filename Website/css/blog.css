@@ -82,7 +82,7 @@ h1#typed-title {
 }
 
 .blog-card:hover {
-  transform: scale(1.25) translateY(75px);
+  transform: scale(1.10);
   background-color: black;
   box-shadow: 0 0 25px var(--soft-green);
   z-index: 250;

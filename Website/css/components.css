@@ -150,6 +150,10 @@ a.button-link {
     background-color: rgba(0, 0, 0, 0.75);
 }
 
+a:hover {
+  text-decoration: underline;
+}
+
 /* Section styling */
 .section {
   margin-bottom: 2.5rem;
