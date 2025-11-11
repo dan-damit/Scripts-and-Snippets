@@ -1,88 +1,103 @@
 <# PSScriptInfo
 
 Author: Dan.Damit (annotated) (https://github.com/dan-damit)
-CIDR scanner with in-line progress banner (synchronous)
+Synchronous CIDR scanner with ETA and smoothed progress banner
 
 Created: 2025.06.04
 Last Modified: 2025.11.10
 #>
 
-# Generate the list of usable host IPs from a CIDR (excludes network and broadcast)
+# Func to build array of IPs
 function Get-IPsFromCIDR {
     param([string]$cidr)
-
-    # split "192.168.1.0/24" -> baseIP and prefix length
+    # Split into IPs and prefix
     $parts = $cidr -split '/'
     $baseIP = $parts[0]; $prefix = [int]$parts[1]
-
-    # convert dotted IP into UInt32 (network byte order -> reverse to little-endian)
     $ipBytes = [System.Net.IPAddress]::Parse($baseIP).GetAddressBytes()
-    [Array]::Reverse($ipBytes)
-    $ipInt = [BitConverter]::ToUInt32($ipBytes, 0)
-
-    # compute number of host addresses (exclude network & broadcast)
-    $hostBits = 32 - $prefix
-    $numHosts = [math]::Pow(2, $hostBits) - 2
-    if ($numHosts -lt 1) { return @() }     # nothing to scan for tiny nets
-
-    $startIP = $ipInt + 1                  # first usable host
-
-    # build list of IP strings efficiently
-    $list = for ($i = 0; $i -lt $numHosts; $i++) {
-        $cur = $startIP + $i
-        $b = [BitConverter]::GetBytes($cur); [Array]::Reverse($b)
+    [Array]::Reverse($ipBytes); $ipInt = [BitConverter]::ToUInt32($ipBytes,0)
+    $hostBits = 32 - $prefix; $numHosts = [math]::Pow(2, $hostBits) - 2
+    if ($numHosts -lt 1) { return @() }
+    $startIP = $ipInt + 1
+    $list = for ($i=0; $i -lt $numHosts; $i++) {
+        $cur = $startIP + $i; $b = [BitConverter]::GetBytes($cur); [Array]::Reverse($b)
         [System.Net.IPAddress]::Parse(($b -join '.')).ToString()
     }
-
-    return , $list  # ensure array output
+    return ,$list
 }
 
-# Single-line progress banner; uses CR to overwrite the same console line
+# Func to show progress banner with new ETA calculation
 function Show-ProgressBanner {
-    param($current, $total)
+    param(
+        [int]$current,
+        [int]$total,
+        [double]$displayPct,
+        [TimeSpan]$eta
+    )
     $width = 48
-    $percent = if ($total -gt 0) { [math]::Round(($current / $total) * 100) } else { 0 }
+    $percent = [math]::Round($displayPct)
     $filled = [math]::Floor(($percent / 100) * $width)
     $bar = ('#' * $filled).PadRight($width)
-    # `r returns cursor to start of current line; -NoNewline avoids newline so next Write-Host prints below
-    Write-Host -NoNewline "`rProgress: [$bar] $percent% ($current/$total)"
+    $etaText = if ($eta.TotalSeconds -le 0) { '00:00:00' } else { $eta.ToString("hh\:mm\:ss") }
+    Write-Host -NoNewline "`rBanner: [$bar] $percent% ($current/$total) ETA: $etaText"
 }
 
-# --------- main flow ----------
-$cidr = Read-Host "Enter CIDR block (e.g., 192.168.1.0/24)"   # interactive prompt
+# --------- main flow (with ETA + smoothing) ----------
+$cidr = Read-Host "Enter CIDR block (e.g., 192.168.1.0/24)"
 $ips = Get-IPsFromCIDR $cidr
 if ($ips.Count -eq 0) { Write-Host "No hosts to scan for $cidr"; return }
+
+# Tunables
+$pingTimeoutMs = 600          # per-host ping timeout
+$ewmaAlpha = 0.15             # EWMA alpha for average per-host duration (0..1). Higher = more reactive.
+$displayAlpha = 0.10          # smoothing alpha for displayed percent (0..1). Lower = smoother.
 
 $total = $ips.Count
 Write-Host "Starting scan of $total IPs..."
 
-# Reuse a single Ping instance for efficiency (avoids repeated object creation)
 $ping = New-Object System.Net.NetworkInformation.Ping
 
-# State counters
+# state
 $current = 0
 $online = 0
+$avgHostMs = 0.0              # EWMA of host duration in ms (starts at 0)
+$displayPct = 0.0             # smoothed displayed percent
+$stopwatch = [System.Diagnostics.Stopwatch]::StartNew()
 
-# Synchronous loop: simple, deterministic, easy to debug
 foreach ($ip in $ips) {
+    $hostSw = [System.Diagnostics.Stopwatch]::StartNew()
     try {
-        # blocking ICMP probe with a timeout; tune timeout for the network if needed
-        $reply = $ping.Send($ip, 600)    # 600ms timeout
+        $reply = $ping.Send($ip, $pingTimeoutMs)
         if ($reply -and $reply.Status -eq [System.Net.NetworkInformation.IPStatus]::Success) {
-            # print result on its own line so the banner remains the only overwritten line
             Write-Host "`n$ip is online (time=${($reply.RoundtripTime)}ms)"
             $online++
         }
-    }
-    catch {
-        # network exceptions treated as no response; keep loop robust
-    }
-    finally {
+    } catch {
+        # ignore; treat as no response
+    } finally {
+        $hostSw.Stop()
+        $durMs = $hostSw.Elapsed.TotalMilliseconds
+
+        # update EWMA for per-host duration; initialize on first sample
+        if ($avgHostMs -le 0) { $avgHostMs = $durMs } else { $avgHostMs = ($ewmaAlpha * $durMs) + ((1 - $ewmaAlpha) * $avgHostMs) }
+
         $current++
-        Show-ProgressBanner $current $total   # update banner inline
+
+        # actual percent
+        $actualPct = if ($total -gt 0) { ($current / $total) * 100 } else { 100 }
+
+        # smooth the displayed percent toward actual percent
+        $displayPct = ($displayAlpha * $actualPct) + ((1 - $displayAlpha) * $displayPct)
+
+        # estimate remaining time using EWMA per-host duration
+        $remaining = $total - $current
+        $etaMs = [math]::Max(0, $avgHostMs * $remaining)
+        $eta = [TimeSpan]::FromMilliseconds($etaMs)
+
+        Show-ProgressBanner $current $total $displayPct $eta
     }
 }
 
-# Finalize banner and print summary
-Show-ProgressBanner $total $total
-Write-Host "`nScan complete! $online hosts responded."
+# finalize banner and summary
+$displayPct = 100
+Show-ProgressBanner $total $total $displayPct ([TimeSpan]::Zero)
+Write-Host "`nScan complete! $online hosts responded. Elapsed: $($stopwatch.Elapsed.ToString("hh\:mm\:ss"))"
