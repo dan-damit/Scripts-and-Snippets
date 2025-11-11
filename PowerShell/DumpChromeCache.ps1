@@ -9,7 +9,7 @@ $profiles = Get-ChildItem -Path $chromeUserData -Directory | Where-Object {
     $_.Name -eq "Default" -or $_.Name -match "^Profile \d+$"
 }
 
-foreach ($profile in $profiles) {
+foreach ($prof in $profiles) {
     $profileName = $profile.Name
     $profilePath = $profile.FullName
 
