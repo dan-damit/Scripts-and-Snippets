@@ -32,9 +32,18 @@ function prompt {
 
 # ─── DIAGNOSTIC TOGGLES (Optional) ──────────────────────
 $global:MatrixDebug = $false
-function Toggle-MatrixDebug {
-    $global:MatrixDebug = -not $global:MatrixDebug
-    Write-Host "Matrix Debug Mode: $MatrixDebug" -ForegroundColor Yellow
+function Enable-MatrixDebug {
+    [CmdletBinding()]
+    param()
+    Set-Variable -Name MatrixDebug -Scope Global -Value $true -Force
+    Write-Host "Matrix Debug Mode: $global:MatrixDebug" -ForegroundColor Yellow
+}
+
+function Disable-MatrixDebug {
+    [CmdletBinding()]
+    param()
+    Set-Variable -Name MatrixDebug -Scope Global -Value $false -Force
+    Write-Host "Matrix Debug Mode: $global:MatrixDebug" -ForegroundColor Yellow
 }
 
 # ─── SYSTEM SNAPSHOT ────────────────────────────────────
