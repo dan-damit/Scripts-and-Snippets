@@ -1,5 +1,12 @@
 # Launch-MatrixShell.ps1 — One-time Matrix shell branding
 
+# ─── Self-Elevate to Admin ──────────────────────────────
+if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
+    Write-Host "Elevating to Administrator..." -ForegroundColor Yellow
+    Start-Process powershell -ArgumentList "-ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs
+    exit
+}
+
 # ─── Window Title ───────────────────────────────────────
 $Host.UI.RawUI.WindowTitle = "Operator's Console"
 
