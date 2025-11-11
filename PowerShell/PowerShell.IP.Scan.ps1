@@ -2,6 +2,7 @@
 
 Author: Dan.Damit (annotated) (https://github.com/dan-damit)
 Synchronous CIDR scanner with ETA and smoothed progress banner
+Adding reversedns queries for hostname and http header detection
 
 Created: 2025.06.04
 Last Modified: 2025.11.10
@@ -39,6 +40,27 @@ function Show-ProgressBanner {
     $bar = ('#' * $filled).PadRight($width)
     $etaText = if ($eta.TotalSeconds -le 0) { '00:00:00' } else { $eta.ToString("hh\:mm\:ss") }
     Write-Host -NoNewline "`rBanner: [$bar] $percent% ($current/$total) ETA: $etaText"
+}
+
+# Func to grab hostname from reverse dns zone
+function Get-ReverseDns {
+    param([string]$ip)
+    try { (Resolve-DnsName -Name $ip -ErrorAction Stop -Type PTR).NameHost } catch { $null }
+}
+
+# Func to see if host has http banner
+function Get-HttpInfo {
+    param([string]$ip, [int]$port = 80, [int]$timeoutMs = 1000)
+    try {
+        $req = [System.Net.WebRequest]::Create("http://$ip`:$port/")
+        $req.Timeout = $timeoutMs
+        $req.Method = "HEAD"
+        $resp = $req.GetResponse()
+        $headers = @{}
+        $resp.Headers | ForEach-Object { $headers[$_.Key] = $_.Value }
+        $resp.Close()
+        return $headers
+    } catch { return $null }
 }
 
 # --------- main flow (with ETA + smoothing) ----------
