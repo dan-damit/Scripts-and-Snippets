@@ -15,4 +15,4 @@ function Show-MatrixIntro {
     Write-Host "`nWelcome, Operator." -ForegroundColor Yellow
     Start-Sleep -Milliseconds 500
 }
-Invoke-MatrixIntro
+Show-MatrixIntro
