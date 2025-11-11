@@ -1,21 +1,18 @@
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 # Matrix-style script intro
-function Invoke-MatrixIntro {
-    $green = "DarkGreen"
-    $chars = @("0", "1", "░", "▒", "▓", "|", "-", "+", "*")
+function Show-MatrixIntro {
+    Clear-Host
+    Write-Host "`nInitializing Matrix shell..." -ForegroundColor DarkBlue
+    Start-Sleep -Milliseconds 500
 
-    cls
     for ($i = 0; $i -lt 20; $i++) {
-        $line = ""
-        for ($j = 0; $j -lt 60; $j++) {
-            $line += $chars | Get-Random
-        }
-        Write-Host $line -ForegroundColor $green
-        Start-Sleep -Milliseconds (Get-Random -Minimum 30 -Maximum 120)
+        $line = -join (1..(Get-Random -Min 40 -Max 80) | ForEach-Object { $glyphs | Get-Random })
+        Write-Host $line -ForegroundColor DarkGreen
+        Start-Sleep -Milliseconds (Get-Random -Min 30 -Max 80)
     }
 
-    Write-Host "`n🟩 Welcome to the System..." -ForegroundColor Green
-    Start-Sleep -Seconds 2
-    cls
+	Write-Host "`nDecryption Complete..." -ForegroundColor DarkBlue
+    Write-Host "`nWelcome, Operator." -ForegroundColor Yellow
+    Start-Sleep -Milliseconds 500
 }
 Invoke-MatrixIntro
