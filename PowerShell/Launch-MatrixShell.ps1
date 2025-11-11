@@ -1,83 +1,93 @@
 <#
-Run-TempMatrix-WinPS.ps1
-Creates a temporary session profile, launches a new powershell.exe with -NoProfile -NoExit that dot-sources it,
-and optionally requests elevation. Cleans temp profile on exit.
+Run-TempMatrix-WinPS.ps1 — launcher (Windows PowerShell)
+Creates a temp session profile (ASCII-safe), launches powershell.exe -NoProfile -NoExit
+dot-sourcing it into an interactive session, and cleans the temp profile when the session exits.
 #>
 
 param(
-    [switch]$Elevate,                           # add -Elevate to launch elevated
+    [switch]$Elevate,
     [string]$TempDir = $env:TEMP
 )
-
-# --- helpers
-function _WriteLog { param($m) "$((Get-Date).ToString('o')) `t $m" | Out-File -FilePath (Join-Path $TempDir 'Run-TempMatrix.log') -Append -Encoding utf8 }
 
 try {
     $ts = (Get-Date).ToString('yyyyMMdd-HHmmss')
     $tempProfile = Join-Path $TempDir ("MatrixTempProfile-$ts.ps1")
 
-    # Session-only profile content — drop in your branding here
+    # Session-only profile content (ASCII-only here-string).
     $profileText = @'
-# MatrixTempProfile — session-only branding
-if ($IsWindows) { $Host.UI.RawUI.WindowTitle = "Operator''s Console (Temp)" }
+# MatrixTempProfile — session-only ASCII-safe profile
 
-# Glyph set (trim or extend as needed)
-$glyphs = @('░','▒','▓','█','▌','▐','▄','▀','■','●','◘','◙','◦','☼','♦','♣','♠','•','◊')
+# Set console background to black and default foreground for initial output (no try/catch)
+$raw = $Host.UI.RawUI
+$raw.BackgroundColor = "Black"
+$raw.ForegroundColor = "DarkGreen"
+Clear-Host
+
+# Construct glyphs from Unicode codepoints at runtime (ASCII-safe file)
+$glyphs = @(
+    [char]0x2591, [char]0x2592, [char]0x2593, [char]0x2588, [char]0x25A0, [char]0x25CF,
+    [char]0x25B2, [char]0x25BC, [char]0x25C6, [char]0x25C7, [char]0x25CB
+)
 
 function Show-MatrixIntro {
     Clear-Host
-    Write-Host "`nInitializing Matrix shell..." -ForegroundColor DarkBlue
-    Start-Sleep -Milliseconds 400
+    # Use a bright header color for the intro
+    Write-Host "`nInitializing Matrix shell..." -ForegroundColor Blue
+    Start-Sleep -Milliseconds 350
     for ($i = 0; $i -lt 12; $i++) {
         $line = -join (1..(Get-Random -Min 40 -Max 70) | ForEach-Object { $glyphs | Get-Random })
-        Write-Host $line -ForegroundColor DarkGreen
+        Write-Host "`n$line" -ForegroundColor DarkGreen
         Start-Sleep -Milliseconds (Get-Random -Min 25 -Max 70)
     }
-    Write-Host "`nDecryption Complete..." -ForegroundColor DarkBlue
+    Write-Host "`nDecryption Complete..." -ForegroundColor Blue
     Write-Host "`nWelcome, Operator." -ForegroundColor Yellow
-    Start-Sleep -Milliseconds 300
+    Start-Sleep -Milliseconds 250
 }
 
 function Show-SystemSnapshot {
-    # Defensive queries
-    $os = Get-CimInstance Win32_OperatingSystem -ErrorAction SilentlyContinue
-    $cs = Get-CimInstance Win32_ComputerSystem -ErrorAction SilentlyContinue
-    $cpu = Get-CimInstance Win32_Processor -ErrorAction SilentlyContinue
+    $info = Get-ComputerInfo
 
     Write-Host "`nSystem Snapshot:" -ForegroundColor DarkGreen
-    Write-Host "  OS         : $($os.Caption -or 'Unknown')" -ForegroundColor DarkYellow
-    Write-Host "  Build      : $($env:OS -or 'Unknown')" -ForegroundColor DarkYellow
-    Write-Host "  Machine    : $($cs.Name -or $env:COMPUTERNAME)" -ForegroundColor DarkYellow
-
-    if ($os -and $os.LastBootUpTime) {
-        $uptime = (Get-Date) - $os.LastBootUpTime
-        Write-Host "  Uptime     : $($uptime.Days)d $($uptime.Hours)h $($uptime.Minutes)m" -ForegroundColor DarkYellow
-    } else {
-        Write-Host "  Uptime     : [Unavailable]" -ForegroundColor DarkYellow
-    }
-
-    Write-Host "  CPU        : $($cpu.Name -or 'Unknown')" -ForegroundColor DarkYellow
-    Write-Host "  Cores      : $($cpu.NumberOfCores -or 'Unknown')" -ForegroundColor DarkYellow
-    Write-Host "  Threads    : $($cpu.NumberOfLogicalProcessors -or 'Unknown')" -ForegroundColor DarkYellow
-
-    $ramGb = if ($cs -and $cs.TotalPhysicalMemory) { [math]::Round($cs.TotalPhysicalMemory / 1GB, 2) } else { 'Unknown' }
-    Write-Host "  RAM        : $ramGb GB" -ForegroundColor DarkYellow
-    Write-Host "  Domain     : $($cs.Domain -or $env:USERDOMAIN)" -ForegroundColor DarkYellow
+    Write-Host "  OS         : $(Get-CimInstance Win32_OperatingSystem)" -ForegroundColor Yellow
+    Write-Host "  Build      : $($info.WindowsBuildLabEx)" -ForegroundColor Yellow
+    Write-Host "  Machine    : $($info.CsName)" -ForegroundColor Yellow
+    $boot = (Get-CimInstance Win32_OperatingSystem).LastBootUpTime
+		$uptime = (Get-Date) - $boot
+	Write-Host "  Uptime     : $($uptime.Days)d $($uptime.Hours)h $($uptime.Minutes)m" -ForegroundColor Yellow
+	$cpuInfo = Get-CimInstance Win32_Processor
+	Write-Host "  CPU        : $($cpuInfo.Name)" -ForegroundColor Yellow
+	Write-Host "  Cores      : $($cpuInfo.NumberOfCores)" -ForegroundColor Yellow
+	Write-Host "  Threads    : $($cpuInfo.NumberOfLogicalProcessors)" -ForegroundColor Yellow
+    Write-Host "  RAM        : $([math]::Round($info.CsTotalPhysicalMemory / 1GB, 2)) GB" -ForegroundColor Yellow
+    Write-Host "  Domain     : $($info.CsDomain)" -ForegroundColor Yellow
 }
 
+# Prompt that forces black background for prompt and typed input
+$LambdaChar = [char]0x03BB
 function prompt {
+    $raw = $Host.UI.RawUI
+
+    # Force both host RawUI and .NET Console colors for maximum compatibility
+    $raw.BackgroundColor = 'Black'
+    $raw.ForegroundColor = 'Green'
+    [Console]::BackgroundColor = 'Black'
+    [Console]::ForegroundColor = 'Green'
+
+    # Write the timestamp + path using the same colors
     $time = Get-Date -Format "HH:mm:ss"
     $path = (Get-Location)
     Write-Host "`n[$time] " -ForegroundColor DarkGreen -NoNewline
     Write-Host "$path" -ForegroundColor Green -NoNewline
-    return "`nλ "
+
+    # Return the prompt marker (keeps the console colors set for user input)
+    return "`n$LambdaChar "
 }
 
-# Run intro and snapshot once at session start
+# Run intro and snapshot once
 Show-MatrixIntro
 Show-SystemSnapshot
 
-# Self-delete temp profile when the session exits
+# Self-delete temp profile when the session exits (best-effort)
 $__TempProfilePath = $MyInvocation.MyCommand.Path
 Register-EngineEvent PowerShell.Exiting -SupportEvent -Action {
     try { Remove-Item -LiteralPath $__TempProfilePath -ErrorAction SilentlyContinue } catch {}
@@ -85,28 +95,24 @@ Register-EngineEvent PowerShell.Exiting -SupportEvent -Action {
 
 '@
 
-    # Write temp profile (UTF8 without BOM recommended)
-    $profileText | Out-File -FilePath $tempProfile -Encoding utf8
+    # Write the temp profile explicitly as UTF-8 without BOM
+    $utf8NoBom = New-Object System.Text.UTF8Encoding($false)
+    [System.IO.File]::WriteAllText($tempProfile, $profileText, $utf8NoBom)
 
-    _WriteLog "Created temp profile: $tempProfile"
-
-    # Build dot-source command and launcher args
+    # Build dot-source command and args for powershell.exe
     $dotSource = ". `"$tempProfile`""
     $argList = @("-NoProfile", "-NoExit", "-ExecutionPolicy", "Bypass", "-Command", $dotSource)
 
-    # Build Start-Process params (targeting powershell.exe intentionally)
     $startParams = @{
-        FilePath = 'powershell.exe'
+        FilePath     = 'powershell.exe'
         ArgumentList = $argList
         WindowStyle  = 'Normal'
     }
     if ($Elevate.IsPresent) { $startParams.Verb = 'runas' }
 
     Start-Process @startParams
-    _WriteLog "Launched powershell.exe with temp profile (Elevate=$($Elevate.IsPresent))."
     Write-Host "Launched temporary Matrix console. Temp profile: $tempProfile"
 }
 catch {
-    _WriteLog "Launcher error: $_"
     Write-Host "Launcher failed: $($_.Exception.Message)" -ForegroundColor Red
 }
