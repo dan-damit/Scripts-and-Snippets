@@ -1,7 +1,7 @@
 <# PSScriptInfo
 
 Author: Dan.Damit (annotated) (https://github.com/dan-damit)
-Simple CIDR scanner with in-line progress banner (synchronous)
+CIDR scanner with in-line progress banner (synchronous)
 
 Created: 2025.06.04
 Last Modified: 2025.11.10
