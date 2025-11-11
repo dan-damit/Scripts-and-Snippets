@@ -17,30 +17,26 @@ try {
     $profileText = @'
 # MatrixTempProfile — session-only ASCII-safe profile
 
-# Set console background to black and default foreground for initial output (no try/catch)
-$raw = $Host.UI.RawUI
-$raw.BackgroundColor = "Black"
-$raw.ForegroundColor = "DarkGreen"
+# Init clear of console for new lines
 Clear-Host
 
 # Construct glyphs from Unicode codepoints at runtime (ASCII-safe file)
-$glyphs = @(
-    [char]0x2591, [char]0x2592, [char]0x2593, [char]0x2588, [char]0x25A0, [char]0x25CF,
-    [char]0x25B2, [char]0x25BC, [char]0x25C6, [char]0x25C7, [char]0x25CB
-)
+# Shuffle glyphs once at session start
+$glyphPool = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+$glyphs = ($glyphPool.ToCharArray() | Get-Random -Count $glyphPool.Length)
 
 function Show-MatrixIntro {
     Clear-Host
     # Use a bright header color for the intro
-    Write-Host "`nInitializing Matrix shell..." -ForegroundColor Blue
+    Write-Host "`nInitializing custom shell..." -ForegroundColor Yellow
     Start-Sleep -Milliseconds 350
     for ($i = 0; $i -lt 12; $i++) {
         $line = -join (1..(Get-Random -Min 40 -Max 70) | ForEach-Object { $glyphs | Get-Random })
-        Write-Host "`n$line" -ForegroundColor DarkGreen
+        Write-Host $line -ForegroundColor Green
         Start-Sleep -Milliseconds (Get-Random -Min 25 -Max 70)
     }
-    Write-Host "`nDecryption Complete..." -ForegroundColor Blue
-    Write-Host "`nWelcome, Operator." -ForegroundColor Yellow
+    Write-Host "`nDecryption Complete..." -ForegroundColor Yellow
+    Write-Host "`nWelcome, Operator." -ForegroundColor Red
     Start-Sleep -Milliseconds 250
 }
 
@@ -62,24 +58,13 @@ function Show-SystemSnapshot {
     Write-Host "  Domain     : $($info.CsDomain)" -ForegroundColor Yellow
 }
 
-# Prompt that forces black background for prompt and typed input
+# Reliable prompt: build lambda char at runtime to avoid encoding issues
 $LambdaChar = [char]0x03BB
 function prompt {
-    $raw = $Host.UI.RawUI
-
-    # Force both host RawUI and .NET Console colors for maximum compatibility
-    $raw.BackgroundColor = 'Black'
-    $raw.ForegroundColor = 'Green'
-    [Console]::BackgroundColor = 'Black'
-    [Console]::ForegroundColor = 'Green'
-
-    # Write the timestamp + path using the same colors
     $time = Get-Date -Format "HH:mm:ss"
     $path = (Get-Location)
     Write-Host "`n[$time] " -ForegroundColor DarkGreen -NoNewline
     Write-Host "$path" -ForegroundColor Green -NoNewline
-
-    # Return the prompt marker (keeps the console colors set for user input)
     return "`n$LambdaChar "
 }
 

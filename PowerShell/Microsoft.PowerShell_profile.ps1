@@ -2,7 +2,10 @@
 
 # ─── CONFIG ─────────────────────────────────────────────
 $Host.UI.RawUI.WindowTitle = "Operator's Matrix Console (elevated)"
-$glyphs = @('░','▒','▓','█','▌','▐','▄','▀','■','●','◘','◙','◦','☼','♦','♣','♠','•','◊','¤','§','¶','∞','≡','≠','≈','∴','∵','⌐','¬','¯','±','x','÷','√','∑','∏','Ω','µ','¥','£','¢','ƒ','†','‡','∂','∫','∮','∇','∝','∅','∈','∉','∋','∩','U','⊂','⊃','⊆','⊇','⊕','⊗','⊥','⋅','⌈','⌉','⌊','⌋','⟨','⟩')
+
+# Shuffle glyphs once at session start
+$glyphPool = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+$glyphs = ($glyphPool.ToCharArray() | Get-Random -Count $glyphPool.Length)
 
 # ─── MATRIX INTRO ───────────────────────────────────────
 function Show-MatrixIntro {
