@@ -707,3 +707,42 @@ The effect is pretty awesome when you hover over the card now!
 [Code Here](https://github.com/dan-damit/Scripts-and-Snippets/blob/main/Website/js/blog-loader.js)
 
 ### dan
+
+---
+
+# IoT and WiFi
+**Date:** 2025-11-10
+**Tags:** networking, wifi, ssid
+## So this one was interesting
+
+Got dispatched to fix some security cammera connectivity issues from a vendor that were using WiFi
+(ewwwww). We swapped the Firewall from SonicWall to UDM Pro, moved the configs from the old UniFi
+controller to the UDM, and called it a day. 
+
+Fast forward 2 months.
+
+We get a call from their security vendor saying their cameras have been offline since the swap. Our
+support team did all they could think of remotely, but the cameras just couldn't see the SSID, which
+is MFD - Internal. The SSID is attached to the default VLAN, and it's just a small office kind of
+network. Small and easy to manage.
+
+## Troubleshooting
+
+My first idea was to create a new SSID just for the security cameras. MFD - Security is the SSID.
+The camera we were testing on could see it no problem. That told me there was something wrong with
+the SSID itself or how it was being broadcast. My first thought from there was it's 2.4G only. Okay
+cool, so I turned off 5GHz broadcasting for the Internal SSID, no change. Still cannot see the SSID.
+Okay, so I ran through all the settings for the Internal SSID. Nothing really stood out as off or as
+something that would interefere with the cameras themselves not see the SSID.
+
+## Then I noticed it...
+
+The dash in the SSID didn't look right. Sure enough, it must have been of a different character set
+than what you usually see on a normal US keyboard. I deleted the existing "-" character and added
+the new "-" from my keyboard, rescanned the SSIDs from the camera interface, and BAM! SSID is there.
+Not only did the one we were testing with see the SSID now, but the other 3 cameras connected up on
+their own once I cliced "save" with the correct dash character in the SSID. 
+
+That was a fun one!
+
+### dan

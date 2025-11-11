@@ -39,7 +39,7 @@ function Show-ProgressBanner {
     $filled = [math]::Floor(($percent / 100) * $width)
     $bar = ('#' * $filled).PadRight($width)
     $etaText = if ($eta.TotalSeconds -le 0) { '00:00:00' } else { $eta.ToString("hh\:mm\:ss") }
-    Write-Host -NoNewline "`rProgress: [$bar] $percent% ($current/$total) ETA: $etaText"
+    Write-Host -NoNewline "`rProgress: [$bar] $percent% ($current/$total) ETA: $etaText" -ForegroundColor Yellow
 }
 
 # Func to grab hostname from reverse dns zone
@@ -89,7 +89,7 @@ $ewmaAlpha = 0.15       # EWMA alpha for average per-host duration (0..1). Highe
 $displayAlpha = 0.10        # smoothing alpha for displayed percent (0..1). Lower = smoother.
 
 $total = $ips.Count
-Write-Host "Starting scan of $total IPs..."
+Write-Host "Starting scan of $total IPs..." -ForegroundColor Green
 
 $ping = New-Object System.Net.NetworkInformation.Ping
 
@@ -98,47 +98,56 @@ $current = 0
 $online = 0
 $avgHostMs = 0.0        # EWMA of host duration in ms (starts at 0)
 $displayPct = 0.0       # smoothed displayed percent
-$stopwatch = [System.Diagnostics.Stopwatch]::StartNew()
 
+# ensure an efficient appendable list exists
+if (-not $hostResults) {
+    $hostResults = [System.Collections.Generic.List[PSObject]]::new()
+}
+
+# Loop through each IP getting the additional info along with IP addr
 foreach ($ip in $ips) {
     $hostSw = [System.Diagnostics.Stopwatch]::StartNew()
+
+    # Prepare a minimal result object with defaults
+    $result = [PSCustomObject]@{
+        IP         = $ip
+        Responded  = $false
+        RTTms      = $null
+        PTR        = $null
+        Port80Open = $false
+        ServerHdr  = $null
+        Timestamp  = (Get-Date)
+    }
+
     try {
         $reply = $ping.Send($ip, $pingTimeoutMs)
         if ($reply -and $reply.Status -eq [System.Net.NetworkInformation.IPStatus]::Success) {
-            # assume $reply exists and indicates success
-            # initialise safe defaults
-            $ptr = $null
-            $open80 = $false
-            $httpHeaders = $null
+            # mark basic reachability and RTT
+            $result.Responded = $true
+            $result.RTTms = $reply.RoundtripTime
 
-            # each probe isolated so one failure won't abort the rest
-            try { $ptr = Get-ReverseDns $ip } catch { $ptr = $null }
-            try { $open80 = Test-TcpPort $ip 80 300 } catch { $open80 = $false }
-            if ($open80) {
-                try { $httpHeaders = Get-HttpInfo $ip 80 600 } catch { $httpHeaders = $null }
-            }
-
-            # Build and print summary (always runs)
-            $summary = "$ip is online | "
-            if ($ptr) { $summary += " | PTR: $ptr" }
-            if ($open80) {
-                $summary += " | Port 80: open"
-                if ($httpHeaders -and $httpHeaders['Server']) {
-                    $summary += " | Server: $($httpHeaders['Server'])"
+            # safe, per-probe isolation (errors won't abort the scan)
+            try { $result.PTR = Get-ReverseDns $ip } catch { $result.PTR = $null }
+            try { $result.Port80Open = Test-TcpPort $ip 80 300 } catch { $result.Port80Open = $false }
+            if ($result.Port80Open) {
+                try {
+                    $hdrs = Get-HttpInfo $ip 80 600
+                    if ($hdrs -and $hdrs['Server']) { $result.ServerHdr = $hdrs['Server'] }
                 }
+                catch { $result.ServerHdr = $null }
             }
-            Write-Host "`n$summary"
-            $online++
+
+            $online++    # maintain your online counter if you still want it
         }
     }
     catch {
-        # ignore; treat as no response
+        # treat as no response; keep moving
     }
     finally {
         $hostSw.Stop()
         $durMs = $hostSw.Elapsed.TotalMilliseconds
 
-        # update EWMA for per-host duration; initialize on first sample
+        # update EWMA for per-host duration
         if ($avgHostMs -le 0) { $avgHostMs = $durMs } else { $avgHostMs = ($ewmaAlpha * $durMs) + ((1 - $ewmaAlpha) * $avgHostMs) }
 
         $current++
@@ -154,11 +163,30 @@ foreach ($ip in $ips) {
         $etaMs = [math]::Max(0, $avgHostMs * $remaining)
         $eta = [TimeSpan]::FromMilliseconds($etaMs)
 
-        Show-ProgressBanner $current $total $displayPct $eta
+        # update ONLY the banner line
+        Show-ProgressBanner $current $total $displayPct $eta -ForegroundColor Yellow
+
+        # store the result object (no console noise)
+        $hostResults.Add($result)
     }
 }
 
-# finalize banner and summary
+# ---- finalization: show 100% banner and then output results ----
 $displayPct = 100
 Show-ProgressBanner $total $total $displayPct ([TimeSpan]::Zero)
-Write-Host "`nScan complete! $online hosts responded. Elapsed: $($stopwatch.Elapsed.ToString("hh\:mm\:ss"))"
+Write-Host "`n`nScan complete!" -ForegroundColor Green
+Write-Host "$online hosts responded." -ForegroundColor DarkGreen
+
+# Print collected results: compact table first
+Write-Host "`Discovered hosts:" -ForegroundColor DarkYellow
+$tableText = $hostResults |
+    Where-Object { $_.Responded } |
+    Select-Object IP, RTTms, PTR, Port80Open, ServerHdr |
+    Format-Table -AutoSize | Out-String
+
+Write-Host $tableText -ForegroundColor Blue
+
+# Export CSV for later analysis
+$csvPath = "$env:TEMP\cidr-scan-$(Get-Date -Format yyyyMMdd-HHmmss).csv"
+$hostResults | Where-Object { $_.Responded } | Export-Csv -Path $csvPath -NoTypeInformation
+Write-Host "Saved CSV: $csvPath" -ForegroundColor Yellow
