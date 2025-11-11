@@ -15,15 +15,15 @@ function Get-IPsFromCIDR {
     $parts = $cidr -split '/'
     $baseIP = $parts[0]; $prefix = [int]$parts[1]
     $ipBytes = [System.Net.IPAddress]::Parse($baseIP).GetAddressBytes()
-    [Array]::Reverse($ipBytes); $ipInt = [BitConverter]::ToUInt32($ipBytes,0)
+    [Array]::Reverse($ipBytes); $ipInt = [BitConverter]::ToUInt32($ipBytes, 0)
     $hostBits = 32 - $prefix; $numHosts = [math]::Pow(2, $hostBits) - 2
     if ($numHosts -lt 1) { return @() }
     $startIP = $ipInt + 1
-    $list = for ($i=0; $i -lt $numHosts; $i++) {
+    $list = for ($i = 0; $i -lt $numHosts; $i++) {
         $cur = $startIP + $i; $b = [BitConverter]::GetBytes($cur); [Array]::Reverse($b)
         [System.Net.IPAddress]::Parse(($b -join '.')).ToString()
     }
-    return ,$list
+    return , $list
 }
 
 # Func to show progress banner with new ETA calculation
@@ -39,7 +39,7 @@ function Show-ProgressBanner {
     $filled = [math]::Floor(($percent / 100) * $width)
     $bar = ('#' * $filled).PadRight($width)
     $etaText = if ($eta.TotalSeconds -le 0) { '00:00:00' } else { $eta.ToString("hh\:mm\:ss") }
-    Write-Host -NoNewline "`rBanner: [$bar] $percent% ($current/$total) ETA: $etaText"
+    Write-Host -NoNewline "`rProgress: [$bar] $percent% ($current/$total) ETA: $etaText"
 }
 
 # Func to grab hostname from reverse dns zone
@@ -60,7 +60,22 @@ function Get-HttpInfo {
         $resp.Headers | ForEach-Object { $headers[$_.Key] = $_.Value }
         $resp.Close()
         return $headers
-    } catch { return $null }
+    }
+    catch { return $null }
+}
+
+# Func to test if port 80 is open on the host
+function Test-TcpPort {
+    param([string]$ip, [int]$port, [int]$timeoutMs = 500)
+    try {
+        $client = New-Object System.Net.Sockets.TcpClient
+        $ar = $client.BeginConnect($ip, $port, $null, $null)
+        if (-not $ar.AsyncWaitHandle.WaitOne($timeoutMs)) { $client.Close(); return $false }
+        $client.EndConnect($ar)
+        $client.Close()
+        return $true
+    }
+    catch { return $false }
 }
 
 # --------- main flow (with ETA + smoothing) ----------
@@ -69,9 +84,9 @@ $ips = Get-IPsFromCIDR $cidr
 if ($ips.Count -eq 0) { Write-Host "No hosts to scan for $cidr"; return }
 
 # Tunables
-$pingTimeoutMs = 600          # per-host ping timeout
-$ewmaAlpha = 0.15             # EWMA alpha for average per-host duration (0..1). Higher = more reactive.
-$displayAlpha = 0.10          # smoothing alpha for displayed percent (0..1). Lower = smoother.
+$pingTimeoutMs = 600        # per-host ping timeout
+$ewmaAlpha = 0.15       # EWMA alpha for average per-host duration (0..1). Higher = more reactive.
+$displayAlpha = 0.10        # smoothing alpha for displayed percent (0..1). Lower = smoother.
 
 $total = $ips.Count
 Write-Host "Starting scan of $total IPs..."
@@ -81,8 +96,8 @@ $ping = New-Object System.Net.NetworkInformation.Ping
 # state
 $current = 0
 $online = 0
-$avgHostMs = 0.0              # EWMA of host duration in ms (starts at 0)
-$displayPct = 0.0             # smoothed displayed percent
+$avgHostMs = 0.0        # EWMA of host duration in ms (starts at 0)
+$displayPct = 0.0       # smoothed displayed percent
 $stopwatch = [System.Diagnostics.Stopwatch]::StartNew()
 
 foreach ($ip in $ips) {
@@ -90,12 +105,36 @@ foreach ($ip in $ips) {
     try {
         $reply = $ping.Send($ip, $pingTimeoutMs)
         if ($reply -and $reply.Status -eq [System.Net.NetworkInformation.IPStatus]::Success) {
-            Write-Host "`n$ip is online (time=${($reply.RoundtripTime)}ms)"
+            # assume $reply exists and indicates success
+            # initialise safe defaults
+            $ptr = $null
+            $open80 = $false
+            $httpHeaders = $null
+
+            # each probe isolated so one failure won't abort the rest
+            try { $ptr = Get-ReverseDns $ip } catch { $ptr = $null }
+            try { $open80 = Test-TcpPort $ip 80 300 } catch { $open80 = $false }
+            if ($open80) {
+                try { $httpHeaders = Get-HttpInfo $ip 80 600 } catch { $httpHeaders = $null }
+            }
+
+            # Build and print summary (always runs)
+            $summary = "$ip is online | "
+            if ($ptr) { $summary += " | PTR: $ptr" }
+            if ($open80) {
+                $summary += " | Port 80: open"
+                if ($httpHeaders -and $httpHeaders['Server']) {
+                    $summary += " | Server: $($httpHeaders['Server'])"
+                }
+            }
+            Write-Host "`n$summary"
             $online++
         }
-    } catch {
+    }
+    catch {
         # ignore; treat as no response
-    } finally {
+    }
+    finally {
         $hostSw.Stop()
         $durMs = $hostSw.Elapsed.TotalMilliseconds
 
