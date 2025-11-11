@@ -1,5 +1,5 @@
 function Show-Spinner {
-    $spinner = @('/','|','\','-')
+    $spinner = @('/', '|', '\', '-')
     $i = 0
     while ($true) {
         Write-Host -NoNewline "`rScanning... $($spinner[$i % $spinner.Length])"
@@ -23,9 +23,18 @@ $scanJobs = @()
 }
 
 # Wait for all scan jobs to finish
-$scanJobs | ForEach-Object { Receive-Job -Job $_ -Wait }
+$onlineCount = 0
+$scanJobs | ForEach-Object {
+    $result = Receive-Job -Job $_ -Wait
+    if ($result) {
+        Write-Host $result
+        $onlineCount++
+    }
+}
+Write-Host "`n$onlineCount hosts responded."
+$scanJobs | Remove-Job
 
 # Stop spinner
 Stop-Job -Job $spinnerJob
 Remove-Job -Job $spinnerJob
-Write-Host "`rScan complete!             "
+Write-Host "`rScan complete!"
