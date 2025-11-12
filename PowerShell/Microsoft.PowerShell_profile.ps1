@@ -4,7 +4,7 @@
 $Host.UI.RawUI.WindowTitle = "Operator's Matrix Console (elevated)"
 
 # Shuffle glyphs once at session start
-$glyphPool = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+$glyphPool = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789<>?-+=/\!@#$%^&*()_' "
 $glyphs = ($glyphPool.ToCharArray() | Get-Random -Count $glyphPool.Length)
 
 # ─── MATRIX INTRO ───────────────────────────────────────
