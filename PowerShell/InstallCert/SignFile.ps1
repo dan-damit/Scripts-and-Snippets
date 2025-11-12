@@ -1,5 +1,5 @@
 param(
-    [string] $TimestampDefault = "http://timestamp.comodoca.com/rfc3161"
+    [string] $TimestampDefault = "http://timestamp.digicert.com"
 )
 
 Add-Type -AssemblyName System.Windows.Forms
