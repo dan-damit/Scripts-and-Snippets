@@ -1,5 +1,5 @@
 <#
-Run-TempMatrix-WinPS.ps1 — launcher (Windows PowerShell)
+Launch-CustomShell.ps1 — launcher (Windows PowerShell)
 Creates a temp session profile (ASCII-safe), launches powershell.exe -NoProfile -NoExit
 dot-sourcing it into an interactive session, and cleans the temp profile when the session exits.
 #>
