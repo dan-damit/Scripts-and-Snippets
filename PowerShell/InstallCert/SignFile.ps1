@@ -1,9 +1,11 @@
-param (
-    [string] $PfxPass = "St@ff1234!",
-    [string] $TimestampServer = "http://timestamp.comodoca.com/rfc3161"
+param(
+    [string] $TimestampDefault = "http://timestamp.comodoca.com/rfc3161"
 )
 
-# Embedded PFX as Base64
+Add-Type -AssemblyName System.Windows.Forms
+Add-Type -AssemblyName System.Drawing
+
+# === Embedded PFX base64 (replace with your full base64) ===
 $certBase64 = @"
 MIIKsAIBAzCCCmwGCSqGSIb3DQEHAaCCCl0EggpZMIIKVTCCBf4GCSqGSIb3DQEHAaCCBe8EggXrMIIF5zCCBeMG
 CyqGSIb3DQEMCgECoIIE9jCCBPIwHAYKKoZIhvcNAQwBAzAOBAjKezv7GUJYWQICB9AEggTQjRfzE3NCZszJHbAo
@@ -49,49 +51,165 @@ wEzDYAVuxnB4uSZEO4xzXHR9gIF6oAvh5F8rO/T0Hxw6/MIi995eLqQR53YnSDjKMbCFPina7yqdbSUK
 iBPjH/R1gr4EFPnsNYRL1kez1++ZUCzM+WY3ZYsQAgIH0A==
 "@
 
-# Decode and write to temp file
-$tempPfxPath = Join-Path $env:TEMP "embeddedcert.pfx"
-[IO.File]::WriteAllBytes($tempPfxPath, [Convert]::FromBase64String($certBase64))
+# Helper: convert plaintext string to SecureString
+function Convert-ToSecureString([string]$plain) {
+    $ss = New-Object -TypeName System.Security.SecureString
+    foreach ($c in $plain.ToCharArray()) { $ss.AppendChar($c) }
+    $ss.MakeReadOnly()
+    return $ss
+}
 
-# Load cert object
-$securePwd = ConvertTo-SecureString -String $PfxPass -AsPlainText -Force
-$certObj = New-Object System.Security.Cryptography.X509Certificates.X509Certificate2(
-    $tempPfxPath, $securePwd, 'MachineKeySet,Exportable,PersistKeySet'
-)
+# Build form
+$form = New-Object System.Windows.Forms.Form
+$form.Text = "Sign a File (embedded cert, runtime password)"
+$form.Size = New-Object System.Drawing.Size(480,230)
+$form.StartPosition = "CenterScreen"
+$form.FormBorderStyle = "FixedDialog"
+$form.MaximizeBox = $false
+$form.MinimizeBox = $false
 
-# GUI
-Add-Type -AssemblyName System.Windows.Forms
+# File label + textbox + browse
+$lblFile = New-Object System.Windows.Forms.Label
+$lblFile.Location = New-Object System.Drawing.Point(10,16)
+$lblFile.Size = New-Object System.Drawing.Size(100,20)
+$lblFile.Text = "File to sign:"
+$form.Controls.Add($lblFile)
 
-$Form = New-Object Windows.Forms.Form
-$Form.Text = "Sign a File"
-$Form.Size = '400,200'
-$Form.StartPosition = "CenterScreen"
+$txtFile = New-Object System.Windows.Forms.TextBox
+$txtFile.Location = New-Object System.Drawing.Point(120,14)
+$txtFile.Size = New-Object System.Drawing.Size(260,20)
+$form.Controls.Add($txtFile)
 
-$fileLabel = New-Object Windows.Forms.Label
-$fileLabel.Text = "File to Sign:"
-$fileLabel.Location = '10,20'
-$fileLabel.Size = '100,20'
-$Form.Controls.Add($fileLabel)
+$btnBrowse = New-Object System.Windows.Forms.Button
+$btnBrowse.Location = New-Object System.Drawing.Point(385,12)
+$btnBrowse.Size = New-Object System.Drawing.Size(75,23)
+$btnBrowse.Text = "Browse..."
+$btnBrowse.Add_Click({
+    $ofd = New-Object System.Windows.Forms.OpenFileDialog
+    $ofd.Filter = "All files (*.*)|*.*"
+    if ($ofd.ShowDialog() -eq "OK") { $txtFile.Text = $ofd.FileName }
+})
+$form.Controls.Add($btnBrowse)
 
-$fileBox = New-Object Windows.Forms.TextBox
-$fileBox.Location = '120,20'
-$fileBox.Size = '250,20'
-$Form.Controls.Add($fileBox)
+# Password label + secure textbox
+$lblPwd = New-Object System.Windows.Forms.Label
+$lblPwd.Location = New-Object System.Drawing.Point(10,52)
+$lblPwd.Size = New-Object System.Drawing.Size(100,20)
+$lblPwd.Text = "PFX Password:"
+$form.Controls.Add($lblPwd)
 
-$signButton = New-Object Windows.Forms.Button
-$signButton.Text = "Sign"
-$signButton.Location = '150,60'
-$signButton.Add_Click({
+$txtPwd = New-Object System.Windows.Forms.TextBox
+$txtPwd.Location = New-Object System.Drawing.Point(120,50)
+$txtPwd.Size = New-Object System.Drawing.Size(260,20)
+$txtPwd.UseSystemPasswordChar = $true
+$form.Controls.Add($txtPwd)
+
+# Timestamp label + combobox
+$lblTs = New-Object System.Windows.Forms.Label
+$lblTs.Location = New-Object System.Drawing.Point(10,88)
+$lblTs.Size = New-Object System.Drawing.Size(100,20)
+$lblTs.Text = "Timestamp server:"
+$form.Controls.Add($lblTs)
+
+$cbTs = New-Object System.Windows.Forms.ComboBox
+$cbTs.Location = New-Object System.Drawing.Point(120,86)
+$cbTs.Size = New-Object System.Drawing.Size(260,22)
+$cbTs.DropDownStyle = 'DropDown'
+$cbTs.Items.AddRange(@(
+    "http://timestamp.digicert.com",
+    "http://timestamp.comodoca.com/rfc3161",
+    "http://timestamp.sectigo.com",
+    "http://timestamp.globalsign.com/scripts/timstamp.dll"  
+))
+$cbTs.Text = $TimestampDefault
+$form.Controls.Add($cbTs)
+
+# Dry-run checkbox
+$chkDry = New-Object System.Windows.Forms.CheckBox
+$chkDry.Location = New-Object System.Drawing.Point(10,118)
+$chkDry.Size = New-Object System.Drawing.Size(300,20)
+$chkDry.Text = "Dry-run: show cert info and file hash only (no signing)"
+$form.Controls.Add($chkDry)
+
+# Status label (multi-line)
+$lblStatus = New-Object System.Windows.Forms.TextBox
+$lblStatus.Location = New-Object System.Drawing.Point(10,150)
+$lblStatus.Size = New-Object System.Drawing.Size(455,40)
+$lblStatus.ReadOnly = $true
+$lblStatus.Multiline = $true
+$lblStatus.ScrollBars = 'Vertical'
+$form.Controls.Add($lblStatus)
+
+# Sign button
+$btnSign = New-Object System.Windows.Forms.Button
+$btnSign.Location = New-Object System.Drawing.Point(315,118)
+$btnSign.Size = New-Object System.Drawing.Size(75,23)
+$btnSign.Text = "Run"
+$btnSign.Add_Click({
+    $lblStatus.Text = ""
     try {
-        $sig = Set-AuthenticodeSignature -FilePath $fileBox.Text -Certificate $certObj -TimestampServer $TimestampServer
-        [System.Windows.Forms.MessageBox]::Show("Signature status: $($sig.Status)")
+        if ([string]::IsNullOrWhiteSpace($txtFile.Text)) { throw "Select a file to sign." }
+        if (-not (Test-Path $txtFile.Text)) { throw "File not found: $($txtFile.Text)" }
+        if ([string]::IsNullOrEmpty($txtPwd.Text)) { throw "Enter the PFX password." }
+
+        # Decode PFX into memory
+        $pfxBytes = [Convert]::FromBase64String($certBase64)
+
+        # Secure password
+        $securePwd = Convert-ToSecureString $txtPwd.Text
+
+        # Choose flags: prefer EphemeralKeySet to avoid persisting keys if available
+        $flagsEnum = [System.Security.Cryptography.X509Certificates.X509KeyStorageFlags]
+        $flags = $flagsEnum::Exportable -bor $flagsEnum::MachineKeySet
+        if ($flagsEnum -as [type] -and $flagsEnum.GetEnumNames() -contains 'EphemeralKeySet') {
+            $flags = $flags -bor $flagsEnum::EphemeralKeySet
+        } else {
+            # fallback: include PersistKeySet when Ephemeral not present
+            $flags = $flags -bor $flagsEnum::PersistKeySet
+        }
+
+        # Instantiate certificate from bytes (in-memory)
+        $cert = New-Object System.Security.Cryptography.X509Certificates.X509Certificate2($pfxBytes, $securePwd, $flags)
+
+        # Show cert info for dry-run or for operator info
+        $thumb = $cert.Thumbprint
+        $subject = $cert.Subject
+        $expire = $cert.NotAfter
+        $lblStatus.AppendText("Cert subject: $subject`r`n")
+        $lblStatus.AppendText("Thumbprint: $thumb`r`n")
+        $lblStatus.AppendText("Expires: $expire`r`n")
+
+        # File hash (SHA256)
+        $sha = [System.Security.Cryptography.SHA256]::Create()
+        $fs = [IO.File]::OpenRead($txtFile.Text)
+        $hashBytes = $sha.ComputeHash($fs)
+        $fs.Close()
+        $hashHex = ($hashBytes | ForEach-Object { $_.ToString("x2") }) -join ""
+        $lblStatus.AppendText("File SHA256: $hashHex`r`n")
+
+        if ($chkDry.Checked) {
+            $lblStatus.AppendText("Dry-run enabled. No signing performed.`r`n")
+        } else {
+            # Perform signing with timestamp
+            $ts = $cbTs.Text
+            $lblStatus.AppendText("Signing with timestamp server: $ts`r`n")
+            $sig = Set-AuthenticodeSignature -FilePath $txtFile.Text -Certificate $cert -TimestampServer $ts
+            $lblStatus.AppendText("Signature status: $($sig.Status)`r`n")
+            if ($sig.StatusMessage) { $lblStatus.AppendText("Message: $($sig.StatusMessage)`r`n") }
+        }
     } catch {
-        [System.Windows.Forms.MessageBox]::Show("Error: $_")
+        $lblStatus.AppendText("Error: $($_.Exception.Message)`r`n")
+    } finally {
+        # Cleanup: zero and dispose sensitive objects
+        try { if ($pfxBytes) { [System.Array]::Clear($pfxBytes,0,$pfxBytes.Length) } } catch {}
+        try { if ($hashBytes) { [System.Array]::Clear($hashBytes,0,$hashBytes.Length) } } catch {}
+        try { if ($sha) { $sha.Dispose() } } catch {}
+        try { if ($cert) { $cert.Reset(); $cert.Dispose() } } catch {}
+        # clear plaintext password from textbox variable
+        $txtPwd.Text = ""
     }
 })
-$Form.Controls.Add($signButton)
+$form.Controls.Add($btnSign)
 
-[void]$Form.ShowDialog()
-
-# Optional cleanup
-Remove-Item $tempPfxPath -Force
+# Show the form
+[void]$form.ShowDialog()
