@@ -22,7 +22,7 @@ Clear-Host
 
 # Construct glyphs from Unicode codepoints at runtime (ASCII-safe file)
 # Shuffle glyphs once at session start
-$glyphPool = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789<>?-+=/\!@#$%^&*()_' "
+$glyphPool = "ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789 <>?-+=/\!@#$%^&*()_' "
 $glyphs = ($glyphPool.ToCharArray() | Get-Random -Count $glyphPool.Length)
 
 function Show-MatrixIntro {
