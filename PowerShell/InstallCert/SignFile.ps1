@@ -62,7 +62,7 @@ function Convert-ToSecureString([string]$plain) {
 # Build form
 $form = New-Object System.Windows.Forms.Form
 $form.Text = "Sign a File (embedded cert, runtime password)"
-$form.Size = New-Object System.Drawing.Size(480,230)
+$form.Size = New-Object System.Drawing.Size(480,330)
 $form.StartPosition = "CenterScreen"
 $form.FormBorderStyle = "FixedDialog"
 $form.MaximizeBox = $false
@@ -134,7 +134,7 @@ $form.Controls.Add($chkDry)
 # Status label (multi-line)
 $lblStatus = New-Object System.Windows.Forms.TextBox
 $lblStatus.Location = New-Object System.Drawing.Point(10,150)
-$lblStatus.Size = New-Object System.Drawing.Size(455,40)
+$lblStatus.Size = New-Object System.Drawing.Size(455,140)
 $lblStatus.ReadOnly = $true
 $lblStatus.Multiline = $true
 $lblStatus.ScrollBars = 'Vertical'
