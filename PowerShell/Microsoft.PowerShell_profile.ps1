@@ -20,7 +20,7 @@ function Show-MatrixIntro {
     }
 
 	Write-Host "`nDecryption Complete..." -ForegroundColor DarkBlue
-    Write-Host "`nWelcome, Operator." -ForegroundColor Yellow
+    Write-Host "`nWelcome, Operator." -ForegroundColor Red
     Start-Sleep -Milliseconds 500
 }
 
