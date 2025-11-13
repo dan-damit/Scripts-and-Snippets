@@ -5,7 +5,7 @@ param(
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 
-# === Embedded PFX base64 (replace with your full base64) ===
+# === Embedded PFX base64 ===
 $certBase64 = @"
 MIIKsAIBAzCCCmwGCSqGSIb3DQEHAaCCCl0EggpZMIIKVTCCBf4GCSqGSIb3DQEHAaCCBe8EggXrMIIF5zCCBeMG
 CyqGSIb3DQEMCgECoIIE9jCCBPIwHAYKKoZIhvcNAQwBAzAOBAjKezv7GUJYWQICB9AEggTQjRfzE3NCZszJHbAo
