@@ -4,7 +4,7 @@
 $Host.UI.RawUI.WindowTitle = "Operator's Matrix Console (elevated)"
 
 # Shuffle glyphs once at session start
-$glyphPool = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789<>?-+=/\!@#$%^&*()_' "
+$glyphPool = " ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789 <>?-+=/\!@#$%^&*()_' "
 $glyphs = ($glyphPool.ToCharArray() | Get-Random -Count $glyphPool.Length)
 
 # ─── MATRIX INTRO ───────────────────────────────────────
@@ -13,7 +13,7 @@ function Show-MatrixIntro {
     Write-Host "`nInitializing Matrix shell..." -ForegroundColor DarkBlue
     Start-Sleep -Milliseconds 500
 
-    for ($i = 0; $i -lt 20; $i++) {
+    for ($i = 0; $i -lt 15; $i++) {
         $line = -join (1..(Get-Random -Min 40 -Max 80) | ForEach-Object { $glyphs | Get-Random })
         Write-Host $line -ForegroundColor DarkGreen
         Start-Sleep -Milliseconds (Get-Random -Min 30 -Max 80)
