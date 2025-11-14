@@ -67,6 +67,27 @@ function Get-NetbiosName {
     }
 }
 
+# Func to attempt mDNS resolution (e.g., for .local hostnames)
+function Get-MdnsName {
+    param([string]$ip)
+    try {
+        # Use ping to get the .local name from ARP cache (if available)
+        $arpEntry = arp -a | Where-Object { $_ -match $ip }
+        if ($arpEntry -and $arpEntry -match '([a-zA-Z0-9\-]+\.local)') {
+            return $matches[1]
+        }
+
+        # Fallback: try resolving via mDNS (requires mDNS responder on network)
+        $mdnsName = Resolve-DnsName -Name "$ip.in-addr.arpa" -Type PTR -ErrorAction Stop |
+        Where-Object { $_.NameHost -like '*.local' } |
+        Select-Object -ExpandProperty NameHost -First 1
+        return $mdnsName
+    }
+    catch {
+        return $null
+    }
+}
+
 # Func to see if host has http banner
 function Get-HttpInfo {
     param([string]$ip, [int]$port = 80, [int]$timeoutMs = 1000)
@@ -135,6 +156,7 @@ foreach ($ip in $ips) {
         RTTms      = $null
         PTR        = $null
         NetBIOS    = $null
+        Mdns       = $null
         Port80Open = $false
         ServerHdr  = $null
         Timestamp  = (Get-Date)
@@ -157,6 +179,14 @@ foreach ($ip in $ips) {
             catch {
                 $result.NetBIOS = $null
             }
+            try {
+                if (-not $result.PTR -and -not $result.NetBIOS) {
+                    $result.Mdns = Get-MdnsName $ip
+                }
+            }
+            catch {
+                $result.Mdns = $null
+            }
             try { $result.Port80Open = Test-TcpPort $ip 80 300 } catch { $result.Port80Open = $false }
             if ($result.Port80Open) {
                 try {
@@ -166,7 +196,7 @@ foreach ($ip in $ips) {
                 catch { $result.ServerHdr = $null }
             }
 
-            $online++    # maintain your online counter if you still want it
+            $online++    # maintain online counter if you still want it
         }
     }
     catch {
@@ -205,13 +235,13 @@ $displayPct = 100
 Show-ProgressBanner $total $total $displayPct ([TimeSpan]::Zero)
 $ping.Dispose()
 Write-Host "`n`nScan complete!" -ForegroundColor Green
-Write-Host "$online hosts responded." -ForegroundColor DarkGreen
+Write-Host "$online hosts responded." -ForegroundColor Yellow
 
 # Print collected results: compact table first
 Write-Host "Discovered hosts:" -ForegroundColor DarkYellow
 $tableText = $hostResults |
 Where-Object { $_.Responded } |
-Select-Object IP, RTTms, PTR, NetBIOS, Port80Open, ServerHdr |
+Select-Object IP, RTTms, PTR, NetBIOS, Mdns, Name, Port80Open, ServerHdr |
 Format-Table -AutoSize | Out-String
 
 Write-Host $tableText -ForegroundColor Blue
@@ -219,7 +249,10 @@ Write-Host $tableText -ForegroundColor Blue
 # Export CSV for later analysis
 $csvPath = "$env:TEMP\cidr-scan-$($cidr.Replace('/','-'))-$(Get-Date -Format yyyyMMdd-HHmmss).csv"
 $hostResults | ForEach-Object {
-    $name = if ($_.PTR) { $_.PTR } else { $_.NetBIOS }
+    $name = if ($_.PTR) { $_.PTR }
+    elseif ($_.NetBIOS) { $_.NetBIOS }
+    elseif ($_.Mdns) { $_.Mdns }
+    else { $null }
     $_ | Add-Member -NotePropertyName Name -NotePropertyValue $name -Force
 }
 Write-Host "Saved CSV: $csvPath" -ForegroundColor Yellow
@@ -227,8 +260,8 @@ Pause
 # SIG # Begin signature block
 # MIIcQwYJKoZIhvcNAQcCoIIcNDCCHDACAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUGF+Oo/KWLc931B+NJ1e56iyh
-# P3SgghaYMIIDWjCCAkKgAwIBAgIQEiTz/mJb86tOz5ucTbOf8jANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUoESFDbFCP8UosNNIaLw0MBdR
+# CwWgghaYMIIDWjCCAkKgAwIBAgIQEiTz/mJb86tOz5ucTbOf8jANBgkqhkiG9w0B
 # AQUFADA2MRIwEAYDVQQDDAlEYW4uRGFtaXQxIDAeBgkqhkiG9w0BCQEWEWRhbkB0
 # aGVkYW1pdHMuY29tMB4XDTI1MDcwOTIyMjkwM1oXDTI2MDcwOTIyNDkwM1owNjES
 # MBAGA1UEAwwJRGFuLkRhbWl0MSAwHgYJKoZIhvcNAQkBFhFkYW5AdGhlZGFtaXRz
@@ -352,28 +385,28 @@ Pause
 # EAYDVQQDDAlEYW4uRGFtaXQxIDAeBgkqhkiG9w0BCQEWEWRhbkB0aGVkYW1pdHMu
 # Y29tAhASJPP+Ylvzq07Pm5xNs5/yMAkGBSsOAwIaBQCgeDAYBgorBgEEAYI3AgEM
 # MQowCKACgAChAoAAMBkGCSqGSIb3DQEJAzEMBgorBgEEAYI3AgEEMBwGCisGAQQB
-# gjcCAQsxDjAMBgorBgEEAYI3AgEVMCMGCSqGSIb3DQEJBDEWBBQkK57tY62slzXh
-# PIOb1eekyNXC2DANBgkqhkiG9w0BAQEFAASCAQCvj2GOLzQSFrcSATZiAVLZFAde
-# azA0Ib1GUVnWbiucGnV7FhvRBkvzL+5dNxWEHRu99P6kkLgxC78O0nEFYTcuKkKu
-# QdL7pFkS2J9SMIyshZHpy+31mzBabCrvQ/HSXcOHKb6yqsc6La7Lngben8k7UsB0
-# aD/QnC0QLgbI9e8FVIF1bVutlpNCDWeC+d6lhJiCUwL1j60AjYwYH99zh4agnhxC
-# mmS517GPR6i7Rpz0FobHf8iKjz6UNLEpyPYb1kCns24mqb6a2F6BPAjic5kxaI+H
-# aQwqkAyh+d/BddEpONxdwmWwF57thdHDnetggkbFU95RzcQIwEQj9K+h6qydoYID
+# gjcCAQsxDjAMBgorBgEEAYI3AgEVMCMGCSqGSIb3DQEJBDEWBBRbYURDpWLdWg2y
+# sB8BOc6qJX6edTANBgkqhkiG9w0BAQEFAASCAQAAQ/CL6jNNCRd+0KojQXRPg660
+# 5aIxcAJ4a0133Hp4wY/FCd0crkUvCIpb86bLvd2Vscbyb9HeaGRwPPiSC1Q1TnHR
+# gdrDhauLKUmGIEl9QAgCSwl9REt6U/vqez5e2w212Uk6DOHKKTRtDBxjvLiN7Ikw
+# CdaoPKidL5fkVlreC6c39BrUkAL346qfGdxgiZHsjf3GsTPZY23yJ2GhE5GrcT6r
+# tb+Q2S11N0tAUdA2FA9UVMKMC5MUtvjkg6/DcO3MGlfCdIpLGyRLFq8Ij9oO1wUo
+# sY6tyGrfBD/sSWFabBC28O6vWrfUVAI++p4zFwhF4Q9iPE9p59VzYN3/5nXqoYID
 # JjCCAyIGCSqGSIb3DQEJBjGCAxMwggMPAgEBMH0waTELMAkGA1UEBhMCVVMxFzAV
 # BgNVBAoTDkRpZ2lDZXJ0LCBJbmMuMUEwPwYDVQQDEzhEaWdpQ2VydCBUcnVzdGVk
 # IEc0IFRpbWVTdGFtcGluZyBSU0E0MDk2IFNIQTI1NiAyMDI1IENBMQIQCoDvGEuN
 # 8QWC0cR2p5V0aDANBglghkgBZQMEAgEFAKBpMBgGCSqGSIb3DQEJAzELBgkqhkiG
-# 9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTI1MTExNDE4NTEyM1owLwYJKoZIhvcNAQkE
-# MSIEINBGQo5NlITJh/XD5xWny9xMTzx+AbzoCopxR7gqCOiSMA0GCSqGSIb3DQEB
-# AQUABIICAMP/t9neOBHAh7bhhxx9s9K5O+8WcJlC1ztfVL1s7p9gt+H/zi7vs0lc
-# hzrbyKPVoyBPAr/2Qd0e7POpnqN+ZtXKK8b5dJTLNpFYwYu5OmLSvF45s9RSpHds
-# IuB/3X05RyiZ9vMDcxi6AGuLpsVjE/KeAgcH4ZIIvPI8QPQwnIkabF1R7ZGFF52Q
-# kzwwzevcuZpNs6uMIlwkz1ZywLvlgc85Mth+GT3kHoOjBzbN2sRGlUOUK8YSLiMH
-# Ppyn1ETiRS9xmMqgJygIavqM0PwjqzDhLDXGl+pso7LBMymuFdE0KtvdheED9Ibx
-# Rq48qWWxAvSIwmib2kvUmISwmgDQIqFYwnd1ahbfiz7XErzqhBdMD9P1zbFo+aEc
-# lCxjDP7ZTbTy9X1lAKO5wg34xUs7KnHCJmgpYz13kaawqRGtckkd86VwViZj2bfK
-# XU7Lh69yXTWVm1ag+IthKCO/mLG3GBcbt9bwgSx6goAt94EsNqC4c8YRpviMasqG
-# TTTKlf0Rf762XaH+fKTmxsg9y3NTrsdJEDoa/n3H7Thi1i6db2vuFm65Sxb1mu0n
-# AF8ZpMvoaiYNHfmH2GkfXnYiskFrqeFvzJiX1P8XIdAF0OiLtwLCYyJTH6YMPN9h
-# gi8pq6PtQvEJDe2ZbPF6egr3qMx6OddrjvsGLs8mbMVz9+bkZJQ5
+# 9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTI1MTExNDE5MDgxNlowLwYJKoZIhvcNAQkE
+# MSIEIIqhgLAI3PzvVYVN694DkL+kk/Mum+yDk/CdLeIeknU7MA0GCSqGSIb3DQEB
+# AQUABIICAHUDTFLDvMyKg27wsZMyQwb2hUdywJsAH9rU2CkFezRq+K5eBm7fx5uK
+# Zd76GhiebWW74h5NKn+JcCtq3IGa4KpC+yuwG8hv3LT02kyAPjkUynKuL8AW1QjZ
+# FFT/G2nKi4AaiWshJP+vbAZED+tIMIwJgvx095pwWDPNE39AE9V29S9qX4CCtW/C
+# c0yY9sZpbW4S7nUODWSOTkzwWbs+D6QB7bpFM2grvWWx3SiQPE3+e8BQ6TIIKl2A
+# 7lx5ezQDZyA1ynpB5DTxsv5GoCsvWWwC9/nde37tX+mB9dnLELCfe4l1GsF7hw7j
+# glkX6bKpuqfMNsO3z2X+VJIZYNVJ8S0AyIJmqSNDg+rpyVpWTJTnQUy/x7ovIdfq
+# nqSArZHgRzqY2h6CpbXctZrQoeKQDnLCbfohfXWi36n44ULUjF2+OcBdksG3DDI8
+# XCOdQaA5P3ZYU0xbklr1RnYscIZyMM7V1oebstL6Brvt24glBGuzjhrm5tgTsXK/
+# CESmPD4VYu+nvbdNxgLE39k8gOWGcKC86gPwZxTLeR9AqK7MhLUXGxizs8kw2SI0
+# 9J7qiGcqJ50n22SMGaOZjDSKF3YwszKH24MYbOpfVE89cWDnpkWeOfgFeRd/W1CY
+# DHw6idBqwAFxKb3DMVAzn+Jcv9OURHm35RTPHtr3DCR29aMMGrIU
 # SIG # End signature block
