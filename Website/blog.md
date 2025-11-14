@@ -53,7 +53,7 @@ files... this website, etc. I wanted to link my landing page to LinkedIn's Featu
 
 No biggie!
 
-`Invoke-TrumpWrongGIF...`
+```Invoke-TrumpWrongGIF...```
 
 LinkedIn was having none of it. After some digging, I discovered a page on the LinkedIn site that
 would render how a post would look. This little tool was super helpful, and pointed me toward the
@@ -73,18 +73,18 @@ After a few hours ... yes, hours ... of looking and digging around in the SSH, a
 trusty Google and Copilot combo, I discover the nginx.conf is generated dynamically at service
 startup, but there is one overriding little piece in a hidden usr dir.
 
-DSM has a hidden user dir: ^/usr/syno^ that houses numerous automation and conf files.  
+DSM has a hidden user dir: /usr/syno that houses numerous automation and conf files.  
 A quick grep for robots.txt in /usr/syno/ location revealed the culprit. A...
 
-`sudo vi /usr/syno/share/nginx/optimization.mustache`
+```sudo vi /usr/syno/share/nginx/optimization.mustache```
 
 concealed a snippet that had this:
 
-`location = /robots.txt { allow all; access_log off; log_not_found off; }`
+```location = /robots.txt { allow all; access_log off; log_not_found off; }```
 
 After swapping that for this:
 
-`location = /robots.txt { root /volume1/web; default_type text/plain; }`
+```location = /robots.txt { root /volume1/web; default_type text/plain; }```
 
 (Which is my custom robots.txt file in the root web folder), BOOM! Disallow / became Allow / and
 loading into LinkedIn was possible...after restarting nginx again of course.
@@ -196,7 +196,7 @@ Started with basic firewall rules, then moved to advanced settings.
 
 ### The steps taken are as follows:
 
-1. Enabled Synology's built-in firewall and created and made a rule set to deny all incoming traffic
+1. Enabled Synology's built-in firewall and created a rule set to deny all incoming traffic
    by default and keep it at the bottom of the rule list.
 
 2. Created allow rules for only necessary services (e.g., SSH, HTTPS, HTTP) from specific IP
@@ -655,7 +655,7 @@ Network security is on point now.
 ## I love the cards look
 
 I love the way the projects page turned out with the use of cards, so I wanted to adapt that and
-apply it to the blog. I think it turned out awesome, and I rewored the font-family to be the same
+apply it to the blog. I think it turned out awesome, and I reworked the font-family to be the same
 across the blog page. All it took was a little change to the renderPage function and a few small
 additions to the blog.css. I went through the blog.css as well and paired it down a bit. I noticed
 that I had several duplicate classes.
@@ -711,13 +711,15 @@ The effect is pretty awesome when you hover over the card now!
 ---
 
 # IoT and WiFi
+
 **Date:** 2025-11-10
 **Tags:** networking, wifi, ssid
+
 ## So this one was interesting
 
 Got dispatched to fix some security cammera connectivity issues from a vendor that were using WiFi
 (ewwwww). We swapped the Firewall from SonicWall to UDM Pro, moved the configs from the old UniFi
-controller to the UDM, and called it a day. 
+controller to the UDM, and called it a day.
 
 Fast forward 2 months.
 
@@ -741,8 +743,73 @@ The dash in the SSID didn't look right. Sure enough, it must have been of a diff
 than what you usually see on a normal US keyboard. I deleted the existing "-" character and added
 the new "-" from my keyboard, rescanned the SSIDs from the camera interface, and BAM! SSID is there.
 Not only did the one we were testing with see the SSID now, but the other 3 cameras connected up on
-their own once I cliced "save" with the correct dash character in the SSID. 
+their own once I cliced "save" with the correct dash character in the SSID.
 
 That was a fun one!
+
+### dan
+
+---
+
+# Created a custom $PROFILE
+
+**Date:** 2025-11-11
+**Tags:** powershell, scripting
+
+## Went with a custom Matrix theme (of course)
+
+I was doing some reading on how powershell handles the $PROFILE and learned that you can do custom
+profiles! How awesome! I followed that white rabbit for hours!
+
+```
+$PROFILE
+```
+
+That simple variable entry into the prompt reveals the path of the profile.ps1. I went full custom
+mode and added glyphs and a function that simulates decrypting data in the console, and finishes
+with a custom lambda character for the prompt.
+
+There is another script that I have been working on as well in a later post. It's a custom
+PowerShell subnet scanner.
+
+[Custom Profile Code here](https://github.com/dan-damit/Scripts-and-Snippets/blob/main/PowerShell/Microsoft.PowerShell_profile.ps1)
+
+I took it a step further and adapted this to a little exe to run anywhere anytime that does the same
+thing, but with Windows PowerShell 5.1. My favorite feature of the portable custome shell exe is
+that the prompt defaults to whatever directory from which it's ran.
+
+[Custom Portable Shell Launcher](https://github.com/dan-damit/Scripts-and-Snippets/blob/main/PowerShell/Launch-CustomShell.ps1)
+
+Compiled that to an exe with PS2EXE module for a super lightweight and portable custom one-time
+PowerShell profile.
+
+### dan
+
+---
+
+# My custom PowerShell IP Scanner
+
+**Date:** 2025-11-13
+**Tags:** networking, sripting
+
+## I wanted something custom and concise
+
+I wanted a custom scanner that not only records pings to determine if something is online at that
+address, I also wanted it to grab two important datapoints:
+
+1. A hostname
+2. if port 80 was open (usually an indicator of a webserver on board)
+
+The hostname bit...I read up on it for a while to see what reliable way to find the hostname, and I
+settled on using PTR record to log hostname. Time will tell if this is the best, most reliable
+way... For the port 80, it also looks for https headers as well, so if it scans and sees a printer
+for example, usually those have some sort of webserver that serves up an interface to interact with
+for config, etc.
+
+[Code here](https://github.com/dan-damit/Scripts-and-Snippets/blob/main/PowerShell/PowerShell.IP.Scan.ps1)
+
+I even signed it so it might not get tripped up running it remotely. Which brings me to my next post
+in the coming couple of days. I made a custom code signing script that I compiled into an exe with
+the cert embedded as base64 encoded.
 
 ### dan
