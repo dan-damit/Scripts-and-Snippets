@@ -88,6 +88,19 @@ function Get-MdnsName {
     }
 }
 
+# Func to get MAC address from ARP cache
+function Get-MacAddress {
+    param([string]$ip)
+    try {
+        $arp = arp -a | Where-Object { $_ -match $ip }
+        if ($arp -match '([0-9a-f]{2}[-:]){5}[0-9a-f]{2}') {
+            return $matches[0].ToUpper()
+        }
+        return $null
+    }
+    catch { return $null }
+}
+
 # Func to see if host has http banner
 function Get-HttpInfo {
     param([string]$ip, [int]$port = 80, [int]$timeoutMs = 1000)
@@ -151,15 +164,16 @@ foreach ($ip in $ips) {
 
     # Prepare a minimal result object with defaults
     $result = [PSCustomObject]@{
-        IP         = $ip
-        Responded  = $false
-        RTTms      = $null
-        PTR        = $null
-        NetBIOS    = $null
-        Mdns       = $null
-        Port80Open = $false
-        ServerHdr  = $null
-        Timestamp  = (Get-Date)
+        IP           = $ip
+        Responded    = $false
+        RTTms        = $null
+        MacAddress   = $null
+        PTR          = $null
+        NetBIOS      = $null
+        Mdns         = $null
+        Port80Open   = $false
+        ServerHdr    = $null
+        Timestamp    = (Get-Date)
     }
 
     try {
@@ -170,6 +184,12 @@ foreach ($ip in $ips) {
             $result.RTTms = $reply.RoundtripTime
 
             # safe, per-probe isolation (errors won't abort the scan)
+            try {
+                $result.MacAddress = Get-MacAddress $ip
+            }
+            catch {
+                $result.MacAddress = $null
+            }
             try { $result.PTR = Get-ReverseDns $ip } catch { $result.PTR = $null }
             try {
                 if (-not $result.PTR) {
@@ -241,7 +261,7 @@ Write-Host "$online hosts responded." -ForegroundColor Yellow
 Write-Host "Discovered hosts:" -ForegroundColor DarkYellow
 $tableText = $hostResults |
 Where-Object { $_.Responded } |
-Select-Object IP, RTTms, PTR, NetBIOS, Mdns, Name, Port80Open, ServerHdr |
+Select-Object IP, RTTms, MacAddress,PTR, NetBIOS, Mdns, Name, Port80Open, ServerHdr |
 Format-Table -AutoSize | Out-String
 
 Write-Host $tableText -ForegroundColor Blue
@@ -260,8 +280,8 @@ Pause
 # SIG # Begin signature block
 # MIIcQwYJKoZIhvcNAQcCoIIcNDCCHDACAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUCyzngPBBwT5/qGFiND7wB5V/
-# HJ+gghaYMIIDWjCCAkKgAwIBAgIQEiTz/mJb86tOz5ucTbOf8jANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUUn/jncYsKTy57O5jiFTmqemW
+# IfCgghaYMIIDWjCCAkKgAwIBAgIQEiTz/mJb86tOz5ucTbOf8jANBgkqhkiG9w0B
 # AQUFADA2MRIwEAYDVQQDDAlEYW4uRGFtaXQxIDAeBgkqhkiG9w0BCQEWEWRhbkB0
 # aGVkYW1pdHMuY29tMB4XDTI1MDcwOTIyMjkwM1oXDTI2MDcwOTIyNDkwM1owNjES
 # MBAGA1UEAwwJRGFuLkRhbWl0MSAwHgYJKoZIhvcNAQkBFhFkYW5AdGhlZGFtaXRz
@@ -385,28 +405,28 @@ Pause
 # EAYDVQQDDAlEYW4uRGFtaXQxIDAeBgkqhkiG9w0BCQEWEWRhbkB0aGVkYW1pdHMu
 # Y29tAhASJPP+Ylvzq07Pm5xNs5/yMAkGBSsOAwIaBQCgeDAYBgorBgEEAYI3AgEM
 # MQowCKACgAChAoAAMBkGCSqGSIb3DQEJAzEMBgorBgEEAYI3AgEEMBwGCisGAQQB
-# gjcCAQsxDjAMBgorBgEEAYI3AgEVMCMGCSqGSIb3DQEJBDEWBBSl2DshAZN3D/53
-# YV8ZB/34YY1x8TANBgkqhkiG9w0BAQEFAASCAQCzwwymSy2iQxdRrULSvbkDNr14
-# gAUbzeyhzwzx+8l8vmPuP/VyYAZ9dFYQ9Mbcp+4D6rhAy+k8V2dwrgTU6AKJp4yd
-# 0IEbbXE7R0wtzlYqULgrZZBuMCaafk4fUJmXPiMJfECf2MiPx1lW0RTlKASUg36q
-# 8ELre87qKSHEYoVwtaMI1Miv/kAC6wXVjsgbApGyYUuf0v2hXG0to1WVSPH6Euev
-# VkfVJjKmdgjBzx/Ct69BSzUEPZraqdz2ldJMaptUzCk0M9nXOWdQsyLhNzvp/fOS
-# bw0lbYcgGeiBW3QK5OVVyJrbba6pp72Eh+HDqThcafez7dQ8zmNbc1HohyWDoYID
+# gjcCAQsxDjAMBgorBgEEAYI3AgEVMCMGCSqGSIb3DQEJBDEWBBQk4UURbNJ4Ol8E
+# 6gd7wo3gKXtLqDANBgkqhkiG9w0BAQEFAASCAQCgQ4DIiBHZhBrBzwoZ3SxUae/u
+# bvAQWlvsWGVjtQGt14M5mgOg75oSvu4JRvcr2Uc59Ln7MsOZtYvoqlK/kfad8ccn
+# wgcMiUe5Tda/eT8xcH7b0WN40GSYsC9b3wdrz6WoYo/hsy76rqlrYlZneR4k/DKP
+# MHRylTmxRB26ZKAP5ishiN8rzfuhNJMLBfmyyGT6K3sdj67yeL4P64VfnnCoOySp
+# MvSmFxO5L1cCFOyha9xjjGJlk+J5/xhWQ+CB1tgw8cuCH5jgsl1N/XjpzT+a09tL
+# kFrAAUMwH98G7fbcB8mdQTDOOCQp4/ZsZJCwYFl+dqr/7SjO1u/VIFwX59ProYID
 # JjCCAyIGCSqGSIb3DQEJBjGCAxMwggMPAgEBMH0waTELMAkGA1UEBhMCVVMxFzAV
 # BgNVBAoTDkRpZ2lDZXJ0LCBJbmMuMUEwPwYDVQQDEzhEaWdpQ2VydCBUcnVzdGVk
 # IEc0IFRpbWVTdGFtcGluZyBSU0E0MDk2IFNIQTI1NiAyMDI1IENBMQIQCoDvGEuN
 # 8QWC0cR2p5V0aDANBglghkgBZQMEAgEFAKBpMBgGCSqGSIb3DQEJAzELBgkqhkiG
-# 9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTI1MTExNDE5MTIwOFowLwYJKoZIhvcNAQkE
-# MSIEICS1vzMTAjSArqZGrORufoU39FQvaf/O7DnGrs3s+Bj7MA0GCSqGSIb3DQEB
-# AQUABIICAGWsf1yD8KisS8ejcg2y36D+xNeFDab3Y8r0iR3z2gVtf/8NjayHV+IT
-# t0asfRoipJr1VSz8/Nh4rOMgm6WB9GhA9xfqQ81vbiAJdbEiF/j6uvjJwGv9EPUF
-# Sviyerd8MwJboMYkmMA8+7tC+xpKpEJnRXsYZUs+iFUbEmQO3+9yWXMZMlH49G8h
-# BSK99yQFo56WBl7L97bX9HmjmYwjKADCeIkK3cjN7WJ5sZpS/xpbkz9LD+lenATk
-# tRprSYSWYH7/ga403jTLafsYYFBpqIVO1adzmEA6idnE6QMMzlSDQ69q359rwcFR
-# D169LOxF5hQqUv//i0fmzbw5qL1pjlWkm0eRXplT6wTqjiVZ7PIfEp4RMsVB1XqX
-# FKB5YAFl872dGF4nfDpmp54y91htyEjTEmGLFsQOxrijuvw9TdwWuISFgzPCTY3U
-# lWeFK2G1uMOlqGUqAny+CB4HjfiAf/UwntlnZTDms9dP4SPkTOxZa5F0KuayFr9F
-# P9j5cnrEUwnOkKA/A9FMmBDIqAa+yssGj7LFn6Ne+/8UKHk0x0nnxJJ1BniUvLcV
-# 5urVgvvifvtaEDyGzEP5vN6qlCPHk8w1gVR1veqs5qsp7aVzYWGGrO+V8XqNjZm8
-# QUwIlVcsn5p3pIANtLYSO+5CwrlEIgwc4Z4/RBRqC+0xeOz6j4L1
+# 9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTI1MTExNDE5NTczMlowLwYJKoZIhvcNAQkE
+# MSIEIDluzXYs8Gx7vCyGyhRDkQkNHMkrqmlqk8TZ0fjty2iCMA0GCSqGSIb3DQEB
+# AQUABIICAKrxu489ozETfj30ac/dwzmHxOoEgRw+TjlYI0Ul9UXPf8WU2OLRTVIv
+# sJNuWdfxuDwAEE2uZBIsjz9jRvtzxUz9yVrDif9Zdw4cczq14VfjbY8NNKT7J/UU
+# 2VkjjCVDdfpN10GHKx5aN3JpT8kEqaIMqY1n+tnfXkoS3LqgwUebDrL1q/SoVPad
+# F87qSS2GToM/dAdzcpBLP80A4vhU0m0980MGylWQEsDAx640mFSv9LmsCrg5JMrJ
+# 3ExfInOfWHoL4+N5gpCYGNwvuCcsPmeY4FNPIwkOfPh5Czn3P66Ry7SoYTvxTcM3
+# I7Bm31MIflsj1dOOBEr4sPwcKW7dD3VuZTv+z0oTmBN2qihQcKSV+5Ah8TfW+YR2
+# hbbEQDhvKSYJOe3HFHTR/d+kLaDOzMMyA2qtKNS+pnQmPdOB7iuIuhEpxvKpuEmd
+# ZBaKOOGXlA8s0UB+XST7kPYCKMwda7krQ7vHccNdyrsyKlmIFSW7OIkRBqbuN6jE
+# QAVTD8dHmLft198XFS+o2INFCxISr2dfVY040iO6lTdm8yLaKXeZPlGKYpO7e95L
+# h+gpfQk+P/4+Ee1NYoPA4fZd7mcQFHzVp1Mx5RBmiV81tRdOhnptHWDKMAfY41g9
+# Emwcq4OcWa7y+qwA3lsGIT+OAAM71I7fQ/kA+pF+sg4tMW4cWgr7
 # SIG # End signature block
