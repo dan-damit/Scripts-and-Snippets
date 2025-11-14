@@ -1,4 +1,8 @@
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+
+$glyphPool = " ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789 <>?-+=/\!@#$%^&*()_' "
+$glyphs = ($glyphPool.ToCharArray() | Get-Random -Count $glyphPool.Length)
+
 # Matrix-style script intro
 function Show-MatrixIntro {
     Clear-Host
