@@ -84,7 +84,7 @@ $ips = Get-IPsFromCIDR $cidr
 if ($ips.Count -eq 0) { Write-Host "No hosts to scan for $cidr"; return }
 
 # Tunables
-$pingTimeoutMs = 600        # per-host ping timeout
+$pingTimeoutMs = 250        # per-host ping timeout
 $ewmaAlpha = 0.15       # EWMA alpha for average per-host duration (0..1). Higher = more reactive.
 $displayAlpha = 0.10        # smoothing alpha for displayed percent (0..1). Lower = smoother.
 
