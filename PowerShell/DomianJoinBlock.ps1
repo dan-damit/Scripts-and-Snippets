@@ -1,5 +1,5 @@
 #---------------------------------#
-# --- DOMAIN-JOIN HELPER ------- #
+# --- DOMAIN-JOIN HELPER -------- #
 #---------------------------------#
 function Invoke-DomainJoinPrompt {
     param(

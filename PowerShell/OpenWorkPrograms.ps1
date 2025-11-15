@@ -4,7 +4,7 @@
 # Date Created: 20250224
 # Date Last Modified: 20250325
 #
-# Description: This script opens a few programs I use for working at ADV-Tech
+# Description: This script opens a few programs I use daily
 #
 #------------------------------------------------------------------------------------------------------
 #
