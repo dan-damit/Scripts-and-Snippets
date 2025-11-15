@@ -97,3 +97,4 @@ function Invoke-DomainJoinPrompt {
     # Finally, reveal the Exit button
     $ExitButton.Visible = $true
 }
+Invoke-DomainJoinPrompt
