@@ -1,12 +1,26 @@
 #---------------------------------#
 # --- DOMAIN-JOIN HELPER -------- #
 #---------------------------------#
+
+# Load required assemblies
+Add-Type -AssemblyName Microsoft.VisualBasic
+Add-Type -AssemblyName System.Windows.Forms
+
+function Show-LogBox {
+    param(
+        [string]$Message,
+        [string]$Title = "Log",
+        [System.Windows.Forms.MessageBoxIcon]$Icon = [System.Windows.Forms.MessageBoxIcon]::Information
+    )
+    [System.Windows.Forms.MessageBox]::Show($Message, $Title, [System.Windows.Forms.MessageBoxButtons]::OK, $Icon)
+}
+
 function Invoke-DomainJoinPrompt {
     param(
-        [Parameter(Mandatory)][System.Windows.Forms.Button]$ExitButton
+        [System.Windows.Forms.Button]$ExitButton = $null
     )
 
-    # Ask if they want to join a domain
+    # Prompt: Join domain?
     $joinPrompt = [System.Windows.Forms.MessageBox]::Show(
         "Join this workstation to a domain now?",
         "Domain Join",
@@ -14,87 +28,56 @@ function Invoke-DomainJoinPrompt {
         [System.Windows.Forms.MessageBoxIcon]::Question
     )
     if ($joinPrompt -ne [System.Windows.Forms.DialogResult]::Yes) {
-        # Skip domain join
-        $ExitButton.Visible = $true
+        Show-LogBox "Domain join skipped." "Info"
+        if ($ExitButton) { $ExitButton.Visible = $true }
         return
     }
 
-    # Bring in VB InputBox
-    Add-Type -AssemblyName Microsoft.VisualBasic
-
-    # Loop until a reachable domain or blank (to skip)
+    # Prompt for domain name
     do {
         $domain = [Microsoft.VisualBasic.Interaction]::InputBox(
             "Enter the domain FQDN (e.g. contoso.local):",
             "Domain Name"
         ).Trim()
 
-        if ([string]::IsNullOrEmpty($domain)) {
-            [System.Windows.Forms.MessageBox]::Show(
-                "No domain entered—skipping domain join.",
-                "Join Skipped",
-                [System.Windows.Forms.MessageBoxButtons]::OK,
-                [System.Windows.Forms.MessageBoxIcon]::Warning
-            )
-            $ExitButton.Visible = $true
+        if ([string]::IsNullOrWhiteSpace($domain)) {
+            Show-LogBox "No domain entered—skipping domain join." "Join Skipped" "Warning"
+            if ($ExitButton) { $ExitButton.Visible = $true }
             return
         }
 
-        # Test LDAP port reachability
-        if (Test-NetConnection -ComputerName $domain -Port 389 -Quiet) {
+        if (Test-NetConnection -ComputerName $domain -Port 389 -WarningAction SilentlyContinue -ErrorAction SilentlyContinue -Quiet) {
             break
         }
         else {
-            [System.Windows.Forms.MessageBox]::Show(
-                "Cannot reach $domain on port 389. Verify the FQDN and network connectivity.",
-                "Invalid Domain",
-                [System.Windows.Forms.MessageBoxButtons]::OK,
-                [System.Windows.Forms.MessageBoxIcon]::Warning
-            )
+            Show-LogBox "Cannot reach '$domain' on port 389. Check FQDN and network connectivity." "Invalid Domain" "Warning"
         }
     } while ($true)
 
-    # Retry loop for credentials + Add-Computer
+    # Prompt for credentials and attempt domain join
     $maxTries = 3
     for ($i = 1; $i -le $maxTries; $i++) {
         $creds = Get-Credential -Message "Credentials to join '$domain' (attempt $i of $maxTries)"
         try {
-            Add-Computer -DomainName $domain `
-                         -Credential  $creds `
-                         -ErrorAction Stop
+            Add-Computer -DomainName $domain -Credential $creds -ErrorAction Stop
 
-            Write-Log "Domain join to '$domain' succeeded on attempt $i."
-            [System.Windows.Forms.MessageBox]::Show(
-                "Successfully joined '$domain'. The machine will now restart.",
-                "Join Successful",
-                [System.Windows.Forms.MessageBoxButtons]::OK,
-                [System.Windows.Forms.MessageBoxIcon]::Information
-            )
+            Show-LogBox "Successfully joined '$domain'. The machine will now restart." "Join Successful"
             Restart-Computer -Force
             return
         }
         catch {
-            Write-Log "Domain join attempt $i failed: $($_.Exception.Message)"
+            Show-LogBox "Domain join attempt $i failed:`n$($_.Exception.Message)" "Join Failed" "Error"
             if ($i -lt $maxTries) {
-                [System.Windows.Forms.MessageBox]::Show(
-                    "Join failed—check credentials and try again.",
-                    "Join Failed",
-                    [System.Windows.Forms.MessageBoxButtons]::OK,
-                    [System.Windows.Forms.MessageBoxIcon]::Warning
-                )
+                Show-LogBox "Join failed—check credentials and try again." "Retry" "Warning"
             }
             else {
-                [System.Windows.Forms.MessageBox]::Show(
-                    "Maximum retries reached—skipping domain join.",
-                    "Join Skipped",
-                    [System.Windows.Forms.MessageBoxButtons]::OK,
-                    [System.Windows.Forms.MessageBoxIcon]::Error
-                )
+                Show-LogBox "Maximum retries reached—skipping domain join." "Join Skipped" "Error"
             }
         }
     }
 
-    # Finally, reveal the Exit button
-    $ExitButton.Visible = $true
+    if ($ExitButton) { $ExitButton.Visible = $true }
 }
+
+# Example usage (standalone)
 Invoke-DomainJoinPrompt
