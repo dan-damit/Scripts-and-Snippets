@@ -131,7 +131,8 @@ try {
     if ($cbOU.Items.Count -gt 0) {
         $cbOU.SelectedIndex = 0
     }
-} catch {
+}
+catch {
     [Windows.Forms.MessageBox]::Show("Failed to load OUs. Are you connected to a domain?", "Error", "OK", "Error")
     $form.Close()
 }
