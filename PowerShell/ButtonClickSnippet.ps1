@@ -9,7 +9,7 @@ $installButton.Add_Click({
         return
     }
 
-    # Otherwise, proceed with your installation logic.
+    # Otherwise, proceed with installation logic.
     # Step 1: Install Ninja Agent (skip if service exists).
     $statusToolStripLabel.Text = "Installing Ninja Agent."
     $progressBar.Value = 20
