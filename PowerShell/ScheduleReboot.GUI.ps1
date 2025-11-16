@@ -1,3 +1,12 @@
+<# PSScriptInfo
+
+Author: Dan.Damit
+Date: 2025-11-15
+
+Description: GUI tool to schedule a system reboot at a specified time.
+
+#>
+
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 
