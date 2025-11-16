@@ -2,7 +2,7 @@ Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 
 # Function to extract embedded resources
-function Extract-Resource {
+function Get-Resource {
     param (
         [string]$resName,
         [string]$targetPath
