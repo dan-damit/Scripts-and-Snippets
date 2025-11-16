@@ -3,7 +3,10 @@
 Author: Dan.Damit
 Date: 2025-11-15
 
-Description: GUI tool to schedule a system reboot at a specified time.
+Description: 
+- GUI tool to schedule a system reboot at a specified time.
+- Also created a standalone exe for scheduling reboots.
+- Wrap this script in exe using PS2EXE or other compiler.
 
 #>
 
