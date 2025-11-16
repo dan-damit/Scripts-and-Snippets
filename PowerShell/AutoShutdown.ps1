@@ -7,11 +7,11 @@
 
 # Vars
 #------
-$logRoot       = "$env:ProgramData\AutoShutdown"
-$activityLog   = Join-Path $logRoot "ActivityLog.txt"
+$logRoot = "$env:ProgramData\AutoShutdown"
+$activityLog = Join-Path $logRoot "ActivityLog.txt"
 $transcriptLog = Join-Path $logRoot "AutoShutdown_$(Get-Date -Format 'yyyyMMdd').log"
-$errorDump     = Join-Path $logRoot "ErrorDump_$(Get-Date -Format 'yyyyMMdd').log"
-$grace         = New-TimeSpan -Hours 36
+$errorDump = Join-Path $logRoot "ErrorDump_$(Get-Date -Format 'yyyyMMdd').log"
+$grace = New-TimeSpan -Hours 36
 
 if (-not (Test-Path $logRoot)) {
     New-Item -ItemType Directory -Path $logRoot -Force | Out-Null
@@ -50,7 +50,7 @@ namespace Win32 {
 "@ -Language CSharp
 
     function Log($msg) {
-        $time  = (Get-Date).ToString('yyyy-MM-dd HH:mm:ss')
+        $time = (Get-Date).ToString('yyyy-MM-dd HH:mm:ss')
         $clean = ($msg -replace '[^\u0009\u000A\u000D\u0020-\u007E]', '').Trim()
         "$time - $clean" | Out-File $activityLog -Append -Encoding UTF8
     }
@@ -58,9 +58,9 @@ namespace Win32 {
     Log "=== AutoShutdown Idle Scan Started ==="
 
     # Get how long the user has been idle
-    $idleMs  = [Win32.IdleTracker]::GetIdleMilliseconds()
+    $idleMs = [Win32.IdleTracker]::GetIdleMilliseconds()
     $idleSec = [math]::Round($idleMs / 1000, 0)
-    $idleTs  = New-TimeSpan -Seconds $idleSec
+    $idleTs = New-TimeSpan -Seconds $idleSec
 
     Log ("User idle for {0:hh\:mm\:ss}" -f $idleTs)
 
@@ -70,7 +70,7 @@ namespace Win32 {
     }
     else {
         Log ("Idle below threshold ({0:hh\:mm\:ss}/{1:hh\:mm\:ss}) — no action." `
-            -f $idleTs, $grace)
+                -f $idleTs, $grace)
     }
 
     Log "Scan complete."
