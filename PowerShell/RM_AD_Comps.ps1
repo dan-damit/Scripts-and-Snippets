@@ -124,7 +124,7 @@ $form.Controls.Add($btnDelete)
 
 # Populate OU ComboBox
 try {
-    $OUs = Get-ADOrganizationalUnit -Filter 'Name -like "*Computers*" -or Name -like "*Workstations*" -or Name -like "*Servers*"' | Sort-Object DistinguishedName
+    $OUs = Get-ADOrganizationalUnit -Filter 'Name -like "*Computer*" -or Name -like "*Workstation*" -or Name -like "*Desktop*" -or Name -like "*Laptop*"' | Sort-Object DistinguishedName
     foreach ($ou in $OUs) {
         $cbOU.Items.Add($ou.DistinguishedName)
     }
