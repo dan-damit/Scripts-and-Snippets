@@ -36,11 +36,6 @@ $cbOU.Location = '20,40'
 $cbOU.DropDownStyle = 'DropDownList'
 $form.Controls.Add($cbOU)
 
-$txtOU = New-Object Windows.Forms.TextBox
-$txtOU.Size = '540,20'
-$txtOU.Location = '20,40'
-$form.Controls.Add($txtOU)
-
 # Days input
 $lblDays = New-Object Windows.Forms.Label
 $lblDays.Text = "Days inactive:"
@@ -118,17 +113,20 @@ $btnDelete.Add_Click({
     })
 $form.Controls.Add($btnDelete)
 
-# Run form
-[Windows.Forms.Application]::EnableVisualStyles()
-[Windows.Forms.Application]::Run($form)
-
 # Populate OU ComboBox
 try {
-    $OUs = Get-ADOrganizationalUnit -Filter 'Name -like "*Computer*" -or Name -like "*Workstation*" -or Name -like "*Desktop*" -or Name -like "*Laptop*"' | Sort-Object DistinguishedName
+    $OUs = Get-ADObject -LDAPFilter '(|(objectClass=organizationalUnit)(objectClass=container))' -Properties DistinguishedName, Name | Sort-Object DistinguishedName
+
     foreach ($ou in $OUs) {
-        $cbOU.Items.Add($ou.DistinguishedName)
+        if ($ou.Name -match '(?i)(workstation|desktop|laptop|computer|clients|endpoints)') {
+            $cbOU.Items.Add($ou.DistinguishedName)
+        }
     }
-    if ($cbOU.Items.Count -gt 0) {
+
+    if ($cbOU.Items.Count -eq 0) {
+        [Windows.Forms.MessageBox]::Show("No matching OUs or containers found. Try adjusting your naming filters.", "Info", "OK", "Information")
+    }
+    else {
         $cbOU.SelectedIndex = 0
     }
 }
@@ -136,3 +134,7 @@ catch {
     [Windows.Forms.MessageBox]::Show("Failed to load OUs. Are you connected to a domain?", "Error", "OK", "Error")
     $form.Close()
 }
+
+# Run form
+[Windows.Forms.Application]::EnableVisualStyles()
+[Windows.Forms.Application]::Run($form)
