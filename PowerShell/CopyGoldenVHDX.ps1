@@ -1,4 +1,4 @@
-<# Check for admin and relaunch hidden if needed #>
+<# Check for admin and relaunch hidden if wanted #>
 $isAdmin = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 if (-not $isAdmin) {
     $ScriptPath = $MyInvocation.MyCommand.Definition
@@ -9,6 +9,7 @@ if (-not $isAdmin) {
     $psi.UseShellExecute = $true
     # $psi.WindowStyle = "Hidden"  # Optional: comment out for debugging
     [System.Diagnostics.Process]::Start($psi) | Out-Null
+    Start-Sleep -Seconds 2
     Exit
 }
 
@@ -29,5 +30,13 @@ Set-VM -Name $vmName -CheckpointType Disabled
 # Start new VM
 Start-VM $vmName
 
-# Shift+F10 :: reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\OOBE /v BypassNRO /t REG_DWORD /d 1 /f
-#           :: shutdown /r /t 0
+# Instructions for user to bypass NRO on first boot
+Write-Host "VM '$vmName' has been created and started."
+Write-Host "To bypass Network Requirement on first boot, press Shift+F10 to open Command Prompt,"
+Write-Host "then run the following commands:"
+Write-Host "reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\OOBE /v BypassNRO /t REG_DWORD /d 1 /f"
+Write-host "then shutdown /r /t 0"
+Write-Host "The VM will restart and allow you to complete OOBE without network."
+
+# End of script
+Pause
