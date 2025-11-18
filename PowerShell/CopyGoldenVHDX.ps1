@@ -1,4 +1,4 @@
-<# Check for admin and relaunch hidden if needed
+<# Check for admin and relaunch hidden if needed #>
 $isAdmin = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 if (-not $isAdmin) {
     $ScriptPath = $MyInvocation.MyCommand.Definition
@@ -6,11 +6,11 @@ if (-not $isAdmin) {
     $psi.FileName = "powershell.exe"
     $psi.Arguments = "-ExecutionPolicy Bypass -File `"$ScriptPath`""
     $psi.Verb = "runas"
-    $psi.WindowStyle = "Hidden"  # Uncomment this to run hidden
+    $psi.UseShellExecute = $true
+    # $psi.WindowStyle = "Hidden"  # Optional: comment out for debugging
     [System.Diagnostics.Process]::Start($psi) | Out-Null
     Exit
 }
-#>
 
 # Initial Params - Adjust as needed for the enviornment (Paths, etc)
 $vmName = "Win11_Sandbox"
