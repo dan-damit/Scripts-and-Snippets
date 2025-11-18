@@ -29,10 +29,10 @@ Set-VMProcessor -VMName $vmName -Count 4
 Set-VM -Name $vmName -CheckpointType Disabled
 # Start new VM
 Start-VM $vmName
+Write-Host "VM '$vmName' has been created and started."
 
 <#
 # Instructions for user to bypass NRO on first boot
-Write-Host "VM '$vmName' has been created and started."
 Write-Host "To bypass Network Requirement on first boot, press Shift+F10 to open Command Prompt,"
 Write-Host "then run the following commands:"
 Write-Host "reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\OOBE /v BypassNRO /t REG_DWORD /d 1 /f"
