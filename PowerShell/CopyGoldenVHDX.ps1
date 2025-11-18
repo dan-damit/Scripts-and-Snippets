@@ -30,6 +30,7 @@ Set-VM -Name $vmName -CheckpointType Disabled
 # Start new VM
 Start-VM $vmName
 
+<#
 # Instructions for user to bypass NRO on first boot
 Write-Host "VM '$vmName' has been created and started."
 Write-Host "To bypass Network Requirement on first boot, press Shift+F10 to open Command Prompt,"
@@ -37,6 +38,7 @@ Write-Host "then run the following commands:"
 Write-Host "reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\OOBE /v BypassNRO /t REG_DWORD /d 1 /f"
 Write-host "then shutdown /r /t 0"
 Write-Host "The VM will restart and allow you to complete OOBE without network."
+#>
 
 # End of script
 Pause
