@@ -14,7 +14,7 @@ Add-Type -AssemblyName System.Drawing
 
 # Create the form
 $form = New-Object System.Windows.Forms.Form
-$form.Text = "PowerShell GUI Wrapper"
+$form.Text = "Domain Join Utility"
 $form.Size = New-Object System.Drawing.Size(400, 300)
 $form.StartPosition = "CenterScreen"
 $form.FormBorderStyle = "FixedDialog"
