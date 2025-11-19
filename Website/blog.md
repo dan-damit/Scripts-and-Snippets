@@ -53,7 +53,7 @@ files... this website, etc. I wanted to link my landing page to LinkedIn's Featu
 
 No biggie!
 
-```Invoke-TrumpWrongGIF...```
+`Invoke-TrumpWrongGIF...`
 
 LinkedIn was having none of it. After some digging, I discovered a page on the LinkedIn site that
 would render how a post would look. This little tool was super helpful, and pointed me toward the
@@ -76,15 +76,15 @@ startup, but there is one overriding little piece in a hidden usr dir.
 DSM has a hidden user dir: /usr/syno that houses numerous automation and conf files.  
 A quick grep for robots.txt in /usr/syno/ location revealed the culprit. A...
 
-```sudo vi /usr/syno/share/nginx/optimization.mustache```
+`sudo vi /usr/syno/share/nginx/optimization.mustache`
 
 concealed a snippet that had this:
 
-```location = /robots.txt { allow all; access_log off; log_not_found off; }```
+`location = /robots.txt { allow all; access_log off; log_not_found off; }`
 
 After swapping that for this:
 
-```location = /robots.txt { root /volume1/web; default_type text/plain; }```
+`location = /robots.txt { root /volume1/web; default_type text/plain; }`
 
 (Which is my custom robots.txt file in the root web folder), BOOM! Disallow / became Allow / and
 loading into LinkedIn was possible...after restarting nginx again of course.
@@ -790,7 +790,7 @@ PowerShell profile.
 # My custom PowerShell IP Scanner
 
 **Date:** 2025-11-13
-**Tags:** networking, sripting
+**Tags:** networking, scripting
 
 ## I wanted something custom and concise
 
@@ -811,5 +811,43 @@ for config, etc.
 I even signed it so it might not get tripped up running it remotely. Which brings me to my next post
 in the coming couple of days. I made a custom code signing script that I compiled into an exe with
 the cert embedded as base64 encoded.
+
+### dan
+
+---
+
+# Testing out the scanner in the wild
+
+**Date:** 2025-11-14
+**Tags:** networking, scripting
+
+## Adding more info
+
+I noticed after using it in testing, that IP and PTR wasn't quite enough. I ended up adding a MAC
+address column, and a couple different ways to grab hostname like mDNS and NetBIOS.
+
+The MAC was probably the most notable improvement.
+
+[Code here](https://github.com/dan-damit/Scripts-and-Snippets/blob/main/PowerShell/PowerShell.IP.Scan.ps1)
+
+### dan
+
+---
+
+# Created a basic UI using Windows.Forms
+
+**Date:** 2025-11-17
+**Tags:** scripting, gui, powershell
+
+## A reusable UI script to apply to interactive scripts
+
+I realize I wanted to start wrapping my scripts in a GUI and compile it to EXE with PS2EXE module. I
+think that would be an awesome touch for very frequently used scripts. I ended up creating a Basic
+UI layout with Windows.Forms in a PowerShell file.
+
+[Code here](https://github.com/dan-damit/Scripts-and-Snippets/blob/main/UI/Basic_UI.ps1)
+
+I applied it to several scripts over the weekend and the result is spactacular. Now I wonder if I
+can get an ico library for compiling them with PS2EXE
 
 ### dan
