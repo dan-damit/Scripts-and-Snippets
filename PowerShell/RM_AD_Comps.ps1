@@ -118,7 +118,7 @@ try {
     $OUs = Get-ADObject -LDAPFilter '(|(objectClass=organizationalUnit)(objectClass=container))' -Properties DistinguishedName, Name | Sort-Object DistinguishedName
 
     foreach ($ou in $OUs) {
-        if ($ou.Name -match '(?i)(workstation|desktop|laptop|computer|clients|endpoints)') {
+        if ($ou.Name -match '(?i)(workstation|desktop|laptop|computer|clients|endpoints|PC)') {
             $cbOU.Items.Add($ou.DistinguishedName)
         }
     }
