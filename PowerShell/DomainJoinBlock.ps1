@@ -1,3 +1,14 @@
+<# Domain Join script 
+
+    Author: Dan.Damit (https://github.com/dan-damit)
+
+    This script provides a GUI for joining a computer to a domain.
+    It allows the user to select a domain from a dropdown list and enter credentials.
+    The script attempts to join the selected domain and provides feedback via message boxes.
+
+#>
+
+# Load required assemblies
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 
@@ -6,6 +17,9 @@ $form = New-Object System.Windows.Forms.Form
 $form.Text = "PowerShell GUI Wrapper"
 $form.Size = New-Object System.Drawing.Size(400, 300)
 $form.StartPosition = "CenterScreen"
+$form.FormBorderStyle = "FixedDialog"
+$form.MaximizeBox = $false
+$form.MinimizeBox = $false
 
 # Status Label
 $statusLabel = New-Object System.Windows.Forms.Label
@@ -19,10 +33,6 @@ $domainComboBox = New-Object System.Windows.Forms.ComboBox
 $domainComboBox.Location = New-Object System.Drawing.Point(20, 50)
 $domainComboBox.Width = 200
 $domainComboBox.DropDownStyle = 'DropDownList'
-
-# Static list or dynamic resolution
-$domainComboBox.Items.AddRange(@("corp.contoso.local", "sales.contoso.local", "dev.contoso.local"))
-$domainComboBox.SelectedIndex = 0
 $form.Controls.Add($domainComboBox)
 
 # Button 1 - Join Domain
@@ -68,34 +78,25 @@ function Join-Domain {
         [System.Windows.Forms.Button]$ExitButton = $null
     )
 
-    # Update status label
     if ($StatusLabel) {
-        if ($StatusLabel) { $StatusLabel.Text = "Attempting to join domain '$Domain'..." }
-        if (-not (Test-NetConnection -ComputerName $Domain -Port 389 -WarningAction SilentlyContinue -ErrorAction SilentlyContinue -Quiet)) {
-            Show-LogBox "Cannot reach '$Domain' on port 389. Check FQDN and network connectivity." "Invalid Domain" "Warning"
-            if ($ExitButton) { $ExitButton.Visible = $true }
-            return
-        }
+        $StatusLabel.Text = "Attempting to join domain '$Domain'..."
+    }
 
-        $maxTries = 3
-        for ($i = 1; $i -le $maxTries; $i++) {
-            try {
-                Add-Computer -DomainName $Domain -Credential $Credential -ErrorAction Stop
-                Show-LogBox "Successfully joined '$Domain'. Reboot the computer to finalize." "Join Successful"
-                if ($StatusLabel) { $StatusLabel.Text = "Successfully joined '$Domain'" }
-                return
-            }
-            catch {
-                Show-LogBox "Domain join attempt $i failed:`n$($_.Exception.Message)" "Join Failed" "Error"
-                if ($i -lt $maxTries) {
-                    Show-LogBox "Join failed—check credentials and try again." "Retry" "Warning"
-                    if ($StatusLabel) { $StatusLabel.Text = "Join failed. See message box for details." }
-                }
-                else {
-                    Show-LogBox "Maximum retries reached—skipping domain join." "Join Skipped" "Error"
-                }
-            }
-        }
+    if (-not (Test-NetConnection -ComputerName $Domain -Port 389 -WarningAction SilentlyContinue -ErrorAction SilentlyContinue -Quiet)) {
+        Show-LogBox "Cannot reach '$Domain' on port 389. Check FQDN and network connectivity." "Invalid Domain" "Warning"
+        if ($StatusLabel) { $StatusLabel.Text = "Domain unreachable." }
+        if ($ExitButton) { $ExitButton.Visible = $true }
+        return
+    }
+
+    try {
+        Add-Computer -DomainName $Domain -Credential $Credential -ErrorAction Stop
+        Show-LogBox "Successfully joined '$Domain'. Reboot the computer to finalize." "Join Successful"
+        if ($StatusLabel) { $StatusLabel.Text = "Successfully joined '$Domain'" }
+    }
+    catch {
+        Show-LogBox "Domain join failed:`n$($_.Exception.Message)" "Join Failed" "Error"
+        if ($StatusLabel) { $StatusLabel.Text = "Join failed. See message box for details." }
         if ($ExitButton) { $ExitButton.Visible = $true }
     }
 }
@@ -103,15 +104,19 @@ function Join-Domain {
 # Populate domain list dynamically
 try {
     $domains = ([System.DirectoryServices.ActiveDirectory.Forest]::GetCurrentForest()).Domains | ForEach-Object { $_.Name }
-    $domainComboBox.Items.AddRange($domains)
+    if ($domains.Count -gt 0) {
+        $domainComboBox.Items.AddRange($domains)
+        $domainComboBox.SelectedIndex = 0
+    }
 }
 catch {
     if ($domainComboBox.Items.Count -eq 0) {
         $domainComboBox.Items.Add("contoso.local")
+        $domainComboBox.SelectedIndex = 0
     }
 }
 
 # Show the form
-$form.Topmost = $true
+$form.Topmost = $false
 $form.Add_Shown({ $form.Activate() })
 [void]$form.ShowDialog()
