@@ -3,11 +3,11 @@ let allEntries = [];
 
 fetch("entries.json")
   .then((res) => res.json())
-  .then((entries) => {
-    allEntries = entries.reverse(); // Show newest first
+  .then((data) => {
+    allEntries = data.entries.reverse();
 
     // Initialize global variables
-    const allTags = [...new Set(entries.flatMap((entry) => entry.tags))].sort(); // Unique sorted tags
+    const allTags = [...new Set(allEntries.flatMap((entry) => entry.tags))].sort(); // Unique sorted tags
     const paginationNav = document.getElementById("pagination-nav");
     const tagIndex = document.getElementById("tag-index");
 
