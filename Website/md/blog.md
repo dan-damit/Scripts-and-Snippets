@@ -888,3 +888,27 @@ I applied it to several scripts over the weekend and the result is spactacular.
 Now I wonder if I can get an ico library for compiling them with PS2EXE
 
 ### dan
+
+---
+
+# Adjusting the blog structure
+
+**Date:** 2025-11-19 **Tags:** javascript, scalability
+
+## Was forseeing some scalability issues
+
+I thought that I was going to end up running into scalability issues with the
+blog as it continues to grow. I thought it would be best then to slightly
+restructure the md-to-json.js to look for multiple blog markdown files. This way
+it's not only safer so I won't lose everything in the worst case scenario, it
+will be easier to break up the one huge blog.md file into multiple. I'm thinking
+by month.
+
+I created a new folder /md and moved the blog.md file to this folder, and will
+make a new blog.md file month to month. blog1.md , blog2.md , etc. Then the
+script will grab and parse each file in the /md dir.
+
+[Code here](https://github.com/dan-damit/Scripts-and-Snippets/blob/main/Website/md-to-json.js)
+
+I also had to adjust the blog-loader just slightly as well, but that was only a
+couple lines.
