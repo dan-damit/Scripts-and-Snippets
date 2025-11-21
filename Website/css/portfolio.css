@@ -1,0 +1,45 @@
+/* ============================
+   Resume-Specific Styling
+   ============================ */
+
+/* QR block layout */
+.qr-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 2rem;
+}
+
+.qr-block img {
+  max-width: 180px;
+  margin-bottom: 0.5rem;
+}
+
+.qr-caption {
+  font-size: 0.85rem;
+  color: var(--soft-green);
+  text-align: center;
+}
+
+/* Print-only QR block */
+.print-qr {
+  display: none;
+}
+
+@media print {
+  .print-qr {
+    display: block;
+    margin-top: 2rem;
+    text-align: center;
+  }
+
+  .print-qr img {
+    max-width: 180px;
+    margin-bottom: 0.5rem;
+  }
+
+  .print-qr .qr-caption {
+    font-size: 0.85rem;
+    color: #000;
+  }
+}
