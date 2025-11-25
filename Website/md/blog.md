@@ -912,3 +912,22 @@ script will grab and parse each file in the /md dir.
 
 I also had to adjust the blog-loader just slightly as well, but that was only a
 couple lines.
+
+---
+
+# Creating a simple robocopy script
+
+**Date:** 11-24-25 **Tags:** powershell, scripting
+
+## Had a fun task that presented the opportunity
+
+I had a service call today to combine two shared folders into one after the
+retirement of a management person. They wanted to take the retiree folder and
+the newly promoted manager share folders and combine them into one just simply
+called Management. There was quite a bit between the two folders, so I saw that
+as an opportunity to create a simple robocopy PowerShell script to accomplish
+the task safely.
+
+[Code here](https://github.com/dan-damit/Scripts-and-Snippets/blob/main/PowerShell/CopyDir.ps1)
+
+### dan

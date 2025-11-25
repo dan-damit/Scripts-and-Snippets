@@ -10,8 +10,9 @@ let allEntries = [];
 
 for (const file of blogFiles) {
   const raw = fs.readFileSync(path.join(blogDir, file), "utf8");
+  const normalizedRaw = raw.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
 
-  const normalized = raw.replace(
+  const normalized = normalizedRaw.replace(
     /(\*\*Date:\*\*.*?)(\s+)(\*\*Tags:\*\*.*)/g,
     "$1\n$3"
   );
@@ -59,8 +60,14 @@ for (const file of blogFiles) {
       )
       .split(/\n{2,}/)
       .map((p) => {
-        if (p.startsWith("<pre><code>")) return p;
-        return `<p>${p.replace(/\n/g, "<br>")}</p>`;
+        if (
+          p.startsWith("<pre><code>") ||
+          p.startsWith("<h1>") ||
+          p.startsWith("<h2>") ||
+          p.startsWith("<h3>")
+        )
+          return p;
+        return `<p>${p}</p>`;
       })
       .join("");
 
