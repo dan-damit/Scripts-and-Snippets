@@ -36,8 +36,25 @@ const normalized = normalizedRaw.replace(
 );
 ```
 
+Then finally, and update to how the final map() works if the parser detects
+headers just how it was handling the pre and code elements:
+
+```JavaScript
+.map((p) => {
+    if (
+        p.startsWith("<pre><code>") ||
+        p.startsWith("<h1>") ||
+        p.startsWith("<h2>") ||
+        p.startsWith("<h3>")
+    )
+        return p;
+    return `<p>${p}</p>`;
+})
+```
+
 So this removed the carraige return \r that were causing the blog cards to look
-weird with lots of spacing between lines.
+weird with lots of spacing between lines, and it also let the CSS styling map to
+links in the blog cards like with the orignial blog.md file.
 
 [Code here](https://github.com/dan-damit/Scripts-and-Snippets/blob/main/Website/md-to-json.js)
 
