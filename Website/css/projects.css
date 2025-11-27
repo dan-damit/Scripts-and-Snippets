@@ -15,6 +15,13 @@
   box-shadow: 0 0 8px var(--neon-green);
 }
 
+.project-card:hover {
+  transform: scale(1.10);
+  background-color: black;
+  box-shadow: 0 0 25px var(--soft-green);
+  z-index: 250;
+}
+
 .project-title {
   font-size: 1.2rem;
   color: var(--neon-green);
