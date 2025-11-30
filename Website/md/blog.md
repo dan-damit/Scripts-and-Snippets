@@ -917,7 +917,7 @@ couple lines.
 
 # Creating a simple robocopy script
 
-**Date:** 11-24-25 **Tags:** powershell, scripting
+**Date:** 2025-11-24 **Tags:** powershell, scripting
 
 ## Had a fun task that presented the opportunity
 
