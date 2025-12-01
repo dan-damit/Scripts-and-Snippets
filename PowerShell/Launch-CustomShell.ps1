@@ -44,18 +44,43 @@ function Show-SystemSnapshot {
     $info = Get-ComputerInfo
 
     Write-Host "`nSystem Snapshot:" -ForegroundColor DarkGreen
-    Write-Host "  OS         : $(Get-CimInstance Win32_OperatingSystem)" -ForegroundColor Yellow
-    Write-Host "  Build      : $($info.WindowsBuildLabEx)" -ForegroundColor Yellow
-    Write-Host "  Machine    : $($info.CsName)" -ForegroundColor Yellow
+    Write-Host "  OS         : $(Get-CimInstance Win32_OperatingSystem)" -ForegroundColor DarkYellow
+    Write-Host "  Build      : $($info.WindowsBuildLabEx)" -ForegroundColor DarkYellow
+    Write-Host "  Machine    : $($info.CsName)" -ForegroundColor DarkYellow
+
     $boot = (Get-CimInstance Win32_OperatingSystem).LastBootUpTime
-		$uptime = (Get-Date) - $boot
-	Write-Host "  Uptime     : $($uptime.Days)d $($uptime.Hours)h $($uptime.Minutes)m" -ForegroundColor Yellow
-	$cpuInfo = Get-CimInstance Win32_Processor
-	Write-Host "  CPU        : $($cpuInfo.Name)" -ForegroundColor Yellow
-	Write-Host "  Cores      : $($cpuInfo.NumberOfCores)" -ForegroundColor Yellow
-	Write-Host "  Threads    : $($cpuInfo.NumberOfLogicalProcessors)" -ForegroundColor Yellow
-    Write-Host "  RAM        : $([math]::Round($info.CsTotalPhysicalMemory / 1GB, 2)) GB" -ForegroundColor Yellow
-    Write-Host "  Domain     : $($info.CsDomain)" -ForegroundColor Yellow
+    $uptime = (Get-Date) - $boot
+    Write-Host "  Uptime     : $($uptime.Days)d $($uptime.Hours)h $($uptime.Minutes)m" -ForegroundColor DarkYellow
+
+    $cpuInfo = Get-CimInstance Win32_Processor
+    Write-Host "  CPU        : $($cpuInfo.Name)" -ForegroundColor DarkYellow
+    Write-Host "  Cores      : $($cpuInfo.NumberOfCores)" -ForegroundColor DarkYellow
+    Write-Host "  Threads    : $($cpuInfo.NumberOfLogicalProcessors)" -ForegroundColor DarkYellow
+    Write-Host "  RAM        : $([math]::Round($info.CsTotalPhysicalMemory / 1GB, 2)) GB" -ForegroundColor DarkYellow
+    Write-Host "  Domain     : $($info.CsDomain)" -ForegroundColor DarkYellow
+	Write-Host "`nDISK INFORMATION:" -ForegroundColor DarkGreen
+
+    # Logical disks
+    $disks = Get-CimInstance Win32_LogicalDisk -Filter "DriveType=3"
+    foreach ($disk in $disks) {
+        $sizeGB = [math]::Round($disk.Size / 1GB, 2)
+        $freeGB = [math]::Round($disk.FreeSpace / 1GB, 2)
+        $usedGB = $sizeGB - $freeGB
+        $percentFree = [math]::Round(($disk.FreeSpace / $disk.Size) * 100, 1)
+        Write-Host "  Disk $($disk.DeviceID) : $usedGB GB used / $freeGB GB free ($percentFree% free)" -ForegroundColor DarkYellow
+    }
+	
+	Write-Host "`nDRIVE MODEL:" -ForegroundColor DarkGreen
+
+    # Physical drives
+    $drives = Get-CimInstance Win32_DiskDrive
+    foreach ($drive in $drives) {
+        Write-Host "  Drive $($drive.DeviceID)" -ForegroundColor DarkYellow
+        Write-Host "    Model   : $($drive.Model)" -ForegroundColor DarkYellow
+        Write-Host "    Size    : $([math]::Round($drive.Size / 1GB, 2)) GB" -ForegroundColor DarkYellow
+        Write-Host "    Status  : $($drive.Status)" -ForegroundColor DarkYellow
+    }
+	Write-Host "`n"
 }
 
 # Reliable prompt: build lambda char at runtime to avoid encoding issues
