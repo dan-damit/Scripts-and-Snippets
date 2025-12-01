@@ -21,7 +21,7 @@ This is a test
 I had to adjust the parser to handle the new files like the original blog.md
 file:
 
-```JavaScript
+```
 const raw = fs.readFileSync(path.join(blogDir, file), "utf8");
 
 const normalizedRaw = raw.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
@@ -29,7 +29,7 @@ const normalizedRaw = raw.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
 
 Then:
 
-```JavaScript
+```
 const normalized = normalizedRaw.replace(
   /(\*\*Date:\*\*.*?)(\s+)(\*\*Tags:\*\*.*)/g,
   "$1\n$3"
@@ -39,7 +39,7 @@ const normalized = normalizedRaw.replace(
 Then finally, and update to how the final map() works if the parser detects
 headers just how it was handling the pre and code elements:
 
-```JavaScript
+```
 .map((p) => {
     if (
         p.startsWith("<pre><code>") ||
