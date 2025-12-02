@@ -1,9 +1,17 @@
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 
-# Config
-$archiveDir = "C:\Wallpapers\BingArchive"
-$favoritesFile = "$archiveDir\favorites.txt"
+$baseDir = Split-Path -Parent $MyInvocation.MyCommand.Definition
+$configPath = Join-Path $baseDir "config.json"
+
+if (!(Test-Path $configPath)) {
+    [System.Windows.Forms.MessageBox]::Show("Missing config.json in $baseDir")
+    exit
+}
+
+$config = Get-Content $configPath | ConvertFrom-Json
+$archiveDir = $config.ArchiveDir
+$favoritesFile = Join-Path $archiveDir "favorites.txt"
 
 if (!(Test-Path $favoritesFile)) { New-Item -ItemType File -Path $favoritesFile | Out-Null }
 $favorites = Get-Content $favoritesFile
@@ -38,6 +46,7 @@ $listBox.Add_SelectedIndexChanged({
         $selected = $listBox.SelectedItem
         if ($selected) {
             $path = Join-Path $archiveDir $selected
+            if ($previewBox.Image) { $previewBox.Image.Dispose() }
             $previewBox.Image = [System.Drawing.Image]::FromFile($path)
         }
     })
