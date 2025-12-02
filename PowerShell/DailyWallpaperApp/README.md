@@ -32,4 +32,4 @@ Use a JSON config block (included in folder):
 Create a scheduled task to run daily:
 
 - Trigger: Daily at desired time
-- Action: PowerShell.exe -NoProfile -ExecutionPolicy Bypass -File
+- Action: PowerShell.exe -NoProfile -ExecutionPolicy Bypass -File C:\Path\to\Archive.ps1
