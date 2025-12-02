@@ -1,7 +1,7 @@
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 
-$baseDir = Split-Path -Parent $MyInvocation.MyCommand.Definition
+$baseDir = [System.IO.Path]::GetDirectoryName([System.Diagnostics.Process]::GetCurrentProcess().MainModule.FileName)
 $configPath = Join-Path $baseDir "config.json"
 
 if (!(Test-Path $configPath)) {
