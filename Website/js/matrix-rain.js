@@ -58,4 +58,13 @@ window.addEventListener("resize", () => {
 
 // Start the animation
 window.addEventListener("load", resizeCanvasAndDrops);
-setInterval(draw, 50);
+
+let lastDraw = 0;
+function loop(timestamp) {
+  if (timestamp - lastDraw > 50) {
+    draw();
+    lastDraw = timestamp;
+  }
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
