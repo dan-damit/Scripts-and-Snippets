@@ -35,24 +35,24 @@ For issues or questions, refer to the [original PowerShell scripts](https://gith
 
 ## Contents
 
-- Clean Stale DNS Entries.exe | Windows Server DNS - grabs zones and loads the
+- Clean Stale DNS Entries.exe = Windows Server DNS - grabs zones and loads the
   contents in the window for analysis.
 
-- Domain Join.exe :: automated domain join tool with GUI.
+- Domain Join.exe = automated domain join tool with GUI.
 
-- InstallCert.exe :: Installs my code signing cert into Trusted Publisher store.
+- InstallCert.exe = Installs my code signing cert into Trusted Publisher store.
 
-- Launch Custom Shell.exe :: This launches a fun custome PS console.
+- Launch Custom Shell.exe = This launches a fun custome PS console.
 
-- Remove Inactive Computers.exe :: This GUI tool removes computer objects from AD
+- Remove Inactive Computers.exe = This GUI tool removes computer objects from AD
   that haven't checked in for a given amount of days.
 
-- ScheduleReboot.exe :: This little GUI tool leverages Task Scheduler to
+- ScheduleReboot.exe = This little GUI tool leverages Task Scheduler to
   schedule a one-time reboot of the workstation or server.
 
-- SignFile.exe :: My personal GUI tool that has my code signing cert embedded into
+- SignFile.exe = My personal GUI tool that has my code signing cert embedded into
   it. It will sign a file using that cert (password entry required at
   execution).
   
-- System Repair Toolkit.exe :: This is my GUI for a single spot to leverage
+- System Repair Toolkit.exe = This is my GUI for a single spot to leverage
   built-in tools like DISM and SFC with specific switches.
