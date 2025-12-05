@@ -35,7 +35,7 @@ For issues or questions, refer to the [original PowerShell scripts](https://gith
 
 ## Contents
 
-- Clean Stale DNS Entries.exe :: Windows Server DNS - grabs zones and loads the
+- Clean Stale DNS Entries.exe | Windows Server DNS - grabs zones and loads the
   contents in the window for analysis.
 
 - Domain Join.exe :: automated domain join tool with GUI.
