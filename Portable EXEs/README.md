@@ -21,6 +21,7 @@ scripts.
 | ------------------- | ------------------------------------- | -------- |
 |   Domain Join.exe   |    Automates Domain join with GUI     |    v1    |
 | ScheduleReboot.exe  |     Schedules a one-time reboot       |   v1.1   |
+| Remove Inactive Computers.exe | GUI tool for removing stale computer objects in AD | v1.1 |
 
 ## Notes
 
@@ -55,4 +56,3 @@ For issues or questions, refer to the [original PowerShell scripts](https://gith
   
 - System Repair Toolkit.exe :: This is my GUI for a single spot to leverage
   built-in tools like DISM and SFC with specific switches.
-  
