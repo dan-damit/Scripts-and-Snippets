@@ -42,7 +42,8 @@ For issues or questions, refer to the [original PowerShell scripts](https://gith
 
 - InstallCert.exe = Installs my code signing cert into Trusted Publisher store.
 
-- Launch Custom Shell.exe = This launches a fun custome PS console.
+- Launch Custom Shell.exe = This launches a fun custom PS console on any PC with
+  Windows PowerShell installed.
 
 - Remove Inactive Computers.exe = This GUI tool removes computer objects from AD
   that haven't checked in for a given amount of days.
