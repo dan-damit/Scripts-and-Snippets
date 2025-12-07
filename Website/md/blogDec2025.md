@@ -155,6 +155,29 @@ ugly as all get-up yet, but I think the prettiness will come over time.
 
 ## Tryin a second query 
 
+I wanted to grab FirstName, LastName, and EmailAddress from employees:
+
+```
+SELECT 
+    p.FirstName,
+    p.LastName,
+    ea.EmailAddress
+FROM HumanResources.Employee e
+JOIN Person.Person p 
+    ON e.BusinessEntityID = p.BusinessEntityID
+JOIN Person.EmailAddress ea 
+    ON p.BusinessEntityID = ea.BusinessEntityID
+ORDER BY p.LastName, p.FirstName;
+```
+
+The hard part still is figuring out JOINS and how to structure them using the
+Primary and Secondary Keys. So I started reading up on how they interact with
+each other, and why all the tables don't just "talk" to each other by default.
+Turns out that is something that is learned early on in relational database
+management. I will probably make a post about that in the coming days (since
+doing the posts help me hammer it home in my head - like how writing stuff down
+helps some people remember things).
+
 I think there is a way to query a DB for table key information and how they
 relate to each other. I read up a bit on it online and had trusty Copilot help
 break it down into a digestible format. I think the three queries below will
