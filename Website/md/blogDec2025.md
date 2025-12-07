@@ -146,3 +146,68 @@ selections to column/row/value and BAM. My first test report was generated. It's
 ugly as all get-up yet, but I think the prettiness will come over time.
 
 ### dan
+
+---
+
+# Starting up a second query
+
+**Date:** 2025-12-06 **Tags:** sql, server, scripting
+
+## Tryin a second query 
+
+I think there is a way to query a DB for table key information and how they
+relate to each other. I read up a bit on it online and had trusty Copilot help
+break it down into a digestible format. I think the three queries below will
+show the keys for the AdventureWorks2022 sandbox I loaded up.
+
+### Primary Keys:
+
+```
+SELECT 
+    t.name AS TableName,
+    c.name AS ColumnName,
+    i.name AS PrimaryKeyName
+FROM sys.indexes i
+JOIN sys.index_columns ic ON i.object_id = ic.object_id AND i.index_id = ic.index_id
+JOIN sys.columns c ON ic.object_id = c.object_id AND ic.column_id = c.column_id
+JOIN sys.tables t ON i.object_id = t.object_id
+WHERE i.is_primary_key = 1
+ORDER BY TableName;
+```
+
+### Secondary Keys:
+
+```
+SELECT 
+    fk.name AS ForeignKeyName,
+    tp.name AS ParentTable,
+    cp.name AS ParentColumn,
+    tr.name AS ReferencedTable,
+    cr.name AS ReferencedColumn
+FROM sys.foreign_keys fk
+JOIN sys.foreign_key_columns fkc ON fk.object_id = fkc.constraint_object_id
+JOIN sys.tables tp ON fkc.parent_object_id = tp.object_id
+JOIN sys.columns cp ON fkc.parent_object_id = cp.object_id AND fkc.parent_column_id = cp.column_id
+JOIN sys.tables tr ON fkc.referenced_object_id = tr.object_id
+JOIN sys.columns cr ON fkc.referenced_object_id = cr.object_id AND fkc.referenced_column_id = cr.column_id
+ORDER BY ParentTable, ForeignKeyName;
+```
+
+### Constraints:
+
+```
+SELECT 
+    t.name AS TableName,
+    c.name AS ColumnName,
+    con.name AS ConstraintName,
+    con.type_desc AS ConstraintType
+FROM sys.objects con
+JOIN sys.tables t ON con.parent_object_id = t.object_id
+JOIN sys.columns c ON c.object_id = t.object_id
+WHERE con.type_desc IN ('PRIMARY_KEY_CONSTRAINT','FOREIGN_KEY_CONSTRAINT','CHECK_CONSTRAINT','DEFAULT_CONSTRAINT','UNIQUE_CONSTRAINT')
+ORDER BY TableName;
+```
+
+[Contraints Tips](https://www.mssqltips.com/sqlservertip/7547/what-is-a-sql-constraint/)
+
+### dan
