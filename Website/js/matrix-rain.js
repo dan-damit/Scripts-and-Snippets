@@ -1,5 +1,9 @@
-﻿const canvas = document.getElementById("matrixCanvasMain");
+﻿// Get the canvas element
+const canvas = document.getElementById("matrixCanvasMain");
+
+// Matrix Rain Effect with Depth Simulation
 class MatrixRain3D {
+  // Initialize the Matrix Rain effect with depth simulation
   constructor(canvasId, fontSize = 16) {
     this.canvas = document.getElementById(canvasId);
     this.ctx = this.canvas.getContext("2d");
@@ -9,13 +13,15 @@ class MatrixRain3D {
     this.drops = [];
     this.depths = [];
     this.lastDraw = 0;
-
+    
+    // Resize handling
     this.resizeCanvasAndDrops();
     window.addEventListener("resize", () => this.debounceResize());
     window.addEventListener("load", () => this.resizeCanvasAndDrops());
     requestAnimationFrame((ts) => this.loop(ts));
   }
 
+  // Resize canvas and recalculate drops
   resizeCanvasAndDrops() {
     const dpr = window.devicePixelRatio || 1;
     this.canvas.width = window.innerWidth * dpr;
@@ -30,11 +36,13 @@ class MatrixRain3D {
     this.depths = Array.from({ length: columns }, () => Math.random());
   }
 
+  // Debounce resize events
   debounceResize() {
     clearTimeout(this.resizeTimeout);
     this.resizeTimeout = setTimeout(() => this.resizeCanvasAndDrops(), 100);
   }
 
+  // Draw the Matrix Rain effect
   draw() {
     this.ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
@@ -64,6 +72,7 @@ class MatrixRain3D {
     }
   }
 
+  // Animation loop
   loop(timestamp) {
     if (timestamp - this.lastDraw > 50) {
       this.draw();
@@ -73,5 +82,5 @@ class MatrixRain3D {
   }
 }
 
-// Usage:
+// Usage
 const matrix3D = new MatrixRain3D("matrixCanvasMain");
