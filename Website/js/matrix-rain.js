@@ -1,70 +1,77 @@
 ﻿const canvas = document.getElementById("matrixCanvasMain");
-const ctx = canvas.getContext("2d");
+class MatrixRain3D {
+  constructor(canvasId, fontSize = 16) {
+    this.canvas = document.getElementById(canvasId);
+    this.ctx = this.canvas.getContext("2d");
+    this.fontSize = fontSize;
+    this.letters =
+      "アァイィウヴエェオカガキギクグケゲコゴサザシジスズセゼソゾタダチヂツヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモヤユヨラリルレロワヲン ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789";
+    this.drops = [];
+    this.depths = [];
+    this.lastDraw = 0;
 
-// Set canvas full screen
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+    this.resizeCanvasAndDrops();
+    window.addEventListener("resize", () => this.debounceResize());
+    window.addEventListener("load", () => this.resizeCanvasAndDrops());
+    requestAnimationFrame((ts) => this.loop(ts));
+  }
 
-const letters =
-  "アァイィウヴエェオカガキギクグケゲコゴサザシジスズセゼソゾタダチヂツヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモヤユヨラリルレロワヲンABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-const fontSize = 16;
-const columns = Math.floor(canvas.width / fontSize);
+  resizeCanvasAndDrops() {
+    const dpr = window.devicePixelRatio || 1;
+    this.canvas.width = window.innerWidth * dpr;
+    this.canvas.height = window.innerHeight * dpr;
+    this.canvas.style.width = "100%";
+    this.canvas.style.height = "100%";
+    this.ctx.setTransform(1, 0, 0, 1, 0, 0);
+    this.ctx.scale(dpr, dpr);
 
-// Array for drops (y positions for each column)
-const drops = Array.from({ length: columns }, () => 1);
+    const columns = Math.floor(this.canvas.width / this.fontSize / dpr);
+    this.drops = Array.from({ length: columns }, () => 1);
+    this.depths = Array.from({ length: columns }, () => Math.random());
+  }
 
-function draw() {
-  // Semi-transparent background for trail effect
-  ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  debounceResize() {
+    clearTimeout(this.resizeTimeout);
+    this.resizeTimeout = setTimeout(() => this.resizeCanvasAndDrops(), 100);
+  }
 
-  ctx.font = `${fontSize}px monospace`;
-  ctx.fillStyle = "#0F0"; // matrix green
+  draw() {
+    this.ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
+    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
-  // Draw each letter
-  for (let i = 0; i < drops.length; i++) {
-    const text = letters[Math.floor(Math.random() * letters.length)];
-    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+    for (let i = 0; i < this.drops.length; i++) {
+      const text =
+        this.letters[Math.floor(Math.random() * this.letters.length)];
+      const depth = this.depths[i];
 
-    // Randomly reset drop
-    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-      drops[i] = 0;
+      // Depth-based size and brightness
+      const size = this.fontSize * (0.5 + depth * 1.5);
+      this.ctx.font = `${size}px monospace`;
+      const brightness = Math.floor(100 + depth * 155);
+      this.ctx.fillStyle = `rgb(0, ${brightness}, 0)`;
+
+      // Depth-based blur and parallax
+      this.ctx.shadowColor = "transparent";
+      this.ctx.shadowBlur = (1 - depth) * 8;
+      const x = i * this.fontSize + depth * 10;
+
+      this.ctx.fillText(text, x, this.drops[i] * size);
+
+      if (this.drops[i] * size > this.canvas.height && Math.random() > 0.975) {
+        this.drops[i] = 0;
+      }
+      this.drops[i]++;
     }
-    drops[i]++;
+  }
+
+  loop(timestamp) {
+    if (timestamp - this.lastDraw > 50) {
+      this.draw();
+      this.lastDraw = timestamp;
+    }
+    requestAnimationFrame((ts) => this.loop(ts));
   }
 }
 
-// Optional: Adjust on resize
-function resizeCanvasAndDrops() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-
-  const newColumns = Math.floor(canvas.width / fontSize);
-  const newDrops = new Array(newColumns).fill(1);
-  for (let i = 0; i < Math.min(drops.length, newColumns); i++) {
-    newDrops[i] = drops[i];
-  }
-
-  drops.length = 0;
-  drops.push(...newDrops);
-}
-
-// Debounce resize events
-let resizeTimeout;
-window.addEventListener("resize", () => {
-  clearTimeout(resizeTimeout);
-  resizeTimeout = setTimeout(resizeCanvasAndDrops, 100);
-});
-
-// Start the animation
-window.addEventListener("load", resizeCanvasAndDrops);
-
-let lastDraw = 0;
-function loop(timestamp) {
-  if (timestamp - lastDraw > 50) {
-    draw();
-    lastDraw = timestamp;
-  }
-  requestAnimationFrame(loop);
-}
-requestAnimationFrame(loop);
+// Usage:
+const matrix3D = new MatrixRain3D("matrixCanvasMain");
