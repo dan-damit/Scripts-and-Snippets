@@ -93,7 +93,7 @@
   margin-top: 2rem;
   font-family: monospace;
   color: var(--neon-green);
-  background-color: #111;
+  background-color: var(--semi-transparent-black);
   padding: 1.5em;
   border: 1px solid var(--neon-green);
   border-radius: 6px;
@@ -101,6 +101,13 @@
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;
+}
+
+.status-widget:hover {
+  transform: scale(1.1);
+  background-color: black;
+  box-shadow: 0 0 25px var(--soft-green);
+  z-index: 250;
 }
 
 .status-widget h2 {
@@ -147,7 +154,7 @@ a {
 }
 
 a.button-link {
-    background-color: rgba(0, 0, 0, 0.75);
+  background-color: rgba(0, 0, 0, 0.75);
 }
 
 a:hover {

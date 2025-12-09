@@ -39,21 +39,6 @@ canvas {
   z-index: 1;
 }
 
-.blur {
-  filter: blur(4px);
-  transition: filter 0.5s ease-in-out;
-}
-
-.opacity-4 {
-  opacity: 0.4;
-  transition: opacity 0.5s ease-in-out;
-}
-
-.opacity-8 {
-  opacity: 0.8;
-  transition: opacity 0.5s ease-in-out;
-}
-
 /* Neon hover effects */
 .neon-button:hover,
 .pdf-btn:hover,

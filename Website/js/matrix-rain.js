@@ -15,9 +15,9 @@ class MatrixRain3D {
 
     // Overlay settings
     this.overlayColor = "rgba(255, 255, 255, 0.8)";
-    this.overlayFontSize = 18;
+    this.overlayFontSize = 24;
     this.overlayBlinkSpeed = 400;
-    this.overlayCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    this.overlayCharacters = "アァイィウヴエェオカガキギクグケゲコゴサザシジスズセゼソゾタダチヂツヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモヤユヨラリルレロワヲンABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
     // Resize handling
     this.resizeCanvasAndDrops();
@@ -41,11 +41,6 @@ class MatrixRain3D {
     const columns = Math.floor(this.canvas.width / this.fontSize / dpr);
     this.drops = Array.from({ length: columns }, () => 1);
     this.depths = Array.from({ length: columns }, () => Math.random());
-  }
-
-  debounceResize() {
-    clearTimeout(this.resizeTimeout);
-    this.resizeTimeout = setTimeout(() => this.resizeCanvasAndDrops(), 100);
   }
 
   // Matrix Rain draw
