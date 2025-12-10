@@ -234,3 +234,58 @@ ORDER BY TableName;
 [Contraints Tips](https://www.mssqltips.com/sqlservertip/7547/what-is-a-sql-constraint/)
 
 ### dan
+
+---
+
+# Tweaking the matrix-rain engine
+
+**Date:** 2025-12-09 **Tags:** javascript, scripting
+
+## Adding some depth to the canvas
+
+I wanted to have more depth in the Rain effect. So I was brainstorming how to
+accomplish that without loading down slower computers like my attempt a couple
+of months ago. I ended up having each column's font size pick a random size.
+
+```
+draw() {
+    this.ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
+    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
+    for (let i = 0; i < this.drops.length; i++) {
+      const text =
+        this.letters[Math.floor(Math.random() * this.letters.length)];
+      const depth = this.depths[i];
+
+      const size = this.fontSize * (0.5 + depth * 1.5);
+      this.ctx.font = `${size}px monospace`;
+      const brightness = Math.floor(100 + depth * 155);
+      this.ctx.fillStyle = `rgb(0, ${brightness}, 0)`;
+
+      this.ctx.shadowColor = "transparent";
+      this.ctx.shadowBlur = (1 - depth) * 8;
+      const x = i * this.fontSize + depth * 10;
+
+      this.ctx.fillText(text, x, this.drops[i] * size);
+
+      if (this.drops[i] * size > this.canvas.height && Math.random() > 0.975) {
+        this.drops[i] = 0;
+      }
+      this.drops[i]++;
+    }
+  }
+```
+
+This effectively let the column decide at draw time to pick a font size randomly
+between 0.5 and 1.5 times the default size. The result has been just was I was
+looking for. I also added an overlay based off of a cool idea I found someone
+post on a medium.com articlet, which had a link in it to the author's repo.
+
+[His code](https://github.com/andresz74/matrix/blob/main/matrix.js)
+
+I adapted the Overlay into my matrix-rain.js file because I loved the effect of
+it seeming like rain drops were hitting the backstop of the canvas.
+
+[My code](https://github.com/dan-damit/Scripts-and-Snippets/blob/main/Website/js/matrix-rain.js)
+
+### dan

@@ -8,7 +8,7 @@ class MatrixRain3D {
     this.ctx = this.canvas.getContext("2d");
     this.fontSize = fontSize;
     this.letters =
-      "アァイィウヴエェオカガキギクグケゲコゴサザシジスズセゼソゾタダチヂツヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモヤユヨラリルレロワヲンABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+      "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンガギグゲゴザジズゼゾダヂヅデドバビブベボパピプペポあいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをん一二三四五六七八九十零!@#$%^&*()-_=+[]{}|;:',.<>?/`~¡™£¢∞§¶•ªº–≠œ∑´®†¥¨ˆøπ“‘åß∂ƒ©˙∆˚¬Ω≈ç√∫˜µ≤≥÷ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     this.drops = [];
     this.depths = [];
     this.lastDraw = 0;
@@ -17,13 +17,24 @@ class MatrixRain3D {
     this.overlayColor = "rgba(255, 255, 255, 0.8)";
     this.overlayFontSize = 24;
     this.overlayBlinkSpeed = 400;
-    this.overlayCharacters =
-      "アァイィウヴエェオカガキギクグケゲコゴサザシジスズセゼソゾタダチヂツヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモヤユヨラリルレロワヲンABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
     // Resize handling
     this.resizeCanvasAndDrops();
-    window.addEventListener("resize", () => this.debounceResize());
     window.addEventListener("load", () => this.resizeCanvasAndDrops());
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener("resize", () => {
+        const dpr = window.devicePixelRatio || 1;
+        const w = window.visualViewport.width * dpr;
+        const h = window.visualViewport.height * dpr;
+        if (this.canvas.width !== w || this.canvas.height !== h) {
+          clearTimeout(this.resizeTimeout);
+          this.resizeTimeout = setTimeout(
+            () => this.resizeCanvasAndDrops(),
+            200
+          );
+        }
+      });
+    }
 
     // Start both loops
     requestAnimationFrame((ts) => this.loop(ts));
@@ -42,12 +53,6 @@ class MatrixRain3D {
     const columns = Math.floor(this.canvas.width / this.fontSize / dpr);
     this.drops = Array.from({ length: columns }, () => 1);
     this.depths = Array.from({ length: columns }, () => Math.random());
-  }
-
-  // Debounce resize events
-  debounceResize() {
-    clearTimeout(this.resizeTimeout);
-    this.resizeTimeout = setTimeout(() => this.resizeCanvasAndDrops(), 100);
   }
 
   // Matrix Rain draw
@@ -86,9 +91,7 @@ class MatrixRain3D {
 
     for (let i = 0; i < 10; i++) {
       const text =
-        this.overlayCharacters[
-          Math.floor(Math.random() * this.overlayCharacters.length)
-        ];
+        this.letters[Math.floor(Math.random() * this.letters.length)];
       const x = Math.random() * this.canvas.width;
       const y = Math.random() * this.canvas.height;
       this.ctx.fillText(text, x, y);
