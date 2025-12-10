@@ -41,6 +41,7 @@ class MatrixRain3D {
     this.drawOverlay(); // kick off overlay separately
   }
 
+  // Resize canvas and recalculate drops
   resizeCanvasAndDrops() {
     const dpr = window.devicePixelRatio || 1;
     this.canvas.width = window.innerWidth * dpr;
@@ -57,7 +58,7 @@ class MatrixRain3D {
 
   // Matrix Rain draw
   draw() {
-    this.ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
+    this.ctx.fillStyle = "rgba(0, 0, 0, 0.075)";
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
     for (let i = 0; i < this.drops.length; i++) {
@@ -106,7 +107,7 @@ class MatrixRain3D {
 
   // Rain loop
   loop(timestamp) {
-    if (timestamp - this.lastDraw > 50) {
+    if (timestamp - this.lastDraw > 60) {
       this.draw();
       this.lastDraw = timestamp;
     }
