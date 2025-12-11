@@ -1,14 +1,10 @@
-﻿// Get the canvas element
-const canvas = document.getElementById("matrixCanvasMain");
-
-// Matrix Rain Effect with Depth Simulation
-class MatrixRain3D {
+﻿class MatrixRain3D {
   constructor(canvasId, fontSize = 16) {
     this.canvas = document.getElementById(canvasId);
     this.ctx = this.canvas.getContext("2d");
     this.fontSize = fontSize;
     this.glyphs =
-      "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンガギグゲゴザジズゼゾダヂヅデドバビブベボパピプペポあいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをん一二三四五六七八九十零!@#$%^&*()-_=+[]{}|;:',.<>?/`~¡™£¢∞§¶•ªº–≠œ∑´®†¥¨ˆøπ“‘åß∂ƒ©˙∆˚¬Ω≈ç√∫˜µ≤≥÷ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+      "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンガギグゲゴザジズゼゾダヂヅデドバビブベボパピプペポあいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをん一二三四五六七八九十零!@#$%^&*()-_=+[]{}|;:',.<>?/`~ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     this.drops = [];
     this.depths = [];
     this.lastDraw = 0;
@@ -38,10 +34,10 @@ class MatrixRain3D {
 
     // Start both loops
     requestAnimationFrame((ts) => this.loop(ts));
-    this.drawOverlay(); // kick off overlay separately
+    this.drawOverlay();
   }
 
-  // Resize canvas and recalculate drops
+  // Resize canvas and recalc drops
   resizeCanvasAndDrops() {
     const dpr = window.devicePixelRatio || 1;
     this.canvas.width = window.innerWidth * dpr;
@@ -62,10 +58,15 @@ class MatrixRain3D {
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
     for (let i = 0; i < this.drops.length; i++) {
-      const text =
-        this.glyphs[Math.floor(Math.random() * this.glyphs.length)];
+      const text = this.glyphs[Math.floor(Math.random() * this.glyphs.length)];
+
+      // Hybrid depth logic
+      // 1. Drift slightly each frame
+      this.depths[i] += (Math.random() - 0.5) * 0.02;
+      this.depths[i] = Math.max(0, Math.min(1, this.depths[i])); // clamp 0–1
       const depth = this.depths[i];
 
+      // 2. Use depth for size/brightness
       const size = this.fontSize * (0.5 + depth * 1.5);
       this.ctx.font = `${size}px monospace`;
       const brightness = Math.floor(100 + depth * 155);
@@ -77,28 +78,27 @@ class MatrixRain3D {
 
       this.ctx.fillText(text, x, this.drops[i] * size);
 
+      // Reset drop to top randomly after it goes off screen
       if (this.drops[i] * size > this.canvas.height && Math.random() > 0.975) {
         this.drops[i] = 0;
+        this.depths[i] = Math.random(); // 🔄 new depth only on reset
       }
       this.drops[i]++;
     }
   }
 
-  // Overlay draw (blinking random glyphs)
+  // Overlay draw
   drawOverlay() {
-    // Draw random overlay characters
     this.ctx.fillStyle = this.overlayColor;
     this.ctx.font = `${this.overlayFontSize}px monospace`;
 
     for (let i = 0; i < 10; i++) {
-      const text =
-        this.glyphs[Math.floor(Math.random() * this.glyphs.length)];
+      const text = this.glyphs[Math.floor(Math.random() * this.glyphs.length)];
       const x = Math.random() * this.canvas.width;
       const y = Math.random() * this.canvas.height;
       this.ctx.fillText(text, x, y);
     }
 
-    // Schedule next overlay blink
     setTimeout(
       () => requestAnimationFrame(() => this.drawOverlay()),
       this.overlayBlinkSpeed
