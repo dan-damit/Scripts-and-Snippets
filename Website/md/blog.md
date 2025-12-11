@@ -54,7 +54,9 @@ page to LinkedIn's Featured section.
 
 No biggie!
 
-`Invoke-TrumpWrongGIF...`
+```
+Invoke-TrumpWrongGIF...
+```
 
 LinkedIn was having none of it. After some digging, I discovered a page on the
 LinkedIn site that would render how a post would look. This little tool was
@@ -79,15 +81,21 @@ DSM has a hidden user dir: /usr/syno that houses numerous automation and conf
 files.  
 A quick grep for robots.txt in /usr/syno/ location revealed the culprit. A...
 
-`sudo vi /usr/syno/share/nginx/optimization.mustache`
+```
+sudo vi /usr/syno/share/nginx/optimization.mustache
+```
 
 concealed a snippet that had this:
 
-`location = /robots.txt { allow all; access_log off; log_not_found off; }`
+```
+location = /robots.txt { allow all; access_log off; log_not_found off; }
+```
 
 After swapping that for this:
 
-`location = /robots.txt { root /volume1/web; default_type text/plain; }`
+```
+location = /robots.txt { root /volume1/web; default_type text/plain; }
+```
 
 (Which is my custom robots.txt file in the root web folder), BOOM! Disallow /
 became Allow / and loading into LinkedIn was possible...after restarting nginx
