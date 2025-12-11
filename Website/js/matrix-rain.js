@@ -7,7 +7,7 @@ class MatrixRain3D {
     this.canvas = document.getElementById(canvasId);
     this.ctx = this.canvas.getContext("2d");
     this.fontSize = fontSize;
-    this.letters =
+    this.glyphs =
       "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンガギグゲゴザジズゼゾダヂヅデドバビブベボパピプペポあいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをん一二三四五六七八九十零!@#$%^&*()-_=+[]{}|;:',.<>?/`~¡™£¢∞§¶•ªº–≠œ∑´®†¥¨ˆøπ“‘åß∂ƒ©˙∆˚¬Ω≈ç√∫˜µ≤≥÷ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     this.drops = [];
     this.depths = [];
@@ -58,12 +58,12 @@ class MatrixRain3D {
 
   // Matrix Rain draw
   draw() {
-    this.ctx.fillStyle = "rgba(0, 0, 0, 0.075)";
+    this.ctx.fillStyle = "rgba(0, 0, 0, 0.085)";
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
     for (let i = 0; i < this.drops.length; i++) {
       const text =
-        this.letters[Math.floor(Math.random() * this.letters.length)];
+        this.glyphs[Math.floor(Math.random() * this.glyphs.length)];
       const depth = this.depths[i];
 
       const size = this.fontSize * (0.5 + depth * 1.5);
@@ -92,7 +92,7 @@ class MatrixRain3D {
 
     for (let i = 0; i < 10; i++) {
       const text =
-        this.letters[Math.floor(Math.random() * this.letters.length)];
+        this.glyphs[Math.floor(Math.random() * this.glyphs.length)];
       const x = Math.random() * this.canvas.width;
       const y = Math.random() * this.canvas.height;
       this.ctx.fillText(text, x, y);
