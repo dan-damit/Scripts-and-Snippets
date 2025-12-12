@@ -30,7 +30,4 @@ echo "Setting permissions..."
 chmod 644 "$TARGET_ICON"
 
 # Step 4: Restart DSM web service to flush cache
-echo "Restarting nginx..."
-synoservice --restart nginx
-
-echo "=== Favicon update complete ==="
+echo "Restart services or server to apply changes..."
