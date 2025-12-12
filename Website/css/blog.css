@@ -83,7 +83,7 @@ h1#typed-title {
 }
 
 .blog-card:hover {
-  transform: scale(1.10);
+  transform: scale(1.1);
   background-color: black;
   box-shadow: 0 0 25px var(--soft-green);
   z-index: 250;
@@ -103,26 +103,23 @@ h2.blog-title {
 
 /* Blog specific styles */
 .toggle {
-  display: inline-block;
-  padding: 0.4em 0.8em;
-  margin: 0.2em;
-  color: var(--neon-green);
+  display: block;
+  margin: 0.3em 0;
+  padding: 0.3em 0.6em;
+  font-size: 0.85em;
   background-color: transparent;
-  border: 2px solid var(--neon-green);
+  color: var(--neon-green);
+  border: 1px solid var(--neon-green);
   border-radius: 4px;
-  text-decoration: none;
-  font-weight: bold;
+  text-align: left;
   font-family: "Courier New", Courier, monospace;
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
 }
 
 .toggle:hover {
-  color: var(--neon-green);
-  border-color: var(--neon-green);
-  box-shadow: 0 0 8px var(--neon-green);
-  background-color: rgba(0, 255, 0, 0.05);
-  text-shadow: 0 0 5px var(--neon-green);
+  background-color: var(--neon-green);
+  color: black;
+  box-shadow: 0 0 6px var(--neon-green);
 }
 
 .tag-info {

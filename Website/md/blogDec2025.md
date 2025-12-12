@@ -124,7 +124,7 @@ found the Text editor section. That's where the query came in. Copy and pasted
 the below code:
 
 ```
-SELECT 
+SELECT
     st.Name AS Region,
     YEAR(soh.OrderDate) AS OrderYear,
     MONTH(soh.OrderDate) AS OrderMonth,
@@ -153,19 +153,19 @@ ugly as all get-up yet, but I think the prettiness will come over time.
 
 **Date:** 2025-12-06 **Tags:** sql, server, scripting
 
-## Tryin a second query 
+## Tryin a second query
 
 I wanted to grab FirstName, LastName, and EmailAddress from employees:
 
 ```
-SELECT 
+SELECT
     p.FirstName,
     p.LastName,
     ea.EmailAddress
 FROM HumanResources.Employee e
-JOIN Person.Person p 
+JOIN Person.Person p
     ON e.BusinessEntityID = p.BusinessEntityID
-JOIN Person.EmailAddress ea 
+JOIN Person.EmailAddress ea
     ON p.BusinessEntityID = ea.BusinessEntityID
 ORDER BY p.LastName, p.FirstName;
 ```
@@ -186,7 +186,7 @@ show the keys for the AdventureWorks2022 sandbox I loaded up.
 ### Primary Keys:
 
 ```
-SELECT 
+SELECT
     t.name AS TableName,
     c.name AS ColumnName,
     i.name AS PrimaryKeyName
@@ -201,7 +201,7 @@ ORDER BY TableName;
 ### Secondary Keys:
 
 ```
-SELECT 
+SELECT
     fk.name AS ForeignKeyName,
     tp.name AS ParentTable,
     cp.name AS ParentColumn,
@@ -219,7 +219,7 @@ ORDER BY ParentTable, ForeignKeyName;
 ### Constraints:
 
 ```
-SELECT 
+SELECT
     t.name AS TableName,
     c.name AS ColumnName,
     con.name AS ConstraintName,
@@ -245,7 +245,8 @@ ORDER BY TableName;
 
 I wanted to have more depth in the Rain effect. So I was brainstorming how to
 accomplish that without loading down slower computers like my attempt a couple
-of months ago. I ended up having each column's font size pick a random size.
+of months ago. I ended up having each column's font size pick a random size when
+the loop starts for that column.
 
 ```
 draw() {
@@ -279,7 +280,7 @@ draw() {
 This effectively let the column decide at draw time to pick a font size randomly
 between 0.5 and 1.5 times the default size. The result has been just was I was
 looking for. I also added an overlay based off of a cool idea I found someone
-post on a medium.com articlet, which had a link in it to the author's repo.
+post on a medium.com article, which had a link in it to the author's repo.
 
 [His code](https://github.com/andresz74/matrix/blob/main/matrix.js)
 
@@ -287,5 +288,28 @@ I adapted the Overlay into my matrix-rain.js file because I loved the effect of
 it seeming like rain drops were hitting the backstop of the canvas.
 
 [My code](https://github.com/dan-damit/Scripts-and-Snippets/blob/main/Website/js/matrix-rain.js)
+
+### dan
+
+---
+
+# Changing the DSM default favicon
+
+**Date:** 2025-12-12 **Tags:** scripting, shell scripting, dsm
+
+## I wanted a custom favicon for DSM
+
+I wanted to make my custom "Matrix-styled" favicon work for DSM because the
+default one is boring. Some digging showed that the syno user houses the favicon
+and other default .png files that get served up for browsers. I didn't really
+want to change the .pngs because DSM requires them to be certain names, so I
+skipped that part. The shell script below automates changing the favicon.ico
+file to my custom one:
+
+[Script here](https://github.com/dan-damit/Scripts-and-Snippets/blob/main/shell%20scripts/update-favicon.sh)
+
+DSM will change back to the defaults when it's updated so this script will
+automate that next time it updates. Thankfully DSM doesn't seem to update that
+often. At least version 7 doesn't from what I've noticed.
 
 ### dan
