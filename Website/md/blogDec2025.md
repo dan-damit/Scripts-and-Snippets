@@ -295,7 +295,7 @@ it seeming like rain drops were hitting the backstop of the canvas.
 
 # Changing the DSM default favicon
 
-**Date:** 2025-12-12 **Tags:** scripting, shell scripting, dsm
+**Date:** 2025-12-11 **Tags:** scripting, shell scripting, dsm
 
 ## I wanted a custom favicon for DSM
 
@@ -311,5 +311,100 @@ file to my custom one:
 DSM will change back to the defaults when it's updated so this script will
 automate that next time it updates. Thankfully DSM doesn't seem to update that
 often. At least version 7 doesn't from what I've noticed.
+
+### dan
+
+---
+
+# Modularizing the build script
+
+**Date:** 2025-12-12 **Tags:** scripting, powershell
+
+## I was making some changes to the WS onboarding tool
+
+I wanted to remove all references to my old company in all aspects of my
+onboarding tool, which was fine and easy. I created a build script for compling
+the tool months and months ago, but using it tonight to recompile my tool, I
+was getting error after error... It was quite the rabbit hole - more like a
+rabbit apartment complex...
+
+Some time ago (who knows when), I was troubleshooting something else with NuGet
+packages, and I ended up mirroring some locally to a dir on C:. That dir didn't
+exist anymore, so I had to remove that as a source. Removing it caused issues
+with the dotnet build commands. I also had to remove the local dir as a source for
+NuGet packages. 
+
+On to the next issue... dotnet was not happy....or maybe just out of date since
+I hadn't needed it for the last 4 months. Updated all the dotnet stuff and it
+worked manually. 
+
+I'm never really content with leaving a script alone, so I wanted to modularize
+the PowerShell build script I use to build my workstation onboarding tool. It
+took me almost 2 hours to realize why manually running the dotnet commands in
+the $projDir worked, but running it from my script would fail out.
+
+Turns out it was the way dotnet was interpreting the commands when I was wanting
+them to run within a function (I love modularizing stuff). The code that
+eventually worked is below:
+
+```
+# === Helper Functions ===
+function Run-DotnetCommand($command, $projDir) {
+    UpdateStatus "Running: dotnet $command in $projDir"
+    Push-Location $projDir
+    $parts = $command -split ' '
+    & dotnet @parts
+    $exit = $LASTEXITCODE
+    Pop-Location
+    if ($exit -ne 0) { throw "dotnet $command failed in $projDir" }
+}
+
+function Build-Project($name, $artifactPath, $signType) {
+    $projDir = Join-Path $projectRoot $name
+    UpdateStatus "Cleaning $name"
+    Run-DotnetCommand "clean" $projDir
+    Run-DotnetCommand "restore" $projDir
+    Run-DotnetCommand "build -c Release" $projDir
+    Run-DotnetCommand "publish -c Release" $projDir
+
+    if ($artifactPath) {
+        UpdateStatus "Signing $signType"
+        & signtool sign /fd SHA256 /f $certPath /p $certPassword /tr $timestampUrl /td SHA256 $artifactPath
+        if ($LASTEXITCODE -ne 0) { throw "Signing $signType failed" }
+    }
+}
+
+function Build-UIProject {
+    $projDir = Join-Path $projectRoot "WS_Setup_6.UI"
+    $uiExe   = "$projDir\bin\Release\net8.0-windows\win-x64\publish\WS_Setup_6.UI.exe"
+
+    UpdateStatus "Cleaning UI project"
+    Run-DotnetCommand "clean" $projDir
+    Run-DotnetCommand "restore" $projDir
+    Run-DotnetCommand "build -c Release" $projDir
+    # Framework-dependent publish (runtime provided separately in Assets)
+    Run-DotnetCommand "publish -c Release -r win-x64" $projDir
+
+    if (Test-Path $uiExe) {
+        UpdateStatus "Signing UI executable"
+        & signtool sign /fd SHA256 /f $certPath /p $certPassword /tr $timestampUrl /td SHA256 $uiExe
+        if ($LASTEXITCODE -ne 0) {
+            throw "Signing UI executable failed"
+        }
+    } else {
+        throw "UI exe not found at $uiExe"
+    }
+}
+```
+
+Adding the $parts variable as $command -split ' ' to make the "build -c Release"
+into an array instead of a regular string was the winning tweak; dotnet was then
+able to fire correctly with the "& dotnet @parts" line.
+
+```
+$parts = $command -split ' '
+
+& dotnet @parts
+```
 
 ### dan

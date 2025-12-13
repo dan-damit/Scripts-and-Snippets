@@ -17,20 +17,11 @@
     // Resize handling
     this.resizeCanvasAndDrops();
     window.addEventListener("load", () => this.resizeCanvasAndDrops());
-    if (window.visualViewport) {
-      window.visualViewport.addEventListener("resize", () => {
-        const dpr = window.devicePixelRatio || 1;
-        const w = window.visualViewport.width * dpr;
-        const h = window.visualViewport.height * dpr;
-        if (this.canvas.width !== w || this.canvas.height !== h) {
-          clearTimeout(this.resizeTimeout);
-          this.resizeTimeout = setTimeout(
-            () => this.resizeCanvasAndDrops(),
-            200
-          );
-        }
-      });
-    }
+    let resizeTimeout;
+    window.addEventListener("resize", () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => this.resizeCanvasAndDrops(), 100);
+    });
 
     // Start both loops
     requestAnimationFrame((ts) => this.loop(ts));
@@ -39,19 +30,33 @@
 
   // Resize canvas and recalc drops
   resizeCanvasAndDrops() {
+    // Account for device pixel ratio
     const dpr = window.devicePixelRatio || 1;
+
+    // Set canvas size in physical pixels
     this.canvas.width = window.innerWidth * dpr;
     this.canvas.height = window.innerHeight * dpr;
-    this.canvas.style.width = "100%";
-    this.canvas.style.height = "100%";
+
+    // Scale back down so drawing uses CSS pixel coordinates
     this.ctx.setTransform(1, 0, 0, 1, 0, 0);
     this.ctx.scale(dpr, dpr);
 
-    const columns = Math.floor(this.canvas.width / this.fontSize / dpr);
-    this.drops = Array.from({ length: columns }, () => 1);
-    this.depths = Array.from({ length: columns }, () => Math.random());
-  }
+    // Calculate new column count based on CSS pixels
+    const newColumns = Math.floor(window.innerWidth / this.fontSize);
 
+    // Preserve existing drops/depths where possible
+    const newDrops = new Array(newColumns).fill(1);
+    const newDepths = new Array(newColumns).fill(0);
+
+    for (let i = 0; i < Math.min(this.drops.length, newColumns); i++) {
+      newDrops[i] = this.drops[i];
+      newDepths[i] = this.depths[i];
+    }
+
+    this.drops = newDrops;
+    this.depths = newDepths.map((d) => d || Math.random());
+  }
+  
   // Matrix Rain draw
   draw() {
     this.ctx.fillStyle = "rgba(0, 0, 0, 0.085)";

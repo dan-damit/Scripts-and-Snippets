@@ -53,7 +53,7 @@ fetch("entries.json")
 
     // Global collapse all button
     collapseAllBtn.addEventListener("click", () => {
-      document.querySelectorAll(".entry").forEach((entry) => {
+      document.querySelectorAll(".blog-card").forEach((entry) => {
         const content = entry.querySelector(".content");
         const toggle = entry.querySelector(".toggle");
         if (content && toggle) {
