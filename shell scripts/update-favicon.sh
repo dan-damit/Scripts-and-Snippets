@@ -1,6 +1,6 @@
 #!/bin/bash
 # update-favicon.sh
-# Automates replacing DSM's default favicon with your Matrix "D"
+# Automates replacing DSM's default favicon with my cusomic favicon.
 
 # Paths
 DSM_DIR="/usr/syno/synoman/webman"
