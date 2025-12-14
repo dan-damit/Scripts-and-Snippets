@@ -1,6 +1,6 @@
 #!/bin/bash
 # update-favicon.sh
-# Automates replacing DSM's default favicon with my cusomic favicon.
+# Automates replacing DSM's default favicon with my custom favicon.
 
 # Paths
 DSM_DIR="/usr/syno/synoman/webman"
