@@ -16,7 +16,7 @@ if [ -f "$TARGET_ICON" ]; then
     mv "$TARGET_ICON" "$BACKUP_ICON"
 fi
 
-# Step 2: Copy new favicon from your site folder
+# Step 2: Copy new favicon from site folder
 if [ -f "$SOURCE_ICON" ]; then
     echo "Copying new favicon..."
     cp "$SOURCE_ICON" "$TARGET_ICON"
