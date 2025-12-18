@@ -38,5 +38,5 @@ This repo is a personal archive, but if you spot a bug, have a suggestion, or wa
 ## 🧭 About the Author
 
 Crafted by [Me](https://github.com/dan-damit), an IT Specialist with a decade of professional
-development specializing in modular automation, branded UI/UX, and reputation-hardened diagnostics.
+skill development specializing in modular automation, branded UI/UX, and reputation-hardened diagnostics.
 This repo is part of a broader mission: to document and share my resilient and transparent tooling.
