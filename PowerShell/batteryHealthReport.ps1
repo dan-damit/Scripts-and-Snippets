@@ -3,35 +3,35 @@
 # Purpose: Extract data under "Installed batteries" from powercfg battery report, output JSON with health metrics
 
 # Paths
-$ReportPath  = "C:\temp\battery-report.html"
-$OutputJson  = "C:\temp\installed-batteries.json"
-$DebugInfo   = "C:\temp\installed-batteries_debug.txt"
+$reportPath  = "C:\temp\battery-report.html"
+$outputJson  = "C:\temp\installed-batteries.json"
+$debugInfo   = "C:\temp\installed-batteries_debug.txt"
 
 # --- Generate report ---
-$reportDir = Split-Path -Parent $ReportPath
+$reportDir = Split-Path -Parent $reportPath
 if ($reportDir -and -not (Test-Path -LiteralPath $reportDir)) {
     New-Item -ItemType Directory -Path $reportDir -Force | Out-Null
 }
-powercfg.exe /batteryreport /output "$ReportPath" | Out-Null
+powercfg.exe /batteryreport /output "$reportPath" | Out-Null
 
 # Wait briefly for the file to be written and non-empty
 $tries = 0
 while ($tries -lt 40) {
-    if (Test-Path -LiteralPath $ReportPath) {
-        $size = (Get-Item -LiteralPath $ReportPath).Length
+    if (Test-Path -LiteralPath $reportPath) {
+        $size = (Get-Item -LiteralPath $reportPath).Length
         if ($size -gt 0) { break }
     }
     Start-Sleep -Milliseconds 250
     $tries++
 }
 
-if (-not (Test-Path -LiteralPath $ReportPath)) {
-    Write-Error "Battery report not found at: $ReportPath"
+if (-not (Test-Path -LiteralPath $reportPath)) {
+    Write-Error "Battery report not found at: $reportPath"
     exit 1
 }
 
 # --- Read HTML and Update ---
-$html = Get-Content -LiteralPath $ReportPath -Raw
+$html = Get-Content -LiteralPath $reportPath -Raw
 $htmlNorm = $html -replace '&nbsp;', ' ' -replace '\r\n', "`n"
 
 # --- Helpers ---
@@ -103,8 +103,8 @@ if (-not $sectionMatch.Success) {
     $headings = [regex]::Matches($htmlNorm, '(?is)<h[1-6][^>]*>(.*?)</h[1-6]>') | ForEach-Object {
         Update-Text $_.Groups[1].Value
     }
-    $headings | Set-Content -LiteralPath $DebugInfo -Encoding UTF8
-    Write-Warning "Wrote detected headings to $DebugInfo"
+    $headings | Set-Content -LiteralPath $debugInfo -Encoding UTF8
+    Write-Warning "Wrote detected headings to $debugInfo"
     exit 2
 }
 
@@ -183,13 +183,13 @@ if ($batteries.Count -eq 0) {
 }
 
 # --- Output JSON ---
-$dir = Split-Path -Parent $OutputJson
+$dir = Split-Path -Parent $outputJson
 if ($dir -and -not (Test-Path -LiteralPath $dir)) {
     New-Item -ItemType Directory -Path $dir -Force | Out-Null
 }
 
 $json = $batteries | ConvertTo-Json -Depth 6
-Set-Content -LiteralPath $OutputJson -Value $json -Encoding UTF8
+Set-Content -LiteralPath $outputJson -Value $json -Encoding UTF8
 
-Write-Host "Exported JSON with health metrics to $OutputJson"
+Write-Host "Exported JSON with health metrics to $outputJson"
 Write-Host $json
