@@ -74,7 +74,7 @@ This ensures full transparency before any destructive action.
 ## Supported Cache & Cookie Paths
 
 
-#### Cache directories cleared:
+### Cache directories cleared:
 
 - Cache
 - Code Cache
@@ -83,14 +83,14 @@ This ensures full transparency before any destructive action.
 - Application Cache (legacy)
 - Network\Cache
 
-#### Cookie DBs removed:
+### Cookie DBs removed:
 
 - Network\Cookies
 - Network\Cookies-journal
 - Cookies (legacy)
 - Cookies-journal
 
-#### Optional:
+### Optional:
 
 - Local Storage\* (unless -SkipLocalStorage is used)
 
