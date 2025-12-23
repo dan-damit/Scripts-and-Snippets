@@ -57,14 +57,13 @@ A PowerShell utility for safely and predictably clearing cache, cookies, and opt
 When using -WhatIf, the script prints a technician‑friendly summary before any action:
 
 === DRY RUN SUMMARY ===
-=======================
+
 Browsers: Chrome, Edge
 Include Cache: True
 Include Cookies: True
 Skip Local Storage: False
 Kill Processes: True
 Profiles filter: Default, Profile 1
-=======================
 
 This ensures full transparency before any destructive action.
 
