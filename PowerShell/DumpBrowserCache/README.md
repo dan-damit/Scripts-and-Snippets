@@ -121,7 +121,8 @@ This makes the script ideal for:
 ## Example Usage
 
 
-| Example | Usage
+| Example |  Usage  |
+|---------|---------|
 | Clean Chrome (all profiles) | .\DumpBrowserCache.ps1 -Browser Chrome -Verbose
 | Dry run (no changes), both browsers | .\DumpBrowserCache.ps1 -Browser All -WhatIf -Verbose
 | Clean only specific profiles | .\DumpBrowserCache.ps1 -Browser Chrome -Profiles 'Default','Profile 2'
