@@ -9,7 +9,6 @@ A PowerShell utility for safely and predictably clearing cache, cookies, and opt
 
 ## Features
 
-
   - Supports Chrome, Edge, or All
   - Clears: 
     - Cache directories (Cache, Code Cache, GPUCache, Service Worker, Network\Cache, etc.)
@@ -26,7 +25,6 @@ A PowerShell utility for safely and predictably clearing cache, cookies, and opt
 
 ## Requirements
 
-
   - Windows 10 or Windows 11
   - PowerShell 5.1+ or PowerShell 7+
   - Run under the user account whose browser profiles you want to clean
@@ -34,7 +32,6 @@ A PowerShell utility for safely and predictably clearing cache, cookies, and opt
 ---
 
 ## Parameters
-
 
 | Parameter           | Description                                      |
 |----------------------|--------------------------------------------------|
@@ -52,7 +49,6 @@ A PowerShell utility for safely and predictably clearing cache, cookies, and opt
 ---
 
 ## Dry‑Run Summary Example
-
 
 When using -WhatIf, the script prints a technician‑friendly summary before any action:
 
@@ -72,7 +68,6 @@ This ensures full transparency before any destructive action.
 ---
 
 ## Supported Cache & Cookie Paths
-
 
 ### Cache directories cleared:
 
@@ -98,7 +93,6 @@ This ensures full transparency before any destructive action.
 
 ## Return Object
 
-
 Each processed profile returns a structured object:
 ```powershell
 [PSCustomObject]@{
@@ -120,7 +114,6 @@ This makes the script ideal for:
 
 ## Example Usage
 
-
 | Example |  Usage  |
 |---------|---------|
 | Clean Chrome (all profiles) | .\DumpBrowserCache.ps1 -Browser Chrome -Verbose
@@ -133,7 +126,6 @@ This makes the script ideal for:
 
 ## Notes & Limitations
 
-
 - Must be run under the user whose browser data is being cleaned
 - Does not clear extension‑specific caches
 - Does not modify browser settings or registry entries
@@ -142,6 +134,5 @@ This makes the script ideal for:
 ---
 
 ## Summary
-
 
 This script is built for real‑world technician workflows: predictable, transparent, and safe. With v2.0’s enhancements — dry‑run summaries, profile discovery, structured output, and optional Local Storage control — it’s now a fully‑featured browser maintenance tool suitable for enterprise environments.
