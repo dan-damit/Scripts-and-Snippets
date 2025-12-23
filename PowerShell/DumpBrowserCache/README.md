@@ -72,7 +72,8 @@ This ensures full transparency before any destructive action.
 # Supported Cache & Cookie Paths
 
 
-##### Cache directories cleared:
+#### Cache directories cleared:
+
 - Cache
 - Code Cache
 - GPUCache
@@ -80,13 +81,15 @@ This ensures full transparency before any destructive action.
 - Application Cache (legacy)
 - Network\Cache
 
-##### Cookie DBs removed:
+#### Cookie DBs removed:
+
 - Network\Cookies
 - Network\Cookies-journal
 - Cookies (legacy)
 - Cookies-journal
 
-##### Optional:
+#### Optional:
+
 - Local Storage\* (unless -SkipLocalStorage is used)
 
 ---
@@ -118,12 +121,16 @@ This makes the script ideal for:
 
 ##### Clean Chrome (all profiles)
 .\DumpBrowserCache.ps1 -Browser Chrome -Verbose
+
 ##### Dry run (no changes), both browsers
 .\DumpBrowserCache.ps1 -Browser All -WhatIf -Verbose
+
 ##### Clean only specific profiles
 .\DumpBrowserCache.ps1 -Browser Chrome -Profiles 'Default','Profile 2'
+
 ##### Clean everything except Local Storage
 .\DumpBrowserCache.ps1 -SkipLocalStorage
+
 ##### Log all actions
 .\DumpBrowserCache.ps1 -LogPath "C:\Logs\browser-cleanup.log"
 
