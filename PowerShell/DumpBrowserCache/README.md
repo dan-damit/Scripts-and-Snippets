@@ -55,7 +55,9 @@ A PowerShell utility for safely and predictably clearing cache, cookies, and opt
 
 
 When using -WhatIf, the script prints a technician‑friendly summary before any action:
+
 === DRY RUN SUMMARY ===
+=======================
 Browsers: Chrome, Edge
 Include Cache: True
 Include Cookies: True
@@ -63,6 +65,7 @@ Skip Local Storage: False
 Kill Processes: True
 Profiles filter: Default, Profile 1
 =======================
+
 This ensures full transparency before any destructive action.
 
 ---
@@ -71,19 +74,19 @@ This ensures full transparency before any destructive action.
 
 
 Cache directories cleared:
-  • Cache
-  • Code Cache
-  • GPUCache
-  • Service Worker
-  • Application Cache (legacy)
-  • Network\Cache
+- Cache
+- Code Cache
+- GPUCache
+- Service Worker
+- Application Cache (legacy)
+- Network\Cache
 Cookie DBs removed:
-  • Network\Cookies
-  • Network\Cookies-journal
-  • Cookies (legacy)
-  • Cookies-journal
+- Network\Cookies
+- Network\Cookies-journal
+- Cookies (legacy)
+- Cookies-journal
 Optional:
-  • Local Storage\* (unless -SkipLocalStorage is used)
+- Local Storage\* (unless -SkipLocalStorage is used)
 
 ---
 
@@ -91,6 +94,7 @@ Optional:
 
 
 Each processed profile returns a structured object:
+```powershell
 [PSCustomObject]@{
     Browser             = 'Chrome'
     Profile             = 'Default'
@@ -99,11 +103,12 @@ Each processed profile returns a structured object:
     LocalStorageCleared = $false
     Timestamp           = '2025-12-22T18:58:00'
 }
+```
 This makes the script ideal for:
-  • Logging pipelines
-  • Scheduled tasks
-  • Enterprise automation
-  • Monitoring dashboards
+- Logging pipelines
+- Scheduled tasks
+- Enterprise automation
+- Monitoring dashboards
 
 ---
 
@@ -111,25 +116,25 @@ This makes the script ideal for:
 
 
 ###### Clean Chrome (all profiles)
-  - .\DumpBrowserCache.ps1 -Browser Chrome -Verbose
+.\DumpBrowserCache.ps1 -Browser Chrome -Verbose
 ###### Dry run (no changes), both browsers
-  - .\DumpBrowserCache.ps1 -Browser All -WhatIf -Verbose
+.\DumpBrowserCache.ps1 -Browser All -WhatIf -Verbose
 ###### Clean only specific profiles
-  - .\DumpBrowserCache.ps1 -Browser Chrome -Profiles 'Default','Profile 2'
+.\DumpBrowserCache.ps1 -Browser Chrome -Profiles 'Default','Profile 2'
 ###### Clean everything except Local Storage
-  - .\DumpBrowserCache.ps1 -SkipLocalStorage
+.\DumpBrowserCache.ps1 -SkipLocalStorage
 ###### Log all actions
-  - .\DumpBrowserCache.ps1 -LogPath "C:\Logs\browser-cleanup.log"
+.\DumpBrowserCache.ps1 -LogPath "C:\Logs\browser-cleanup.log"
 
 ---
 
 # Notes & Limitations
 
 
-  • Must be run under the user whose browser data is being cleaned
-  • Does not clear extension‑specific caches
-  • Does not modify browser settings or registry entries
-  • Does not elevate privileges (not required for user‑level cleanup)
+- Must be run under the user whose browser data is being cleaned
+- Does not clear extension‑specific caches
+- Does not modify browser settings or registry entries
+- Does not elevate privileges (not required for user‑level cleanup)
 
 ---
 
