@@ -79,11 +79,13 @@ Cache directories cleared:
 - Service Worker
 - Application Cache (legacy)
 - Network\Cache
+
 Cookie DBs removed:
 - Network\Cookies
 - Network\Cookies-journal
 - Cookies (legacy)
 - Cookies-journal
+
 Optional:
 - Local Storage\* (unless -SkipLocalStorage is used)
 
