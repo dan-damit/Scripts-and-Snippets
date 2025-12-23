@@ -7,7 +7,7 @@ A PowerShell utility for safely and predictably clearing cache, cookies, and opt
 
 ---
 
-# Features
+## Features
 
 
   - Supports Chrome, Edge, or All
@@ -24,7 +24,7 @@ A PowerShell utility for safely and predictably clearing cache, cookies, and opt
 
 ---
 
-# Requirements
+## Requirements
 
 
   - Windows 10 or Windows 11
@@ -33,7 +33,7 @@ A PowerShell utility for safely and predictably clearing cache, cookies, and opt
 
 ---
 
-# Parameters
+## Parameters
 
 
 | Parameter           | Description                                      |
@@ -51,7 +51,7 @@ A PowerShell utility for safely and predictably clearing cache, cookies, and opt
 
 ---
 
-# Dry‑Run Summary Example
+## Dry‑Run Summary Example
 
 
 When using -WhatIf, the script prints a technician‑friendly summary before any action:
@@ -71,7 +71,7 @@ This ensures full transparency before any destructive action.
 
 ---
 
-# Supported Cache & Cookie Paths
+## Supported Cache & Cookie Paths
 
 
 #### Cache directories cleared:
@@ -96,7 +96,7 @@ This ensures full transparency before any destructive action.
 
 ---
 
-# Return Object
+## Return Object
 
 
 Each processed profile returns a structured object:
@@ -118,27 +118,19 @@ This makes the script ideal for:
 
 ---
 
-# Example Usage
+## Example Usage
 
 
-#### Clean Chrome (all profiles)
-.\DumpBrowserCache.ps1 -Browser Chrome -Verbose
-
-#### Dry run (no changes), both browsers
-.\DumpBrowserCache.ps1 -Browser All -WhatIf -Verbose
-
-#### Clean only specific profiles
-.\DumpBrowserCache.ps1 -Browser Chrome -Profiles 'Default','Profile 2'
-
-#### Clean everything except Local Storage
-.\DumpBrowserCache.ps1 -SkipLocalStorage
-
-#### Log all actions
-.\DumpBrowserCache.ps1 -LogPath "C:\Logs\browser-cleanup.log"
+| Example | Usage
+| Clean Chrome (all profiles) | .\DumpBrowserCache.ps1 -Browser Chrome -Verbose
+| Dry run (no changes), both browsers | .\DumpBrowserCache.ps1 -Browser All -WhatIf -Verbose
+| Clean only specific profiles | .\DumpBrowserCache.ps1 -Browser Chrome -Profiles 'Default','Profile 2'
+| Clean everything except Local Storage | .\DumpBrowserCache.ps1 -SkipLocalStorage
+| Log all actions | .\DumpBrowserCache.ps1 -LogPath "C:\Logs\browser-cleanup.log"
 
 ---
 
-# Notes & Limitations
+## Notes & Limitations
 
 
 - Must be run under the user whose browser data is being cleaned
@@ -148,7 +140,7 @@ This makes the script ideal for:
 
 ---
 
-# Summary
+## Summary
 
 
 This script is built for real‑world technician workflows: predictable, transparent, and safe. With v2.0’s enhancements — dry‑run summaries, profile discovery, structured output, and optional Local Storage control — it’s now a fully‑featured browser maintenance tool suitable for enterprise environments.
