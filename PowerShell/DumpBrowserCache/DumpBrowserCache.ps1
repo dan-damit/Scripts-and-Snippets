@@ -11,7 +11,7 @@
     - Returns structured objects for automation.
 
 .NOTES
-    Author: Dan.Damit
+    Author: Dan.Damit (https://github.com/dan-damit)
     Tested on Windows 10/11 with Chromium-based Chrome and Edge.
 #>
 
