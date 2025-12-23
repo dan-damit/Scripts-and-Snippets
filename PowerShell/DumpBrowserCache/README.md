@@ -56,14 +56,16 @@ A PowerShell utility for safely and predictably clearing cache, cookies, and opt
 
 When using -WhatIf, the script prints a technician‑friendly summary before any action:
 
+```
 === DRY RUN SUMMARY ===
-
 Browsers: Chrome, Edge
 Include Cache: True
 Include Cookies: True
 Skip Local Storage: False
 Kill Processes: True
 Profiles filter: Default, Profile 1
+=======================
+```
 
 This ensures full transparency before any destructive action.
 
@@ -119,19 +121,19 @@ This makes the script ideal for:
 # Example Usage
 
 
-##### Clean Chrome (all profiles)
+#### Clean Chrome (all profiles)
 .\DumpBrowserCache.ps1 -Browser Chrome -Verbose
 
-##### Dry run (no changes), both browsers
+#### Dry run (no changes), both browsers
 .\DumpBrowserCache.ps1 -Browser All -WhatIf -Verbose
 
-##### Clean only specific profiles
+#### Clean only specific profiles
 .\DumpBrowserCache.ps1 -Browser Chrome -Profiles 'Default','Profile 2'
 
-##### Clean everything except Local Storage
+#### Clean everything except Local Storage
 .\DumpBrowserCache.ps1 -SkipLocalStorage
 
-##### Log all actions
+#### Log all actions
 .\DumpBrowserCache.ps1 -LogPath "C:\Logs\browser-cleanup.log"
 
 ---
