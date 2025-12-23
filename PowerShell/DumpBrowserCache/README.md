@@ -24,7 +24,6 @@ A PowerShell utility for safely and predictably clearing cache, cookies, and opt
 ---
 
 ## Requirements
-
   - Windows 10 or Windows 11
   - PowerShell 5.1+ or PowerShell 7+
   - Run under the user account whose browser profiles you want to clean
