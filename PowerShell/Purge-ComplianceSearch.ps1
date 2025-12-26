@@ -120,9 +120,7 @@ try {
     #5) Invoke HardDelete purge
     Invoke-HardDeletePurge -SearchName $searchName
 }
-catch {
-    Write-Error "Script terminated due to error: $($_.Exception.Message)"
-}
+catch { } # Handle errors silently here; they are reported in functions
 finally {
     # Optional: Disconnect session
     $disconnectSession = Read-Host "Do you want to disconnect the session now? (Y to disconnect, any other key to keep connected)"
@@ -133,3 +131,4 @@ finally {
         Write-Host "Session remains connected." -ForegroundColor Yellow
     }
 }
+
