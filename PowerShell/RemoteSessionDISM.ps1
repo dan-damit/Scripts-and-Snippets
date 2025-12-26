@@ -7,7 +7,7 @@ Requires: Admin rights on both client and remote, and network access to the shar
 # -----------------------------
 # VARIABLES — edit these first
 # -----------------------------
-$RemoteComputer = "TARGET-PC"  # e.g. the computer being repairing
+$RemoteComputer = "TARGET-PC"  # e.g. the computer being repaired
 $SourceUNC = "\\UTILITY-1.vadtek.com\C$\DeploymentShare\Operating Systems\Windows 11 x64 - 24H2 - Build 26100 - Value Added Companies\sources\sxs"
 $UseRepairWindowsImageFallback = $true  # set $false to skip the fallback
 $RemoteLogDir = "C:\Temp\DISM-Remote"  # will be created if missing
@@ -174,4 +174,5 @@ finally {
     Stop-Transcript | Out-Null
     Write-Host "Transcript saved: $TranscriptLog" -ForegroundColor Yellow
 }
+
 
