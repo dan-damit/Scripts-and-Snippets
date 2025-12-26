@@ -124,8 +124,12 @@ catch {
     Write-Error "Script terminated due to error: $($_.Exception.Message)"
 }
 finally {
-    # Optional: Disconnect the session
-    Disconnect-ExchangeOnline -Confirm:$false
+    # Optional: Disconnect session
+    $disconnecSession = Read-Host "Do you want to disconnect the session now? (Y to disconnect, any other key to keep connected)"
+    if ($disconnecSession -eq 'Y') {
+        Disconnect-ExchangeOnline -Confirm:$false
+        Write-Host "Disconnected from Exchange Online." -ForegroundColor Green
+    } else {
+        Write-Host "Session remains connected." -ForegroundColor Yellow
+    }
 }
-
-
