@@ -125,6 +125,7 @@ catch {
 }
 finally {
     # Optional: Disconnect the session
-    # Disconnect-ExchangeOnline -Confirm:$false
+    Disconnect-ExchangeOnline -Confirm:$false
 }
+
 
