@@ -126,10 +126,11 @@ catch {
 finally {
     # Optional: Disconnect session
     $disconnecSession = Read-Host "Do you want to disconnect the session now? (Y to disconnect, any other key to keep connected)"
-    if ($disconnecSession -eq 'Y') {
+    if ($disconnecSession -eq 'Y' -or -eq 'y') {
         Disconnect-ExchangeOnline -Confirm:$false
         Write-Host "Disconnected from Exchange Online." -ForegroundColor Green
     } else {
         Write-Host "Session remains connected." -ForegroundColor Yellow
     }
 }
+
