@@ -103,7 +103,7 @@ function Invoke-HardDeletePurge {
 try {
     #1) Import module
     Import-ExchangeOnlineModule
-
+    #1.1) Prompt for UPN
     $upn = Read-Host "Enter UPN (e.g., username@companydomain.com)"
     if ([string]::IsNullOrWhiteSpace($upn)) {
         throw "UPN cannot be empty."
@@ -127,3 +127,4 @@ finally {
     # Optional: Disconnect the session
     # Disconnect-ExchangeOnline -Confirm:$false
 }
+
