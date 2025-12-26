@@ -1,5 +1,6 @@
 
-<#
+<# Author: Dan.Damit (https://github.com/dan-damit)
+
 Connects to IPPSSession in Search-Only mode, lists the top 10 compliance searches,
 then prompts for a Search Name/ID and runs a HardDelete purge with confirmation.
 
@@ -12,7 +13,7 @@ Run in Windows PowerShell or PowerShell 7 with ExchangeOnlineManagement module.
 Requires appropriate permissions in Microsoft 365 Compliance / EOP.
 #>
 
-#region Helper: Ensure ExchangeOnlineManagement module is available
+# Helper: Ensure ExchangeOnlineManagement module is available
 function Import-ExchangeOnlineModule {
     try {
         if (-not (Get-Module -ListAvailable -Name ExchangeOnlineManagement)) {
@@ -27,9 +28,8 @@ function Import-ExchangeOnlineModule {
         throw
     }
 }
-#endregion
 
-#region Connect to IPPSSession
+# Connect to IPPSSession
 function Connect-SearchOnlySession {
     param(
         [Parameter(Mandatory = $true)]
@@ -45,9 +45,8 @@ function Connect-SearchOnlySession {
         throw
     }
 }
-#endregion
 
-#region Show recent compliance searches
+# Show recent compliance searches
 function Show-RecentComplianceSearches {
     try {
         Write-Host "`nTop 10 most recent compliance searches:" -ForegroundColor Cyan
@@ -69,9 +68,8 @@ function Show-RecentComplianceSearches {
         throw
     }
 }
-#endregion
 
-#region Execute purge action
+# Execute purge action
 function Invoke-HardDeletePurge {
     param(
         [Parameter(Mandatory = $true)]
