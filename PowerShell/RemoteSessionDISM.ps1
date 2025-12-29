@@ -1,26 +1,27 @@
-<#  Author: Dan.Damit (https://github.com/dan-damit)
 
-Remote DISM Repair with CredSSP, UNC validation, timeout control, 
+<# Author: Dan.Damit (https://github.com/dan-damit)
+Remote DISM Repair with opt-in CredSSP, UNC validation, timeout control,
 fallback repair, structured output, and optional dry-run mode.
 
 Parameters:
--RemoteComputer: Target computer name or IP (default: TARGET-PC)
--SourceUNC: UNC path to source files (default: Path\To\sources\sxs)
+-RemoteComputer: Target computer name or FQDN
 -RemoteLogDir: Remote directory for DISM logs (default: C:\Temp\DISM-Remote)
 -DryRun: Validate connectivity and access without executing DISM
--SkipCredSSP: Skip CredSSP configuration (default: use CredSSP)
+-UseCredSSP: OPT-IN to use CredSSP (only when you need second-hop delegation)
 -CopyLogsLocal: Copy remote DISM log to local temp folder
 -UseRepairWindowsImageFallback: Use Repair-WindowsImage if DISM fails
 
 Requires: Admin rights on both client and remote, WinRM enabled.
 #>
 
+# -----------------------------
+# Parameters
+# -----------------------------
 param(
-    [string]$RemoteComputer = "TARGET-PC",
-    [string]$SourceUNC = "Path\To\sources\sxs",
+    [string]$RemoteComputer,
     [string]$RemoteLogDir = "C:\Temp\DISM-Remote",
     [switch]$DryRun,
-    [switch]$SkipCredSSP,
+    [switch]$UseCredSSP,            # <-- opt-in (was SkipCredSSP)
     [switch]$CopyLogsLocal,
     [switch]$UseRepairWindowsImageFallback
 )
@@ -30,6 +31,29 @@ param(
 # -----------------------------
 $TranscriptLog = Join-Path $env:TEMP "DISM-Remote-$(Get-Date -Format 'yyyyMMdd-HHmmss').log"
 Start-Transcript -Path $TranscriptLog -Force | Out-Null
+
+# -----------------------------
+# Prompt for RemoteComputer
+# -----------------------------
+$RemoteComputer = Read-Host "Enter Remote Computer name (default: $RemoteComputer)"
+if ([string]::IsNullOrWhiteSpace($RemoteComputer)) {
+    $RemoteComputer = $PSBoundParameters['RemoteComputer'] ?? $RemoteComputer
+}
+
+# -----------------------------
+# Ask whether to use a local source first
+# -----------------------------
+do {
+    $ans = Read-Host "Use a local repair source first? (Y/N)"
+} while ($ans -notmatch '^[YyNn]$')
+
+$UseLocalSource = $ans -match '^[Yy]$'
+$SourcePath = $null
+if ($UseLocalSource) {
+    do {
+        $SourcePath = Read-Host "Enter local/UNC source path (e.g., \\server\share\...\sources\sxs or D:\sources\sxs)"
+    } while ([string]::IsNullOrWhiteSpace($SourcePath))
+}
 
 # -----------------------------
 # Credential Prompt
@@ -51,7 +75,7 @@ function Test-WSManConnection {
 }
 
 # -----------------------------
-# Helper: CredSSP Enable/Disable
+# Helper: CredSSP Enable/Disable (used only when -UseCredSSP is set)
 # -----------------------------
 function Enable-CredSSP {
     param([string]$RemoteComputer)
@@ -68,7 +92,7 @@ function Enable-CredSSP {
     try {
         Invoke-Command -ComputerName $RemoteComputer -Credential $Cred -ScriptBlock {
             Enable-WSManCredSSP -Role Server -Force
-        }
+        } -ErrorAction Stop
     }
     catch {
         Throw "Failed to enable CredSSP on remote server: $($_.Exception.Message)"
@@ -86,7 +110,7 @@ function Disable-CredSSP {
     try {
         Invoke-Command -ComputerName $RemoteComputer -Credential $Cred -ScriptBlock {
             Disable-WSManCredSSP -Role Server
-        }
+        } -ErrorAction SilentlyContinue
     }
     catch {
         Write-Warning "Failed to disable CredSSP on remote server: $($_.Exception.Message)"
@@ -106,27 +130,29 @@ function Test-RemoteDism {
 }
 
 # -----------------------------
-# Helper: Timeout-Safe DISM
+# Helper: Timeout-Safe DISM (flexible: with/without Source & LimitAccess)
 # -----------------------------
 function Invoke-RemoteDism {
     param(
         $Session,
         [string]$SourcePath,
         [string]$LogFile,
+        [bool]$IncludeLimitAccess = $false,
         [int]$TimeoutSeconds = 7200  # 2 hours
     )
 
     Invoke-Command -Session $Session -ScriptBlock {
-        param($SourcePath, $LogFile, $TimeoutSeconds)
+        param($SourcePath, $LogFile, $IncludeLimitAccess, $TimeoutSeconds)
 
         $ags = @(
             "/Online",
             "/Cleanup-Image",
             "/RestoreHealth",
-            "/Source:`"$SourcePath`"",
-            "/LimitAccess",
             "/LogPath:$LogFile"
         )
+
+        if ($SourcePath) { $ags += "/Source:`"$SourcePath`"" }
+        if ($IncludeLimitAccess) { $ags += "/LimitAccess" }
 
         $proc = Start-Process -FilePath "dism.exe" -ArgumentList $ags -PassThru -NoNewWindow
 
@@ -139,7 +165,7 @@ function Invoke-RemoteDism {
             ExitCode = $proc.ExitCode
             LogPath  = $LogFile
         }
-    } -ArgumentList $SourcePath, $LogFile, $TimeoutSeconds
+    } -ArgumentList $SourcePath, $LogFile, $IncludeLimitAccess, $TimeoutSeconds
 }
 
 # -----------------------------
@@ -149,23 +175,46 @@ try {
     Write-Host "Preflight: Testing WSMan connectivity..." -ForegroundColor Cyan
     Test-WSManConnection -Computer $RemoteComputer
 
-    if (-not $SkipCredSSP) {
+    # Only enable CredSSP if explicitly requested (opt-in)
+    if ($UseCredSSP) {
         Enable-CredSSP -RemoteComputer $RemoteComputer
     }
 
     Write-Host "Creating remote session..." -ForegroundColor Cyan
-    $Session = New-PSSession -ComputerName $RemoteComputer -Credential $Cred -Authentication (if ($SkipCredSSP) { "Default" } else { "CredSSP" })
+
+    # Prefer Kerberos in domain; fallback to Negotiate; include CredSSP only if requested
+    $authOrder = @('Kerberos','Negotiate')
+    if ($UseCredSSP) { $authOrder += 'CredSSP' }
+
+    $Session = $null
+    foreach ($auth in $authOrder) {
+        try {
+            $Session = New-PSSession -ComputerName $RemoteComputer `
+                                     -Credential $Cred `
+                                     -Authentication $auth `
+                                     -ConfigurationName Microsoft.PowerShell `
+                                     -ErrorAction Stop
+            Write-Host "Session created using $auth." -ForegroundColor Green
+            break
+        }
+        catch {
+            Write-Warning "New-PSSession with '$auth' failed: $($_.Exception.Message)"
+        }
+    }
+    if (-not $Session) { throw "Unable to create PSSession to $RemoteComputer with any mechanism." }
 
     # Dry-run mode stops here
     if ($DryRun) {
         Write-Host "Dry-run mode: Validating remote access only." -ForegroundColor Yellow
 
-        $RemoteSourceTest = Invoke-Command -Session $Session -ScriptBlock {
-            param($Path) Test-Path $Path
-        } -ArgumentList $SourceUNC
+        if ($UseLocalSource) {
+            $RemoteSourceTest = Invoke-Command -Session $Session -ScriptBlock {
+                param($Path) Test-Path $Path
+            } -ArgumentList $SourcePath
 
-        if (-not $RemoteSourceTest) {
-            Throw "Remote cannot access source path: $SourceUNC"
+            if (-not $RemoteSourceTest) {
+                Throw "Remote cannot access source path: $SourcePath"
+            }
         }
 
         Write-Host "Dry-run completed successfully." -ForegroundColor Green
@@ -175,16 +224,6 @@ try {
     # Validate remote DISM
     Test-RemoteDism -Session $Session
 
-    # Validate UNC access
-    Write-Host "Validating remote access to UNC source..." -ForegroundColor Cyan
-    $RemoteSourceTest = Invoke-Command -Session $Session -ScriptBlock {
-        param($Path) Test-Path $Path
-    } -ArgumentList $SourceUNC
-
-    if (-not $RemoteSourceTest) {
-        Throw "Remote computer cannot access source '$SourceUNC'."
-    }
-
     # Ensure remote log directory
     Invoke-Command -Session $Session -ScriptBlock {
         param($Dir)
@@ -193,23 +232,60 @@ try {
 
     $RemoteDismLog = Join-Path $RemoteLogDir "DISM-$(Get-Date -Format 'yyyyMMdd-HHmmss').log"
 
-    # Run DISM
-    Write-Host "Running DISM remotely..." -ForegroundColor Cyan
-    $DismResult = Invoke-RemoteDism -Session $Session -SourcePath $SourceUNC -LogFile $RemoteDismLog
+    # -------------------------
+    # Run DISM according to choice
+    # -------------------------
+    $DismResult = $null
+
+    if ($UseLocalSource) {
+        Write-Host "Validating remote access to source '$SourcePath'..." -ForegroundColor Cyan
+        $RemoteSourceTest = Invoke-Command -Session $Session -ScriptBlock {
+            param($Path) Test-Path $Path
+        } -ArgumentList $SourcePath
+
+        if (-not $RemoteSourceTest) {
+            Write-Warning "Remote computer cannot access source '$SourcePath'. Proceeding with ONLINE repair."
+            Write-Host "Running DISM online (no /Source, allows WU/WSUS)..." -ForegroundColor Cyan
+            $DismResult = Invoke-RemoteDism -Session $Session -SourcePath $null -LogFile $RemoteDismLog
+        }
+        else {
+            Write-Host "Running DISM with local source (offline-only using /LimitAccess)..." -ForegroundColor Cyan
+            $DismResult = Invoke-RemoteDism -Session $Session -SourcePath $SourcePath -LogFile $RemoteDismLog -IncludeLimitAccess $true
+
+            if ($DismResult.ExitCode -ne 0) {
+                Write-Warning "DISM with local source failed (ExitCode=$($DismResult.ExitCode)). Retrying ONLINE repair..."
+                $DismResult = Invoke-RemoteDism -Session $Session -SourcePath $null -LogFile $RemoteDismLog
+            }
+        }
+    }
+    else {
+        Write-Host "Running DISM online (no /Source, allows WU/WSUS)..." -ForegroundColor Cyan
+        $DismResult = Invoke-RemoteDism -Session $Session -SourcePath $null -LogFile $RemoteDismLog
+    }
 
     Write-Host "DISM exit code: $($DismResult.ExitCode)" -ForegroundColor Yellow
 
+    # -------------------------
+    # Optional PowerShell cmdlet fallback
+    # -------------------------
     if ($DismResult.ExitCode -ne 0 -and $UseRepairWindowsImageFallback) {
         Write-Warning "DISM failed. Attempting Repair-WindowsImage fallback..."
 
         $Fallback = Invoke-Command -Session $Session -ScriptBlock {
-            param($SourcePath)
+            param($SourcePathLocal)
             try {
-                Repair-WindowsImage -Online -RestoreHealth -Source $SourcePath -LimitAccess -ErrorAction Stop
+                if ($SourcePathLocal) {
+                    # First try with source, offline-only; then fallback online
+                    Repair-WindowsImage -Online -RestoreHealth -Source $SourcePathLocal -LimitAccess -ErrorAction Stop
+                }
+                else {
+                    # No source selected; allow online repair
+                    Repair-WindowsImage -Online -RestoreHealth -ErrorAction Stop
+                }
                 "OK"
             }
             catch { $_.Exception.Message }
-        } -ArgumentList $SourceUNC
+        } -ArgumentList $SourcePath
 
         if ($Fallback -ne "OK") {
             Throw "Fallback failed: $Fallback"
@@ -220,6 +296,7 @@ try {
     if ($CopyLogsLocal) {
         $LocalCopy = Join-Path $env:TEMP "Remote-DISM-$(Get-Date -Format 'yyyyMMdd-HHmmss').log"
         Copy-Item -Path $RemoteDismLog -Destination $LocalCopy -FromSession $Session
+        Write-Host "Copied remote DISM log to: $LocalCopy" -ForegroundColor Green
     }
 
     # Tail CBS
@@ -233,6 +310,8 @@ try {
     # Structured return object
     [pscustomobject]@{
         Computer     = $RemoteComputer
+        UsedLocal    = $UseLocalSource
+        SourcePath   = $SourcePath
         DismExitCode = $DismResult.ExitCode
         DismLog      = $DismResult.LogPath
         Transcript   = $TranscriptLog
@@ -246,7 +325,7 @@ catch {
 }
 finally {
     if ($Session) { Remove-PSSession $Session }
-    if (-not $SkipCredSSP) { Disable-CredSSP -RemoteComputer $RemoteComputer }
+    if ($UseCredSSP) { Disable-CredSSP -RemoteComputer $RemoteComputer }   # <-- only if opted-in
     Stop-Transcript | Out-Null
     Write-Host "Transcript saved: $TranscriptLog" -ForegroundColor Yellow
 }
