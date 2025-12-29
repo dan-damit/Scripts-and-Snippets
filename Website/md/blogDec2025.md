@@ -332,11 +332,11 @@ Some time ago (who knows when), I was troubleshooting something else with NuGet
 packages, and I ended up mirroring some locally to a dir on C:. That dir didn't
 exist anymore, so I had to remove that as a source. Removing it caused issues
 with the dotnet build commands. I also had to remove the local dir as a source for
-NuGet packages. 
+NuGet packages.
 
 On to the next issue... dotnet was not happy....or maybe just out of date since
 I hadn't needed it for the last 4 months. Updated all the dotnet stuff and it
-worked manually. 
+worked manually.
 
 I'm never really content with leaving a script alone, so I wanted to modularize
 the PowerShell build script I use to build my workstation onboarding tool. It
@@ -401,10 +401,90 @@ Adding the $parts variable as $command -split ' ' to make the "build -c Release"
 into an array instead of a regular string was the winning tweak; dotnet was then
 able to fire correctly with the "& dotnet @parts" line.
 
-```
+```PowerShell
 $parts = $command -split ' '
 
 & dotnet @parts
 ```
+
+### dan
+
+---
+
+# Been a busy start to the new job
+
+**Date:** 2025-12-20 **Tags:** powershell, scripting
+
+## A custom battery health report
+
+I had a some time on Friday to take a look at some of the scripts that the guys
+on my team had come up with in the past. The first one that was brought up to me
+was a custom battery health report. It's a fairly old script, written in what
+looks like 2020 or so based on the last modified date on the file. It wassn't
+using Window's built in battery health report tool, which outputs a fancy lookng
+html with some very detailed informaiton on a laptop's battery.
+
+I ended up using that report as my base:
+
+```PowerShell
+$reportPath = "C:\temp\battery-report.html"
+
+powercfg /batteryreport /output "$reportPath" | Out-Null
+```
+
+Then from that fancy report, after a ton of save and test cycles, I was able to
+parse the first and second tables into a json. These two tables have great
+information that our team can use. I was hoping that report had an option
+to be directly output to JSON but html is the only output that Windows supports.
+
+[Code here](https://github.com/dan-damit/Scripts-and-Snippets/blob/main/PowerShell/batteryHealthReport.ps1)
+
+I also added a simple calculation to figure out the battery's health as a
+percentage. Also, the output into a JSON can make it so we can easily use that
+data in other reporting tools in the future.
+
+### dan
+
+---
+
+# Fixing scripts!
+
+**Date:** 2025-12-24 **Tags:** powershell, scripting, automation
+
+## I created a browser cache cleanup tool
+
+In February we're flipping the switch to all cloud based ERP, so I am betting we
+will see an uptick in browser cache issues. So, what I ended up doing then is
+making a new script with lots of guardrails for error handling gracefully. 
+
+[Code here](https://github.com/dan-damit/Scripts-and-Snippets/blob/main/PowerShell/DumpBrowserCache/DumpBrowserCache.ps1)
+
+I also parameterized many things all the way down to a -WhatIf for dry run
+support. This scripts supports Chrome and Edge, and you can pick between them or
+do them both at the same time. It currenly only targets cache and cookies. It
+doesn't touch anything else like passwords and browsing history.
+
+### dan
+
+---
+
+# Created two new PowerShell tools
+
+**Date:** 2025-12-27 **Tags:** powershell, scripting, automation
+
+## One for Remote DISM execution
+
+The other to automate purging phishing emails from our server permanently. I
+didn't really get a chance to script remote DISM execution since our RMM
+platform already setup remote shells adhoc. There was no need to script it. At
+the new job however, we don't really have a true RMM. the code to both is below:
+
+[RemoteDISM script](https://github.com/dan-damit/Scripts-and-Snippets/blob/main/PowerShell/RemoteSessionDISM.ps1)
+[PurgeEMAIL script](https://github.com/dan-damit/Scripts-and-Snippets/blob/main/PowerShell/Purge-ComplianceSearch.ps1)
+
+I haven't tested the Remote DISM scripts yet. I am reviewing everything to the
+nth degree to make sure it won't trip our AV software.
+
+I'll update with another post after testing.
 
 ### dan
