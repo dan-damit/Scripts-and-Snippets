@@ -488,3 +488,44 @@ nth degree to make sure it won't trip our AV software.
 I'll update with another post after testing.
 
 ### dan
+
+---
+
+# Built a super cool automation today
+
+**Date:** 2025-12-30 **Tags:** powershell, automation, scripting
+
+## Automation with PowerShell is INSANELY fun
+
+So it started with some of the guys wanting me to take a look at an in-progress
+project. The ultimate goal was to passwordlessly authenticate to an Azure App
+Registration to Mail.Send using Microsoft Graph. :D
+
+They had most of the script already written, but were stuck on the auth using a
+certificate. I will make an environment-agnostic version of it for my personal
+repo that doesn't include any of our environment information at all, but that
+will come later once it's fully running smoothly.
+
+The App permission needed Application permission -> Mail.Send with administrator
+authorization - meaning it's pretty secure. And on top of that you can further
+restrict which accounts you want to even have the Mail.Send ability from the
+app. Meaning, you can lock it down to just one authorized account to send the
+mail this way using Graph. The auth is handled by a Cert to use with the private
+key imported on the server running the script, and the public matching pair in
+the Azure App Registration. 
+
+From there, the script needed the Tenant ID, the Org domain for the connection
+to Exchange Online, the Client ID of the App, and the Thumbprint of the cert you
+want to use, and the specific 'From' you authorized to even 'send as'.
+
+We wanted some specific email stats on a mail group like how many were
+sent and how many were received per member of the group.
+
+After that it was a few hours of VSCode to build the script (roughly 150 lines
+or so without including comments and blank lines). I had it setup to use HTML to
+build the table out to look pretty. HTML + CSS took care of the formatting of
+the table in the email. Looks nice. 
+
+That has been the most fun I've had coding in months.
+
+### dan
