@@ -19,6 +19,7 @@ automaticaly)
 ## Configuration (example)
 
 Use a JSON config block (included in folder):
+```JSON
 {
   "Source": "bing",
   "Destination": "C:\\Users\\You\\Pictures\\Wallpapers",
@@ -26,6 +27,7 @@ Use a JSON config block (included in folder):
   "KeepDays": 30,
   "Scale": "Fill"
 }
+```
 
 ## Scheduling
 
