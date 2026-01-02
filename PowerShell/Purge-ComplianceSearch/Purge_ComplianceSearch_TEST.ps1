@@ -1,10 +1,8 @@
 
 <#
-.SYNOPSIS
 Refactored Purview/Compliance PowerShell script to list, start, wait, and purge searches
 — supports tenant-wide and eDiscovery case-scoped operations, with export and soft/hard delete.
 
-.DESCRIPTION
 - Connects to Security & Compliance PowerShell (IPPSSession) using ExchangeOnlineManagement module.
 - Enumerates tenant-wide searches OR searches inside a specified eDiscovery case.
 - Starts searches that are in "Created" state, waits for completion, then executes user-chosen action:
@@ -13,7 +11,7 @@ Refactored Purview/Compliance PowerShell script to list, start, wait, and purge 
   * HardDelete (permanent).
 - Adds confirmations and clear status output.
 
-.NOTES
+Additional Notes:
 Requires appropriate roles to run searches and purge (e.g., Organization Management, Compliance Management,
 or role assignment that includes the Search and Purge capability). Also requires that the account is licensed
 to access Purview eDiscovery (for case-scoped operations).
@@ -459,3 +457,4 @@ finally {
         Write-Host "Session remains connected." -ForegroundColor Yellow
     }
 }
+
