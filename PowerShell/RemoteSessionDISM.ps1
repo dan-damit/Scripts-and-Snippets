@@ -1,5 +1,6 @@
 
 <# Author: Dan.Damit (https://github.com/dan-damit)
+
 Remote DISM Repair with opt-in CredSSP, UNC validation, timeout control,
 fallback repair, structured output, and optional dry-run mode.
 
