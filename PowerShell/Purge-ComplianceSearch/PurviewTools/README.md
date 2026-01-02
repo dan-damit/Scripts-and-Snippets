@@ -3,6 +3,7 @@
 
 A PowerShell module for purging compliance search results.
 Run the main execution script in the PurviewTools folder.
+- All comments are in the original script one dir up.
 
 ## Overview
 
@@ -13,7 +14,6 @@ This module provides functionality to purge compliance search results from the o
 - **PurviewTools.psm1** - Module script containing core cmdlets
 - **PurviewTools.psd1** - Module manifest with metadata and configuration
 - Removed commenting mostly for brevity here.
-- All comments are in the original script one dir up.
 
 ## Installation
 
@@ -37,3 +37,4 @@ This module provides functionality to purge compliance search results from the o
 
 - PowerShell 7+
 - Appropriate Microsoft 365 permissions
+
