@@ -1,8 +1,7 @@
 # DailyWallpaperApp
 
 A lightweight PowerShell utility to fetch a daily wallpaper (from Bing,
-Unsplash, or a local folder) and set it as the Windows desktop background
-automaticaly)
+Unsplash, or a local folder) and set it as the Windows desktop background manually.
 
 - Download daily images from configurable sources (Bing is default).
 - Save images to a local cache directory and rotate by date (set in config.json).
