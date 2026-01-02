@@ -1,5 +1,4 @@
 
-```markdown
 # Purge-ComplianceSearch
 
 A PowerShell module for purging compliance search results.
@@ -38,4 +37,3 @@ This module provides functionality to purge compliance search results from the o
 
 - PowerShell 7+
 - Appropriate Microsoft 365 permissions
-```
