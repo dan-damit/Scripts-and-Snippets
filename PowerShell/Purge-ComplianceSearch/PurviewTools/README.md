@@ -13,7 +13,7 @@ This module provides functionality to purge compliance search results from the o
 
 - **PurviewTools.psm1** - Module script containing core cmdlets
 - **PurviewTools.psd1** - Module manifest with metadata and configuration
-- Removed commenting mostly for brevity here.
+- Removed commenting mostly for brevity in these files (original script has in-line commenting).
 
 ## Installation
 
@@ -37,5 +37,6 @@ This module provides functionality to purge compliance search results from the o
 
 - PowerShell 7+
 - Appropriate Microsoft 365 permissions
+- A search and/or case query to be created and ran in MS Purview Web app initially.
 
 
