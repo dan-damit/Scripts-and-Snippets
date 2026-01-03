@@ -5,6 +5,7 @@
 #          waiting, and guided purge actions.
 # Author : Dan Damit (https://github.com/dan-damit)
 # Moved from initial script to module on 2026.1.2
+# ORIGINAL_SCRIPT_<file name>.ps1 has all the in-line comments
 # =====================================================================
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
@@ -294,3 +295,4 @@ Export-ModuleMember -Function `
     Wait-ForPurgeCompletion, `
     Submit-Purge, `
     Invoke-GuidedPurge
+
