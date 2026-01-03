@@ -31,7 +31,7 @@ This module provides functionality to purge compliance search results from the o
 ## Usage
 
 ```powershell
-..\MainExecutionScript\Purge-ComplianceSearch.ps1
+..\MainExecutionScript > .\Purge-ComplianceSearch.ps1
 ```
 
 ## Requirements
@@ -39,6 +39,7 @@ This module provides functionality to purge compliance search results from the o
 - PowerShell 7+
 - Appropriate Microsoft 365 permissions
 - A search and/or case query to be created and ran in MS Purview Web app initially.
+
 
 
 
