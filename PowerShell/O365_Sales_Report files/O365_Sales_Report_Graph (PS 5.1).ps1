@@ -310,8 +310,7 @@ catch {
         Write-Error ("Status: {0}" -f $_.Exception.Response.StatusCode)
         Write-Error ("Headers: {0}" -f ($_.Exception.Response.Headers | Out-String))
     }
-    # Non-zero exit code so PDQ Connect marks this as an error and shows
-    # 'Errors'
+    # Non-zero exit code so PDQ Connect marks this as an error and shows 'Errors'
     # Adjusted for PowerShell 5.1 compatibility
     $global:LASTEXITCODE = 1
     return
