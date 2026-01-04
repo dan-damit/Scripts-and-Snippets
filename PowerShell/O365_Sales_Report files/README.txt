@@ -11,6 +11,6 @@ Prereqs needed on the device running the script for the script to work:
 - Currently this Cert handles authentication: $CertThumb = "F226D64FF93DE27A1CFC9F9078829FBBD5B21770"
 
 Additional Notes:
-- _SalesEmailReport_Exclusions.txt is the file that the scripts looks at as emails to exclude from the report.
+- _SalesEmailReport_Exclusions.txt is the file that the scripts looks at as malboxes to exclude from the report.
 - Small adjustments will need to be made when UTILITY-1 goes away (e.g. like $WorkingDir).
 #>
