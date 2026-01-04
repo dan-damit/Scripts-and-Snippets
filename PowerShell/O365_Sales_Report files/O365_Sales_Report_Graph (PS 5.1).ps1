@@ -10,7 +10,11 @@ Prereqs:
 - Microsoft.Graph module
 - App "VAC Unattended Scripts" with Graph Mail.Send (Application) + admin
     consent: Which looks to be good to go on UTILITY-1 as of 12/2025
-- Certificate installed in LocalMachine Store to run as SYSTEM in PDQ (thumbprint below)
+- Certificate installed in LocalMachine Store to run as SYSTEM in PDQ
+  (thumbprint below)
+
+- Refactored a couple of things to be compatible with Windows PowerShell
+  5.1 (PDQ Deploy default) vs PowerShell 7+.
 #>
 
 [CmdletBinding()]
