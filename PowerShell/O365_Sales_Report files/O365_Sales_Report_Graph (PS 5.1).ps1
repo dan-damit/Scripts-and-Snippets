@@ -175,7 +175,10 @@ $DisplayCache = @{}
 
 foreach ($mi in $memberInfo) {
     if (-not $DisplayCache.ContainsKey($mi.EmailAddress)) {
-        $DisplayCache[$mi.EmailAddress] = ($null -ne $mi.DisplayName -and $mi.DisplayName.Trim() -ne '') ? $mi.DisplayName : "[Display name not found]"
+        $DisplayCache[$mi.EmailAddress] = if ($mi.DisplayName -and $mi.DisplayName.Trim() -ne '') { $mi.DisplayName }
+        else {
+            "[Display name not found]"
+        }
     }
 }
 
@@ -289,13 +292,12 @@ $payload = @{
 # Fail-fast on non-terminating errors from cmdlets
 $ErrorActionPreference = 'Stop'
 
-Start-Transcript -Path "$env:TEMP\SalesReport_Send.log" -Append
-
 try {
     Send-MgUserMail -UserId $SenderUpn -BodyParameter $payload
     Write-Output ("SUCCESS: Sales report email sent as {0} at {1}." -f $SenderUpn, (Get-Date))
     # Optional: Be explicit for PDQ Connect (return code 0 = success)
-    exit 0
+    $global:LASTEXITCODE = 0
+    return
 }
 catch {
     Write-Error ("Graph send failed: {0}" -f $_.Exception.Message)
@@ -304,12 +306,12 @@ catch {
         Write-Error ("Headers: {0}" -f ($_.Exception.Response.Headers | Out-String))
     }
     # Non-zero exit code so PDQ Connect marks this as an error and shows 'Errors'
-    exit 1
+    $global:LASTEXITCODE = 1
+    return
 }
 finally {
     # Cleanup always runs (even after 'exit' in try/catch in PowerShell 7+)
     Disconnect-MgGraph -ErrorAction SilentlyContinue
     Disconnect-ExchangeOnline -Confirm:$false -ErrorAction SilentlyContinue
-    Stop-Transcript | Out-Null
 }
 Stop-Transcript | Out-Null
