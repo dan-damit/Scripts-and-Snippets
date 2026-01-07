@@ -294,5 +294,8 @@ Export-ModuleMember -Function `
     Wait-ForSearchCompletion, `
     Wait-ForPurgeCompletion, `
     Submit-Purge, `
-    Invoke-GuidedPurge
+    Invoke-GuidedPurge, `
+    Get-SearchDetails, `
+    Test-HasNonMailboxWorkloads, `
+    Get-MailboxSourcesFromSearch
 

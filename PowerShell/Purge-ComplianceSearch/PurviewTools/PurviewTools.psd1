@@ -6,7 +6,7 @@
     Author            = 'Dan Damit'
     CompanyName       = '[redacted] - add yours here'
     Description       = 'Purview Compliance Search helpers: clone, waiters, guided purge, listings.'
-    PowerShellVersion = '7+'
+    PowerShellVersion = '7.5.3'
     RequiredModules   = @('ExchangeOnlineManagement')
 
     FunctionsToExport = @(
@@ -19,7 +19,10 @@
         'Wait-ForSearchCompletion',
         'Wait-ForPurgeCompletion',
         'Submit-Purge',
-        'Invoke-GuidedPurge'
+        'Invoke-GuidedPurge',
+        'Get-SearchDetails',
+        'Test-HasNonMailboxWorkloads',
+        'Get-MailboxSourcesFromSearch'
     )
     CmdletsToExport   = @()
     VariablesToExport = @()
