@@ -57,8 +57,8 @@ This module provides functionality to purge compliance search results from the o
 
 - PowerShell 7+
 - Appropriate Microsoft 365 permissions
-- A search and/or case query to be created and ran in MS Purview Web app
-  initially.
+- A Search Case to be opened in Purview for reference during runtime.
+
 
 
 
