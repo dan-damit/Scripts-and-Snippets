@@ -9,8 +9,8 @@
 
 # Refactored version date: 2026.01.07
 # Version: 1.1.0
-# Only requires a eDiscover case to be created
-# All searches and purges will be case-scoped and handled withing the script now.
+# Only requires an eDiscover case to be created
+# All searches and purges will be case-scoped and handled within the script now.
 # =====================================================================
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
@@ -114,4 +114,5 @@ Export-ModuleMember -Function `
     Invoke-HardDelete, `
     Wait-ForPurgeCompletion, `
     Write-Log
+
 # End of PurviewTools.psm1
