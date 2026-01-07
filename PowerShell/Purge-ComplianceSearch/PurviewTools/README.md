@@ -23,7 +23,7 @@ Run the main execution script in the PurviewTools folder.
 - Minor UX/logging refinements for clean console + solid audit trail.
 ---------------------------------------------------------------------
 
-### All comments are in the original script one dir up.
+### All comments are in the original script one dir up. Lots of refactoring has happened since the orig script.
 
 ## Overview
 
@@ -59,5 +59,6 @@ This module provides functionality to purge compliance search results from the o
 - Appropriate Microsoft 365 permissions
 - A search and/or case query to be created and ran in MS Purview Web app
   initially.
+
 
 
