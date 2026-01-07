@@ -4,7 +4,7 @@
 A PowerShell module for purging compliance search results.
 Run the main execution script in the PurviewTools folder.
 
-### ---------------------------------------------------------------------
+---------------------------------------------------------------------
 ### PurviewTools Module
 ### Version: 1.1.2
 ### Date   : 2026-01-07
@@ -21,7 +21,7 @@ Run the main execution script in the PurviewTools folder.
   appends (items: N) from Get-ComplianceSearch on success.
 - Removed redundant New-MailboxOnlySearch.
 - Minor UX/logging refinements for clean console + solid audit trail.
-### ---------------------------------------------------------------------
+---------------------------------------------------------------------
 
 ### All comments are in the original script one dir up.
 
@@ -59,4 +59,5 @@ This module provides functionality to purge compliance search results from the o
 - Appropriate Microsoft 365 permissions
 - A search and/or case query to be created and ran in MS Purview Web app
   initially.
+
 
