@@ -17,14 +17,10 @@
             'Invoke-HardDelete', `
             'Wait-ForPurgeCompletion', `
             'Resolve-OrCreateSearch', `
-            'Resolve-SearchName', `
-            'Write-Log', `
-            'Set-LogFile'
+            'Resolve-SearchName'
     )
     CmdletsToExport      = @()
     VariablesToExport    = @()
     AliasesToExport      = @()
     PrivateData          = @{ PSData = @{ Tags = @('Purview', 'Compliance', 'ExchangeOnline'); } }
 }
-
-

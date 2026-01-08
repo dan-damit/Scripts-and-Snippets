@@ -275,7 +275,5 @@ Export-ModuleMember -Function `
     Invoke-HardDelete, `
     Wait-ForPurgeCompletion, `
     Resolve-OrCreateSearch, `
-    Resolve-SearchName, `
-    Write-Log, `
-    Set-LogFile
+    Resolve-SearchName
 # End of PurviewTools.psm1
