@@ -1,7 +1,7 @@
 
 @{
     RootModule        = 'PurviewTools.psm1'
-    ModuleVersion     = '1.1.0'
+    ModuleVersion     = '1.1.2'
     GUID              = 'b5e5c5f2-7a3f-4b4b-9e9e-1f6b2d4a5d11'
     Author            = 'Dan Damit'
     CompanyName       = '[redacted]'
