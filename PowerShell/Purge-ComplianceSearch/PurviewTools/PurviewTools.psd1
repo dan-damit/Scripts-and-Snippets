@@ -1,30 +1,30 @@
 
 @{
-    RootModule        = 'PurviewTools.psm1'
-    ModuleVersion     = '1.1.2'
-    GUID              = 'b5e5c5f2-7a3f-4b4b-9e9e-1f6b2d4a5d11'
-    Author            = 'Dan Damit'
-    CompanyName       = '[redacted]'
-    Description       = 'Purview Compliance Search helpers: clone, waiters, guided purge, listings.'
+    RootModule           = 'PurviewTools.psm1'
+    ModuleVersion        = '1.1.2'
+    GUID                 = 'b5e5c5f2-7a3f-4b4b-9e9e-1f6b2d4a5d11'
+    Author               = 'Dan Damit'
+    CompanyName          = '[redacted]'
+    Description          = 'Purview Compliance Search helpers: clone, waiters, guided purge, listings.'
     CompatiblePSEditions = @('Core')
-    RequiredModules = @(@{ ModuleName = 'ExchangeOnlineManagement'; ModuleVersion = '3.9.0' })
+    RequiredModules      = @(@{ ModuleName = 'ExchangeOnlineManagement'; ModuleVersion = '3.9.0' })
     
-    FunctionsToExport = @(
+    FunctionsToExport    = @(
         'Import-ExchangeOnlineModule', `
-        'Connect-SearchSession', `
-        'Get-SearchDetails', `
-        'Wait-ForSearchCompletion', `
-        'Invoke-HardDelete', `
-        'Wait-ForPurgeCompletion', `
-        'Resolve-OrCreateSearch', `
-        'Resolve-SearchName', `
-        'Write-Log', `
-        'Set-LogFile'
+            'Connect-SearchSession', `
+            'Get-SearchDetails', `
+            'Wait-ForSearchCompletion', `
+            'Invoke-HardDelete', `
+            'Wait-ForPurgeCompletion', `
+            'Resolve-OrCreateSearch', `
+            'Resolve-SearchName', `
+            'Write-Log', `
+            'Set-LogFile'
     )
-    CmdletsToExport   = @()
-    VariablesToExport = @()
-    AliasesToExport   = @()
-    PrivateData       = @{ PSData = @{ Tags = @('Purview', 'Compliance', 'ExchangeOnline'); } }
+    CmdletsToExport      = @()
+    VariablesToExport    = @()
+    AliasesToExport      = @()
+    PrivateData          = @{ PSData = @{ Tags = @('Purview', 'Compliance', 'ExchangeOnline'); } }
 }
 
 
