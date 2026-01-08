@@ -1,25 +1,28 @@
 
-# =====================================================================
-# PurviewTools Module
-# Version: 1.1.2
-# Date   : 2026-01-07
-# Author : Dan Damit (https://github.com/dan-damit)
-#
-# Changes in 1.1.2:
-# - Hardened parameter handling: all SearchName params accept [object]
-#   and normalize via Resolve-SearchName (supports string/array/PSObject).
-# - Case-scoped operations aligned: use -Case only with Get-* cmdlets;
-#   removed -Case from New-ComplianceSearchAction.
-# - Invoke-HardDelete: added regex confirmation (YES/Y), try/catch,
-#   and identity-based monitoring when available.
-# - Wait-ForPurgeCompletion: logs terminal states only, guards props,
-#   appends (items: N) from Get-ComplianceSearch on success.
-# - Removed redundant New-MailboxOnlySearch.
-# - Minor UX/logging refinements for clean console + solid audit trail.
-# =====================================================================
+# ============================================================
+# Purview Compliance Search Purge (Case-scoped, HardDelete only)
+# Author: Dan.Damit (https://github.com/dan-damit)
+
+# Refactored for mailbox-only purge workflow
+# Added timestamped search clones to avoid name conflicts
+# Added logging to temp file
+# Prompts for information if no search is found in the case during runtime
+
+# Usage:
+#   1) Start an eDiscovery Case in Purview
+#   2) Reference that case number in the Script during runtime
+#   3) Script will then run a mailbox-only search
+#   4) Wait for search completion
+#   5) Submit HardDelete purge and monitor until completion
+# ============================================================
 
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
+
+# Configure log file
+$logFile = Join-Path $env:TEMP ("PurviewPurgeLog_{0}.log" -f (Get-Date -Format 'yyyyMMdd_HHmmss'))
+Set-LogFile -Path $logFile
+Write-Host "[Log] Actions will be logged to: $logFile" -ForegroundColor Cyan
 
 function Write-Log {
     param([Parameter(Mandatory = $true, Position = 0)][string]$Message)
@@ -267,15 +270,37 @@ function Wait-ForPurgeCompletion {
     Write-Host "[Purge] Timed out waiting for completion." -ForegroundColor Red
 }
 
-Export-ModuleMember -Function `
-    Import-ExchangeOnlineModule, `
-    Connect-SearchSession, `
-    Get-SearchDetails, `
-    Wait-ForSearchCompletion, `
-    Invoke-HardDelete, `
-    Wait-ForPurgeCompletion, `
-    Resolve-OrCreateSearch, `
-    Resolve-SearchName, `
-    Write-Log, `
-    Set-LogFile
-# End of PurviewTools.psm1
+# ---------------- MAIN ----------------
+try {
+    Import-ExchangeOnlineModule
+    $upn = Read-Host "Enter UPN (e.g., user@domain.com)"
+    Connect-SearchSession -UserPrincipalName $upn
+
+    $caseName = Read-Host "Enter eDiscovery Case Name/ID"
+    $searchName = Read-Host "Enter original Compliance Search Name/ID in case '$caseName' (or press Enter to create new)"
+
+    # Create mailbox-only search with timestamp
+    $cloneName = Resolve-OrCreateSearch -CaseName $caseName -OriginalSearchName $searchName
+
+    # Wait for completion
+    $searchObj = Wait-ForSearchCompletion -SearchName $cloneName -CaseName $caseName
+    if ($searchObj.Items -le 0) { throw "Search returned 0 mailbox items. Purge aborted." }
+
+    # Purge HardDelete with watcher
+    Invoke-HardDelete -SearchName $cloneName -CaseName $caseName
+
+    Write-Log "[Done] All actions completed. Log saved to $logFile"
+}
+catch {
+    Write-Log "[ERROR] $($_.Exception.Message)"
+}
+finally {
+    $disconnect = Read-Host "Disconnect session now? (Y/N)"
+    if ($disconnect -match '^[Yy]$') {
+        Disconnect-ExchangeOnline -Confirm:$false
+        Write-Log "Disconnected."
+    }
+    else {
+        Write-Log "Session remains connected."
+    }
+}

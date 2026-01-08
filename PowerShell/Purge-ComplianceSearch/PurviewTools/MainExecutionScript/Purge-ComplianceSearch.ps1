@@ -2,92 +2,60 @@
 # =====================================================================
 # Main script: Purge-ComplianceSearch.ps1
 # Purpose: Orchestrates user input and flow; uses PurviewTools module.
+
+# Follow prompts:
+# - UPN
+# - Case name
+# - (optional) original search to clone or new KQL
+
+# The script will:
+#   1) Connect with EnableSearchOnlySession (good for purge)  [3](https://learn.microsoft.com/en-us/powershell/module/exchangepowershell/new-compliancesearchaction?view=exchange-ps)[4](https://techcommunity.microsoft.com/blog/microsoft-security-blog/search-and-purge-using-the-security-and-compliance-powershell-cmdlets/4429472)
+#   2) Create/clone a mailbox-only search inside the case
+#   3) Wait until Status=Completed and Items>0
+#   4) Submit HardDelete purge action
+#   5) Monitor to completion
+
 # =====================================================================
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
 
 # Import the module from relative path (adjust if installed it system-wide)
-$modulePath = Join-Path $PSScriptRoot '..\PurviewTools\PurviewTools.psd1'
+$modulePath = Join-Path $PSScriptRoot '..\PurviewTools.psm1'
 Import-Module $modulePath -Force
 
+# Configure log file
+$logFile = Join-Path $env:TEMP ("PurviewPurgeLog_{0}.log" -f (Get-Date -Format 'yyyyMMdd_HHmmss'))
+Set-LogFile -Path $logFile
+Write-Log "[Log] Actions will be logged to: $logFile"
+
 try {
+    Write-Host "[Info] ExchangeOnlineManagement module version: $((Get-Module ExchangeOnlineManagement).Version)" -ForegroundColor Cyan
     Import-ExchangeOnlineModule
     $upn = Read-Host "Enter UPN (e.g., user@domain.com)"
-    if ([string]::IsNullOrWhiteSpace($upn)) { throw "UPN cannot be empty." }
+    Connect-SearchSession -UserPrincipalName $upn
 
-    $sessionMode = Connect-SearchSession -UserPrincipalName $upn
+    $caseName = Read-Host "Enter eDiscovery Case Name/ID"
+    $searchName = Read-Host "Enter original Compliance Search Name/ID in case '$caseName' (or press Enter to create new)"
 
-    Write-Host "`nChoose scope:" -ForegroundColor Cyan
-    Write-Host " 1) Tenant-wide (Compliance searches not in a case)"
-    Write-Host " 2) eDiscovery Case-scoped"
-    $scopeChoice = Read-Host "Enter 1 or 2"
-    if ($scopeChoice -notin @('1','2')) { throw "Invalid scope selection." }
+    $cloneName = Resolve-OrCreateSearch -CaseName $caseName -OriginalSearchName $searchName
 
-    $caseName = $null
-    if ($scopeChoice -eq '1') {
-        # Tenant-wide path
-        Show-RecentComplianceSearches -Top 10
-        $searchName = Read-Host "Enter the Compliance Search Name/ID (tenant-wide)"
-        if ([string]::IsNullOrWhiteSpace($searchName)) { throw "Search Name/ID cannot be empty." }
+    $searchObj = Wait-ForSearchCompletion -SearchName $cloneName -CaseName $caseName
+    if ($searchObj.Items -le 0) { throw "Search returned 0 mailbox items. Purge aborted." }
 
-        $searchObj = Get-SearchDetails -SearchName $searchName -CaseName $null
-        $hasNonMailbox = Test-HasNonMailboxWorkloads -SearchObj $searchObj
-        if ($hasNonMailbox) {
-            Write-Warning "This search includes SharePoint/OneDrive sources. Purge supports Exchange mailboxes only."
-            $cloneName = Read-Host "Create mailbox-only clone? Enter new search name (or press Enter to skip)"
-            if (-not [string]::IsNullOrWhiteSpace($cloneName)) {
-                try {
-                    Get-ComplianceSearch -Identity $cloneName -ErrorAction Stop | Out-Null
-                    Write-Warning "Search '$cloneName' already exists. Appending timestamp."
-                    $cloneName = '{0}-{1}' -f $cloneName, (Get-Date -Format 'yyyyMMddHHmmss')
-                } catch { }
-                $cloneParams = @{ OriginalSearchName = $searchName; NewSearchName = $cloneName; CaseName = $null }
-                $searchName = New-MailboxOnlyClone @cloneParams
-            }
-        }
-        $searchName = ([string]$searchName).Trim()
-        Invoke-GuidedPurge -SearchName $searchName -CaseName $caseName -SessionMode $sessionMode -UserPrincipalName $upn
-    }
-    else {
-        # Case-scoped path
-        $caseName = Read-Host "Enter the eDiscovery Case Name/ID (e.g., #INC-128959)"
-        if ([string]::IsNullOrWhiteSpace($caseName)) { throw "Case cannot be empty." }
-        Get-ComplianceCaseByName -CaseName $caseName | Out-Null
-        Show-CaseComplianceSearches -CaseName $caseName -Top 15
-        $searchName = Read-Host "Enter the Compliance Search Name/ID (inside case '$caseName')"
-        if ([string]::IsNullOrWhiteSpace($searchName)) { throw "Search Name/ID cannot be empty." }
-        $searchObj = Get-SearchDetails -SearchName $searchName -CaseName $caseName
-        $hasNonMailbox = Test-HasNonMailboxWorkloads -SearchObj $searchObj
-        if ($hasNonMailbox) {
-            Write-Warning "This case search includes SharePoint/OneDrive sources. Purge supports Exchange mailboxes only."
-            $cloneName = Read-Host "Create mailbox-only clone in this case? Enter new search name (or press Enter to skip)"
-            if (-not [string]::IsNullOrWhiteSpace($cloneName)) {
-                try {
-                    Get-ComplianceSearch -Identity $cloneName -Case $caseName -ErrorAction Stop | Out-Null
-                    Write-Warning "Search '$cloneName' already exists. Appending timestamp."
-                    $cloneName = '{0}-{1}' -f $cloneName, (Get-Date -Format 'yyyyMMddHHmmss')
-                } catch { }
-                $cloneParams = @{ OriginalSearchName = $searchName; NewSearchName = $cloneName; CaseName = $caseName }
-                $searchName = New-MailboxOnlyClone @cloneParams
-            }
-        }
-        $searchName = ([string]$searchName).Trim()
-        Invoke-GuidedPurge -SearchName $searchName -CaseName $caseName -SessionMode $sessionMode -UserPrincipalName $upn
-    }
+    Invoke-HardDelete -SearchName $cloneName -CaseName $caseName
+
+    Write-Log "[Done] All actions completed. Log saved to $logFile"
 }
 catch {
-    Write-Host "`n[ERROR] $($_.Exception.GetType().FullName): $($_.Exception.Message)" -ForegroundColor Red
-    if ($_.InvocationInfo) {
-        Write-Host ("At {0}:{1}" -f $_.InvocationInfo.ScriptName, $_.InvocationInfo.ScriptLineNumber) -ForegroundColor DarkRed
-        Write-Host "Line: $($_.InvocationInfo.Line.Trim())" -ForegroundColor DarkRed
-    }
+    Write-Log "[ERROR] $($_.Exception.Message)"
 }
 finally {
-    $disconnect = Read-Host "`nDisconnect session now? (Y to disconnect)"
+    $disconnect = Read-Host "Disconnect session now? (Y/N)"
     if ($disconnect -match '^[Yy]$') {
         Disconnect-ExchangeOnline -Confirm:$false
-        Write-Host "Disconnected." -ForegroundColor Green
-    } else {
-        Write-Host "Session remains connected." -ForegroundColor Yellow
+        Write-Log "Disconnected."
+    }
+    else {
+        Write-Log "Session remains connected."
     }
 }

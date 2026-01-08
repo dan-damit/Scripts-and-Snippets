@@ -141,16 +141,41 @@ function Get-MailboxSourcesFromSearch {
 }
 
 # --------------------------
+# Normalize search name input
+# --------------------------
+function Resolve-SearchName {
+    param([Parameter(Mandatory=$true)]$SearchName)
+    # If an object was passed, try to read .Name; otherwise use the string as-is
+    if ($SearchName -is [string]) { return $SearchName }
+    if ($SearchName.PSObject.Properties['Name']) { return $SearchName.Name }
+    # Last resort: strip any type prefix if someone passed .ToString()
+    if ($SearchName -is [object]) {
+        $s = $SearchName.ToString()
+        # Remove type name prefix like '...ComplianceSearch ' if present
+        if ($s -match '\s#') { return ($s -replace '^.*ComplianceSearch\s','') }
+        return $s
+    }
+}
+
+# --------------------------
 # Wait for search completion (case-aware)
 # --------------------------
 function Wait-ForSearchCompletion {
-    param([Parameter(Mandatory = $true)][string]$SearchName, [string]$CaseName)
-    Write-Host "[Wait] Ensuring search '$SearchName' reaches 'Completed'..." -ForegroundColor Cyan
-    for ($i = 1; $i -le 40; $i++) {
-        $s = Get-SearchDetails -SearchName $SearchName -CaseName $CaseName
-        Write-Host ("Status: {0} (attempt {1}/40)" -f $s.Status, $i) -ForegroundColor Yellow
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory=$true)][object]$SearchName,
+        [string]$CaseName,
+        [int]$MaxAttempts = 40,
+        [int]$DelaySec = 5
+    )
+    $name = Resolve-SearchName $SearchName
+    Write-Host "[Wait] Ensuring search '$name' reaches 'Completed'..." -ForegroundColor Cyan
+
+    for ($i=1; $i -le $MaxAttempts; $i++) {
+        $s = Get-ComplianceSearch -Identity $name -Case $CaseName -ErrorAction Stop
+        Write-Host ("Status: {0} (attempt {1}/{2})" -f $s.Status, $i, $MaxAttempts) -ForegroundColor Yellow
         if ($s.Status -eq 'Completed') { Write-Host "Search is Completed." -ForegroundColor Green; return $true }
-        Start-Sleep 5
+        Start-Sleep -Seconds $DelaySec
     }
     Write-Host "Search never reached Completed. Cannot continue." -ForegroundColor Red
     return $false
@@ -220,19 +245,6 @@ function Invoke-GuidedPurge {
     $s = Get-SearchDetails -SearchName $SearchName -CaseName $CaseName
     $count = $s.PSObject.Properties['ItemsFound'] ? $s.ItemsFound : $s.Items
     Write-Host ("[Info] Search '{0}' Completed. Items={1}" -f $SearchName, $count) -ForegroundColor Cyan
-
-    # Preview (optional)
-    $doPreview = Read-Host "Run Preview action first? (Y/N)"
-    if ($doPreview -match '^[Yy]$') {
-        Write-Host "[Preview] Submitting preview..." -ForegroundColor Cyan
-        $previewAction = New-ComplianceSearchAction -SearchName $SearchName -Preview -ErrorAction Stop
-        Write-Host "[Preview] Submitted: $($previewAction.Identity)" -ForegroundColor Green
-        $pa = Get-ComplianceSearchAction -Identity $previewAction.Identity -ErrorAction SilentlyContinue
-        if ($pa) {
-            $pCount = $pa.PSObject.Properties['ItemsFound'] ? $pa.ItemsFound : $pa.Items
-            Write-Host ("[Preview] Items={0} Status={1}" -f $pCount, $pa.Status) -ForegroundColor Cyan
-        }
-    }
 
     # SoftDelete first?
     $soft = Read-Host "Proceed with SoftDelete purge? (Y/N)"

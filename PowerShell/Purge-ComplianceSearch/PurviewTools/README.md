@@ -1,15 +1,29 @@
 
 # Purge-ComplianceSearch
 
-- A PowerShell module for purging compliance search results.
-- Run the main execution script in the PurviewTools folder.
-- Edge cases considered - e.g. clones the search with mailbox 
-    only workload if onedrive or sharepoint data source(s) 
-    are found.
-- Includes logic to poll status and wait for success flag
-    before moving on
+A PowerShell module for purging compliance search results.
+Run the main execution script in the PurviewTools folder.
 
-### All in-line comments are in the original script one dir up.
+---------------------------------------------------------------------
+### PurviewTools Module
+### Version: 1.1.2
+### Date   : 2026-01-07
+### Author : Dan Damit
+
+### Changes in 1.1.2:
+- Hardened parameter handling: all SearchName params accept [object]
+  and normalize via Resolve-SearchName (supports string/array/PSObject).
+- Case-scoped operations aligned: use -Case only with Get-* cmdlets;
+  removed -Case from New-ComplianceSearchAction.
+- Invoke-HardDelete: added regex confirmation (YES/Y), try/catch,
+  and identity-based monitoring when available.
+- Wait-ForPurgeCompletion: logs terminal states only, guards props,
+  appends (items: N) from Get-ComplianceSearch on success.
+- Removed redundant New-MailboxOnlySearch.
+- Minor UX/logging refinements for clean console + solid audit trail.
+---------------------------------------------------------------------
+
+### All comments are in the original script one dir up. Lots of refactoring has happened since the orig script.
 
 ## Overview
 
@@ -19,7 +33,7 @@ This module provides functionality to purge compliance search results from the o
 
 - **PurviewTools.psm1** - Module script containing core cmdlets
 - **PurviewTools.psd1** - Module manifest with metadata and configuration
-- Removed commenting mostly for brevity in these files (original script has in-line commenting).
+- Removed commenting mostly for brevity here.
 
 ## Installation
 
@@ -36,20 +50,14 @@ This module provides functionality to purge compliance search results from the o
 ## Usage
 
 ```powershell
-..\MainExecutionScript > .\Purge-ComplianceSearch.ps1
+..\MainExecutionScript\Purge-ComplianceSearch.ps1
 ```
 
 ## Requirements
 
 - PowerShell 7+
 - Appropriate Microsoft 365 permissions
-- A search and/or case query to be created and ran in MS Purview Web app initially.
-
-
-
-
-
-
+- A Search Case to be opened in Purview for reference during runtime.
 
 
 
