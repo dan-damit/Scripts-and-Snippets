@@ -6,9 +6,9 @@
     Author            = 'Dan Damit'
     CompanyName       = '[redacted]'
     Description       = 'Purview Compliance Search helpers: clone, waiters, guided purge, listings.'
-    PowerShellVersion = '7.5.3'
-    RequiredModules   = @('ExchangeOnlineManagement')
-
+    CompatiblePSEditions = @('Core')
+    RequiredModules = @(@{ ModuleName = 'ExchangeOnlineManagement'; ModuleVersion = '3.9.0' })
+    
     FunctionsToExport = @(
         'Import-ExchangeOnlineModule', `
         'Connect-SearchSession', `
@@ -26,4 +26,5 @@
     AliasesToExport   = @()
     PrivateData       = @{ PSData = @{ Tags = @('Purview', 'Compliance', 'ExchangeOnline'); } }
 }
+
 
