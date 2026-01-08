@@ -9,8 +9,8 @@
 # - (optional) original search to clone or new KQL
 
 # The script will:
-#   1) Connect with EnableSearchOnlySession (good for purge)  [3](https://learn.microsoft.com/en-us/powershell/module/exchangepowershell/new-compliancesearchaction?view=exchange-ps)[4](https://techcommunity.microsoft.com/blog/microsoft-security-blog/search-and-purge-using-the-security-and-compliance-powershell-cmdlets/4429472)
-#   2) Create/clone a mailbox-only search inside the case
+#   1) Connect with EnableSearchOnlySession (good for purge)  [3](https://learn.microsoft.com/en-us/powershell/module/exchangepowershell/new-compliancesearchaction?view=exchange-ps)
+#   2) Create/clone a mailbox-only search inside the case     [4](https://techcommunity.microsoft.com/blog/microsoft-security-blog/search-and-purge-using-the-security-and-compliance-powershell-cmdlets/4429472)
 #   3) Wait until Status=Completed and Items>0
 #   4) Submit HardDelete purge action
 #   5) Monitor to completion
