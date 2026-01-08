@@ -1,5 +1,3 @@
-
-
 <#
 .SYNOPSIS
     Trigger Azure AD Connect sync (Delta or Initial) on a remote server via PowerShell Remoting.
