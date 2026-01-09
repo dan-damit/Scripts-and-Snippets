@@ -2,7 +2,7 @@
     RootModule           = 'TechToolbox.psm1'
     ModuleVersion        = '2.0.0'
     Author               = 'Dan Damit'
-    CompanyName          = 'Value Added Companies'
+    CompanyName          = '[redacted]'
     Description          = 'A technician-grade toolbox for automation, diagnostics, and enterprise workflows.'
     PowerShellVersion    = '7.5.3'
     CompatiblePSEditions = @('Core')
