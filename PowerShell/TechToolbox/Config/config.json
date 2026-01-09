@@ -1,0 +1,33 @@
+{
+  "Tenant": {
+    "TenantId": "",
+    "ClientId": "",
+    "AuthorityUrl": "https://login.microsoftonline.com"
+  },
+
+  "Paths": {
+    "LogDirectory": "C:\\Logs\\TechToolbox",
+    "TempDirectory": "C:\\Temp\\TechToolbox",
+    "ExportDirectory": "C:\\Exports\\TechToolbox"
+  },
+
+  "Networking": {
+    "DefaultTimeoutSeconds": 10,
+    "RetryCount": 3,
+    "AllowedSubnets": [
+      "192.168.0.0/24",
+      "10.0.0.0/24"
+    ]
+  },
+
+  "Compliance": {
+    "SearchBatchSize": 50,
+    "PurgeBatchSize": 25,
+    "MaxRetryAttempts": 3
+  },
+
+  "Diagnostics": {
+    "TraceDepth": 3,
+    "IncludeVerbose": true
+  }
+}
