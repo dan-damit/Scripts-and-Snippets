@@ -30,20 +30,21 @@ function Invoke-AADSyncRemote {
     if ($EnableTranscript) {
         try {
             Start-Transcript -Path $transcriptPath -ErrorAction Stop | Out-Null
-            Write-Info "Transcript started: $transcriptPath"
+            Write-Log -Level Info -Message "Transcript started: $transcriptPath"
         }
         catch {
-            Write-Warn "Could not start transcript: $($_.Exception.Message)"
+            Write-Log -Level Warn -Message "Could not start transcript: $($_.Exception.Message)"
         }
     }
 
-    Write-Info "Performing local pre-checks..."
+    Write-Log -Level Info -Message "Performing local pre-checks..."
     try {
         $resolved = Resolve-DnsName -Name $ComputerName -ErrorAction Stop
-        Write-Ok "DNS resolution succeeded: $($resolved.NameHost ?? $resolved.Name)"
+        $resolvedName = $resolved.NameHost ?? $resolved.Name
+        Write-Log -Level Ok -Message "DNS resolution succeeded: $resolvedName"
     }
     catch {
-        Write-Warn "DNS resolution failed for '$ComputerName': $($_.Exception.Message) — proceeding anyway."
+        Write-Log -Level Warn -Message "DNS resolution failed for '$ComputerName': $($_.Exception.Message) — proceeding anyway."
     }
 
     # Build connection
@@ -58,25 +59,25 @@ function Invoke-AADSyncRemote {
     # Create session
     $session = $null
     try {
-        Write-Info "Creating remote session to $ComputerName on port $Port ..."
+        Write-Log -Level Info -Message "Creating remote session to $ComputerName on port $Port ..."
         if ($UseKerberos) {
             $session = New-PSSession -ComputerName $ComputerName -Authentication Kerberos -SessionOption $sessionOption -ErrorAction Stop
-            Write-Ok "Session established using Kerberos."
+            Write-Log -Level Ok -Message "Session established using Kerberos."
         }
         else {
             $cred = Get-Credential -Message "Enter credentials with rights on $ComputerName"
             $session = New-PSSession -ConnectionUri $connectionUri -Credential $cred -SessionOption $sessionOption -ErrorAction Stop
-            Write-Ok "Session established using supplied credentials."
+            Write-Log -Level Ok -Message "Session established using supplied credentials."
         }
     }
     catch {
-        Write-Err "Failed to create remote session: $($_.Exception.Message)"
+        Write-Log -Level Error -Message "Failed to create remote session: $($_.Exception.Message)"
         return
     }
 
     # Remote check + sync
     try {
-        Write-Info "Checking ADSync module and service state on $ComputerName ..."
+        Write-Log -Level Info -Message "Checking ADSync module and service state on $ComputerName ..."
         $result = Invoke-Command -Session $session -ScriptBlock {
             $errors = @()
 
@@ -112,22 +113,22 @@ function Invoke-AADSyncRemote {
         }
 
         if ($result.Status -eq 'PreCheckFailed') {
-            Write-Err "Remote pre-checks failed: $($result.Errors)"
+            Write-Log -Level Error -Message "Remote pre-checks failed: $($result.Errors)"
             return
         }
 
-        Write-Ok "Sync ($PolicyType) triggered successfully on $ComputerName."
+        Write-Log -Level Ok -Message "Sync ($PolicyType) triggered successfully on $ComputerName."
         $result | Format-Table -AutoSize
 
     }
     finally {
         if ($session) {
             Remove-PSSession -Session $session -ErrorAction SilentlyContinue
-            Write-Info "Remote session closed."
+            Write-Log -Level Info -Message "Remote session closed."
         }
         if ($EnableTranscript) {
             try { Stop-Transcript | Out-Null } catch {}
-            Write-Info "Transcript saved: $transcriptPath"
+            Write-Log -Level Info -Message "Transcript saved: $transcriptPath"
         }
     }
 }
