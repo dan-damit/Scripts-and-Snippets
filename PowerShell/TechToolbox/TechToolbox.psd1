@@ -11,8 +11,8 @@
     PrivateData       = @{
         PSData = @{
             Tags         = @('automation', 'networking', 'diagnostics', 'toolbox')
-            ProjectUri   = 'https://github.com/dan-damit/TechToolbox'  # optional
-            LicenseUri   = 'https://opensource.org/licenses/MIT'      # optional
+            ProjectUri   = 'https://github.com/dan-damit/Scripts-and-Snippets/tree/main/PowerShell/TechToolbox'
+            LicenseUri   = 'https://opensource.org/licenses/MIT'
             ReleaseNotes = 'Initial release of TechToolbox.'
         }
     }
