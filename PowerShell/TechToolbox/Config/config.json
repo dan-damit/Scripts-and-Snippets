@@ -59,5 +59,12 @@
     "PromptForHostname": true,
     "PromptForCredentials": true,
     "PromptForDateRanges": true
+  },
+
+  "BatteryReport": {
+    "ReportPath": "C:\\Temp\\battery-report.html",
+    "OutputJson": "C:\\Temp\\installed-batteries.json",
+    "DebugInfo": "C:\\Temp\\installed-batteries_debug.txt",
+    "WaitTimeoutSeconds": 10
   }
 }
