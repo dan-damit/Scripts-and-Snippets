@@ -127,8 +127,6 @@ Create `Config\config.json` and tailor to your environment. Below is a **minimal
 }
 ```
 
-> Tip: Environment-specific overrides can be added to your config logic if desired (e.g., via `TECHTOOLBOX_ENV`).
-
 ---
 
 ## Public Commands
@@ -273,4 +271,4 @@ Invoke-AADSyncRemote -ComputerName aadconnect01 -PolicyType Delta -WhatIf
 
 **Author:** Dan Damit  
 **License:** Internal use
-**Version:** 2.0.0
+**Version:** 2.0.1
