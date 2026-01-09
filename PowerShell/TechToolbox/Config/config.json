@@ -41,7 +41,7 @@
     "PromptForMissingInputs": true,
     "DefaultLookbackHours": 48,
     "AutoExport": false,
-    "DefaultExportFolder": "C:\\LogsAndExports\\Exports\\MessageTrace"
+    "DefaultExportFolder": "C:\\LogsAndExports\\Exports\\MessageTraces"
   },
 
   "Defaults": {
