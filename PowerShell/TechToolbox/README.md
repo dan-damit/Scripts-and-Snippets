@@ -46,81 +46,87 @@ Create `Config\config.json` and tailor to your environment. Below is a **minimal
 
 ```json
 {
-  "Paths": {
-    "LogDirectory": "C:\\LogsAndExports\\Logs\\TechToolbox",
-    "ExportDirectory": "C:\\LogsAndExports\\Exports\\TechToolbox",
-    "TempDirectory": "C:\\Temp\\TechToolbox"
+  "paths": {
+    "temp": "C:\\Temp\\TechToolbox",
+    "logs": "C:\\LogsAndExports\\Logs\\TechToolbox",
+    "exportDirectory": "C:\\LogsAndExports\\Exports\\TechToolbox"
   },
-  "Logging": {
-    "EnableConsole": true,
-    "EnableFileLogging": false,
-    "IncludeTimestamps": true,
-    "LogFileNameFormat": "TechToolbox_{yyyyMMdd}.log",
-    "MinimumLevel": "Info"
-  },
-  "Defaults": {
-    "PromptForHostname": true,
-    "PromptForCredentials": true,
-    "PromptForDateRanges": true
-  },
-  "BrowserCleanup": {
-    "KillProcesses": true,
-    "SleepAfterKillMs": 1500,
-    "IncludeCookies": true,
-    "IncludeCache": true,
-    "SkipLocalStorage": false,
-    "DefaultBrowser": "All",
-    "DefaultProfiles": []
-  },
-  "RemoteSoftwareInventory": {
-    "IncludeAppx": false,
-    "Consolidated": false,
-    "ThrottleLimit": 32,
-    "SessionOptions": {
-      "SkipCACheck": false,
-      "SkipCNCheck": false,
-      "SkipRevocationCheck": false,
-      "UseSsl": false
-    }
-  },
-  "ExchangeOnline": {
-    "ShowProgress": false,
-    "AutoDisconnectPrompt": true
-  },
-  "MessageTrace": {
-    "PromptForMissingInputs": true,
-    "DefaultLookbackHours": 48,
-    "AutoExport": false,
-    "DefaultExportFolder": "C:\\LogsAndExports\\Exports\\MessageTraces"
-  },
-  "Purview": {
-    "AutoConnect": true,
-    "AutoDisconnectPrompt": true,
-    "Search": {
-      "MaxAttempts": 40,
-      "DelaySeconds": 10
+  "settings": {
+    "logging": {
+      "enableConsole": true,
+      "enableFileLogging": false,
+      "includeTimestamps": true,
+      "logFileNameFormat": "TechToolbox_{yyyyMMdd}.log",
+      "minimumLevel": "Info"
     },
-    "Purge": {
-      "TimeoutSeconds": 1200,
-      "PollSeconds": 5,
-      "RequireConfirmation": true
+    "output": {
+      "writeTable": true,
+      "encoding": "UTF8"
     },
-    "Defaults": {
-      "PromptForCaseName": true,
-      "PromptForSearchName": true,
-      "PromptForKqlQuery": true
+    "remoteSoftwareInventory": {
+      "includeAppx": false,
+      "consolidated": false,
+      "throttleLimit": 32,
+      "promptForCredentials": true,
+      "outDir": "C:\\LogsAndExports\\Exports\\RemoteSoftwareInventory"
+    },
+    "compliance": {
+      "searchBatchSize": 50,
+      "purgeBatchSize": 25,
+      "maxRetryAttempts": 3
+    },
+    "aadSync": {
+      "defaultPort": 5985,
+      "defaultPolicyType": "Delta",
+      "allowKerberos": true
+    },
+    "exchangeOnline": {
+      "autoConnect": true,
+      "autoDisconnectPrompt": true,
+      "showProgress": false
+    },
+    "messageTrace": {
+      "promptForMissingInputs": true,
+      "defaultLookbackHours": 48,
+      "autoExport": false,
+      "defaultExportFolder": "C:\\LogsAndExports\\Exports\\MessageTraces"
+    },
+    "batteryReport": {
+      "reportPath": "C:\\Temp\\battery-report.html",
+      "outputJson": "C:\\Temp\\installed-batteries.json",
+      "debugInfo": "C:\\Temp\\installed-batteries_debug.txt",
+      "waitTimeoutSeconds": 10
+    },
+    "purview": {
+      "autoConnect": true,
+      "autoDisconnectPrompt": true,
+      "search": {
+        "maxAttempts": 40,
+        "delaySeconds": 10
+      },
+      "purge": {
+        "timeoutSeconds": 1200,
+        "pollSeconds": 5,
+        "requireConfirmation": true
+      }
+    },
+    "browserCleanup": {
+      "killProcesses": true,
+      "sleepAfterKillMs": 1500,
+      "includeCookies": true,
+      "includeCache": true,
+      "skipLocalStorage": false,
+      "defaultBrowser": "All",
+      "defaultProfiles": null
+    },
+    "defaults": {
+      "promptForHostname": true,
+      "promptForCredentials": true,
+      "promptForDateRanges": true,
+      "promptForCaseName": true,
+      "promptForSearchName": true,
+      "promptForKqlQuery": true
     }
-  },
-  "BatteryReport": {
-    "ReportPath": "C:\\Temp\\battery-report.html",
-    "OutputJson": "C:\\Temp\\installed-batteries.json",
-    "DebugInfo": "C:\\Temp\\installed-batteries_debug.txt",
-    "WaitTimeoutSeconds": 10
-  },
-  "AADSync": {
-    "DefaultPort": 5985,
-    "DefaultPolicyType": "Delta",
-    "AllowKerberos": true
   }
 }
 ```
@@ -273,4 +279,4 @@ Invoke-AADSyncRemote -ComputerName aadconnect01 -PolicyType Delta -WhatIf
 
 **Author:** Dan Damit  
 **License:** Internal use (customize as needed)  
-**Version:** 0.2.0 (example)
+**Version:** 0.3.0 (example)
