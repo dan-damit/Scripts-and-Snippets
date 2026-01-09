@@ -25,10 +25,10 @@ param(
     [string]$CertThumb = "F226D64FF93DE27A1CFC9F9078829FBBD5B21770",
 
     # ======= Mail settings =======
-    [string]$SenderUpn = "office365@vadtek.com",
-    [string]$AnchorAddress = "sales@vadtek.com",
-    [string]$To = "llambie@vadtek.com",   # change to desired recipient(s) after testing
-    [string]$Bcc = "alerts@vadtek.com",   # change to desired recipient(s) after testing
+    [string]$SenderUpn = "[email protected]",
+    [string]$AnchorAddress = "[email protected]", # Distribution list to expand
+    [string]$To = "[email protected]",   # change to desired recipient(s) after testing
+    [string]$Bcc = "[email protected]",   # change to desired recipient(s) after testing
 
     # ======= Working directory =======
     [string]$WorkingDir = "C:\Users\Public\Documents\Admin Arsenal\PDQ Deploy\Repository\VAC Scripts\Office365_Send_Recieve_Reports"
@@ -64,7 +64,7 @@ Start-Transcript -Path $logFile
 Import-Module ExchangeOnlineManagement -ErrorAction Stop
 $exoParams = @{
     AppId                 = $ClientId
-    Organization          = "vadtek.com"        # must be tenant domain, not GUID
+    Organization          = "[domain protected]"        # must be tenant domain, not GUID
     CertificateThumbprint = $CertThumb
     ShowBanner            = $false
 }
@@ -285,7 +285,7 @@ $payload = @{
         BccRecipients = @(@{ EmailAddress = @{ Address = $Bcc } })
         Attachments   = @($attachment)
         ReplyTo       = @(
-            @{ EmailAddress = @{ Address = "office365@vadtek.com" } }
+            @{ EmailAddress = @{ Address = "[email protected]" } }
             # Can add more if needed
         )
     }
