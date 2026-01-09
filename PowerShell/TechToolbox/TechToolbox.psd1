@@ -8,6 +8,7 @@
     CmdletsToExport      = @()
     VariablesToExport    = @()
     AliasesToExport      = @()
+    RequiredModules      = @(@{ ModuleName = 'ExchangeOnlineManagement'; ModuleVersion = '3.9.0' })
     PrivateData          = @{
         PSData = @{
             Tags         = @('automation', 'networking', 'diagnostics', 'toolbox')
