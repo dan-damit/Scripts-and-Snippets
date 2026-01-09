@@ -6,24 +6,35 @@
   },
 
   "Paths": {
-    "LogDirectory": "C:\\Logs\\TechToolbox",
+    "LogDirectory": "C:\\LogsAndExports\\Logs\\TechToolbox",
     "TempDirectory": "C:\\Temp\\TechToolbox",
-    "ExportDirectory": "C:\\Exports\\TechToolbox"
+    "ExportDirectory": "C:\\LogsAndExports\\Exports\\TechToolbox"
+  },
+
+  "Logging": {
+    "EnableConsole": true,
+    "EnableFileLogging": false,
+    "IncludeTimestamps": true,
+    "LogFileNameFormat": "TechToolbox_{yyyyMMdd}.log",
+    "MinimumLevel": "Info"
   },
 
   "Networking": {
     "DefaultTimeoutSeconds": 10,
     "RetryCount": 3,
-    "AllowedSubnets": [
-      "192.168.0.0/24",
-      "10.0.0.0/24"
-    ]
+    "AllowedSubnets": ["192.168.0.0/24", "10.0.0.0/24"]
   },
 
   "Compliance": {
     "SearchBatchSize": 50,
     "PurgeBatchSize": 25,
     "MaxRetryAttempts": 3
+  },
+
+  "AADSync": {
+    "DefaultPort": 5985,
+    "DefaultPolicyType": "Delta",
+    "AllowKerberos": true
   },
 
   "Diagnostics": {
