@@ -267,10 +267,8 @@ Get-BatteryHealth -WhatIf
 Invoke-AADSyncRemote -ComputerName aadconnect01 -PolicyType Delta -WhatIf
 ```
 
-> Consider adding a `PSScriptAnalyzerSettings.psd1` for rule enforcement and Pester tests for key workflows.
-
 ---
 
 **Author:** Dan Damit  
-**License:** Internal use (customize as needed)  
+**License:** Internal use
 **Version:** 2.0.0
