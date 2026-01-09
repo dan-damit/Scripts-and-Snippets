@@ -40,5 +40,24 @@
   "Diagnostics": {
     "TraceDepth": 3,
     "IncludeVerbose": true
+  },
+
+  "ExchangeOnline": {
+    "AutoConnect": true,
+    "AutoDisconnectPrompt": true,
+    "ShowProgress": false
+  },
+
+  "MessageTrace": {
+    "PromptForMissingInputs": true,
+    "DefaultLookbackHours": 48,
+    "AutoExport": false,
+    "DefaultExportFolder": "C:\\LogsAndExports\\Exports\\MessageTrace"
+  },
+
+  "Defaults": {
+    "PromptForHostname": true,
+    "PromptForCredentials": true,
+    "PromptForDateRanges": true
   }
 }
