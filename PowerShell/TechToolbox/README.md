@@ -273,4 +273,4 @@ Invoke-AADSyncRemote -ComputerName aadconnect01 -PolicyType Delta -WhatIf
 
 **Author:** Dan Damit  
 **License:** Internal use (customize as needed)  
-**Version:** 0.2.0 (example)
+**Version:** 2.0.0
