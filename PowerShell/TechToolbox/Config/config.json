@@ -19,12 +19,6 @@
     "MinimumLevel": "Info"
   },
 
-  "Networking": {
-    "DefaultTimeoutSeconds": 10,
-    "RetryCount": 3,
-    "AllowedSubnets": ["192.168.0.0/24", "10.0.0.0/24"]
-  },
-
   "Compliance": {
     "SearchBatchSize": 50,
     "PurgeBatchSize": 25,
@@ -35,11 +29,6 @@
     "DefaultPort": 5985,
     "DefaultPolicyType": "Delta",
     "AllowKerberos": true
-  },
-
-  "Diagnostics": {
-    "TraceDepth": 3,
-    "IncludeVerbose": true
   },
 
   "ExchangeOnline": {
@@ -66,5 +55,27 @@
     "OutputJson": "C:\\Temp\\installed-batteries.json",
     "DebugInfo": "C:\\Temp\\installed-batteries_debug.txt",
     "WaitTimeoutSeconds": 10
+  },
+
+  "Purview": {
+    "AutoConnect": true,
+    "AutoDisconnectPrompt": true,
+
+    "Search": {
+      "MaxAttempts": 40,
+      "DelaySeconds": 10
+    },
+
+    "Purge": {
+      "TimeoutSeconds": 1200,
+      "PollSeconds": 5,
+      "RequireConfirmation": true
+    },
+
+    "Defaults": {
+      "PromptForCaseName": true,
+      "PromptForSearchName": true,
+      "PromptForKqlQuery": true
+    }
   }
 }
