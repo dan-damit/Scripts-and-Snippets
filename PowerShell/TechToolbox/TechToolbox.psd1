@@ -2,12 +2,14 @@
     RootModule           = 'TechToolbox.psm1'
     ModuleVersion        = '1.0.0'
     Author               = 'Dan Damit'
+    CompanyName          = 'Your Org'
     Description          = 'A technician-grade toolbox for automation, diagnostics, and enterprise workflows.'
+    PowerShellVersion    = '7.5.3'
     CompatiblePSEditions = @('Core')
     FunctionsToExport    = @('*')  # Can list explicitly later if needed
     CmdletsToExport      = @()
-    VariablesToExport    = @()
-    AliasesToExport      = @()
+    VariablesToExport    = @('*')
+    AliasesToExport      = @('*')
     RequiredModules      = @(@{ ModuleName = 'ExchangeOnlineManagement'; ModuleVersion = '3.9.0' })
     PrivateData          = @{
         PSData = @{
