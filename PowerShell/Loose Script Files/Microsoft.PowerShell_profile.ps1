@@ -51,7 +51,7 @@ function Show-SystemSnapshot {
 Show-SystemSnapshot
 
 # Path to your module
-$TechToolboxRoot = "C:\Users\dan\Scripts-and-Snippets\PowerShell\TechToolbox"
+$TechToolboxRoot = "C:\TechToolbox"
 
 # ─── AUTO‑IMPORT TOOLBOX ──────────────────────────────────
 if (Test-Path $TechToolboxRoot) {
