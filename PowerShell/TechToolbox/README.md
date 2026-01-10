@@ -16,6 +16,8 @@ A PowerShell 7+ module for day-to-day IT automation: browser profile cleanup, re
   - [Get-MessageTrace](#get-messagetrace)
   - [Get-BatteryHealth](#get-batteryhealth)
   - [Invoke-AADSyncRemote](#invoke-aadsyncremote)
+  - [Get-TechToolboxConfig](#get-techtoolboxconfig)
+  - [Set-PageFileSize](#set-pagefilesize)
 - [Design & Conventions](#design--conventions)
 - [Troubleshooting](#troubleshooting)
 - [Development & QA](#development--qa)
@@ -125,8 +127,6 @@ Create `Config\config.json` and tailor to your environment. Below is a **minimal
 }
 ```
 
-> Tip: Environment-specific overrides can be added to your config logic if desired (e.g., via `TECHTOOLBOX_ENV`).
-
 ---
 
 ## Public Commands
@@ -229,6 +229,30 @@ Invoke-AADSyncRemote -ComputerName 'aadconnect01.contoso.com' -Port 5986 -Enable
 
 ---
 
+### Get-TechToolboxConfig
+
+Loads the configs from config.json manually if needed
+
+```powershell
+Get-GetToolboxConfig
+```
+
+---
+
+### Set-PageFileSize
+
+Remotely set initial and maximum sizes of the pagefile in MB.
+
+```powershell
+# Usage of defaults (grabbed from config.json)
+ Set-PageFileSize -ComputerName "Server01.domain.local"
+
+ # Set via parameters during script call
+ Set-PageFileSize -ComputerName "Server01.domain.local" -InitialSize 4096 -MaximumSize 8192 -Path "C:\pagefile.sys"
+ ```
+
+ ---
+
 ## Design & Conventions
 
 - **Structure**: `Private/` (helpers), `Public/` (exported), `Config/` (json), `TechToolbox.psm1` (loader), `TechToolbox.psd1` (manifest).
@@ -267,10 +291,8 @@ Get-BatteryHealth -WhatIf
 Invoke-AADSyncRemote -ComputerName aadconnect01 -PolicyType Delta -WhatIf
 ```
 
-> Consider adding a `PSScriptAnalyzerSettings.psd1` for rule enforcement and Pester tests for key workflows.
-
 ---
 
 **Author:** Dan Damit  
-**License:** Internal use (customize as needed)  
-**Version:** 0.2.0 (example)
+**License:** Internal use 
+**Version:** 0.3.0 (example)
