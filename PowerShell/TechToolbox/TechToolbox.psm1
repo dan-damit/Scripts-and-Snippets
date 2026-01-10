@@ -17,38 +17,6 @@ ForEach-Object {
     $_.BaseName
 }
 
+$script:TechToolboxConfig = $null # Clear any cached config
+
 Export-ModuleMember -Function $publicFunctions
-
-function Get-TechToolboxConfig {
-    <#
-    .SYNOPSIS
-    Loads and returns the TechToolbox configuration from config.json.
-    .OUTPUTS
-    PSCustomObject representing the configuration.
-    #>
-    [CmdletBinding()]
-    param()
-
-    if ($script:Config) { return $script:Config }
-
-    if (-not (Test-Path -LiteralPath $script:ConfigPath)) {
-        throw "Config file not found: $script:ConfigPath"
-    }
-
-    try {
-        $raw = Get-Content -LiteralPath $script:ConfigPath -Raw | ConvertFrom-Json -ErrorAction Stop
-    }
-    catch {
-        throw "Failed to parse config.json: $($_.Exception.Message)"
-    }
-
-    # Basic validation: ensure critical keys exist
-    foreach ($key in @('Paths', 'Logging')) {
-        if (-not $raw.PSObject.Properties.Name.Contains($key)) {
-            throw "Missing required config section: '$key'"
-        }
-    }
-
-    $script:Config = $raw
-    return $script:Config
-}
