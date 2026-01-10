@@ -22,7 +22,7 @@ function Get-TechToolboxConfig {
 
     if ($PSCommandPath) {
         $moduleDir = Split-Path -Parent $PSCommandPath
-        $candidatePaths += (Join-Path $moduleDir 'config.json')
+        $candidatePaths += (Join-Path $moduleDir '..\Config\config.json')
     }
 
     $candidatePaths += (Join-Path (Get-Location).Path 'config.json')

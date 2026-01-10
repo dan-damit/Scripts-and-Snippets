@@ -65,8 +65,16 @@ function Get-BatteryHealth {
     }
     Write-Log -Level Ok -Message "Battery report generated."
 
-    # Read and parse HTML
+    # Read and parse HTML with check for no batteries
     $html = Get-Content -LiteralPath $ReportPath -Raw
+    if ($html -notmatch 'Installed batteries') {
+        Write-Log -Level Warning -Message "No battery detected on this system."
+        return [pscustomobject]@{
+            hasBattery = $false
+            reason     = "System does not contain a battery subsystem."
+            timestamp  = (Get-Date)
+        }
+    }
     $batteries, $debug = Get-BatteryReportHtml -Html $html
 
     if (-not $batteries -or $batteries.Count -eq 0) {
