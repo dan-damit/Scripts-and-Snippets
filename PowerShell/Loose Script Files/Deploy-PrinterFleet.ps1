@@ -149,9 +149,9 @@ begin {
 
             # Map the printer
             if ($AllUsersFlag) {
-                $args = "/q /ga /n `"$PrinterShare`""
+                $ags = "/q /ga /n `"$PrinterShare`""
                 Write-Output "Adding machine-wide printer connection via PrintUIEntry: $PrinterShare"
-                $p2 = Start-Process -FilePath rundll32.exe -ArgumentList "printui.dll,PrintUIEntry $args" -NoNewWindow -Wait -PassThru
+                $p2 = Start-Process -FilePath rundll32.exe -ArgumentList "printui.dll,PrintUIEntry $ags" -NoNewWindow -Wait -PassThru
                 if ($p2.ExitCode -ne 0) { throw "PrintUIEntry /ga failed ($($p2.ExitCode))" }
                 Restart-Service -Name Spooler -Force -ErrorAction Stop
             } else {
