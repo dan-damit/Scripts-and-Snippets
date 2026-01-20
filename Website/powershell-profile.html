@@ -46,10 +46,10 @@
         <pre>
 #region Technician Manifest
 # Author: Dan Damit
-# Role: Deployment Engineer & Systems Architect
+# Role: ERP / IT Analyst
 # Purpose: Define PowerShell expertise with modular clarity
-# Version: 1.0.0
-# LastUpdated: 2025-10-24
+# Version: 1.0.1
+# LastUpdated: 2026-1-20
 #endregion
 
 function Get-DanPowerShellProfile {
@@ -58,7 +58,7 @@ function Get-DanPowerShellProfile {
 
     $Profile = @{
         Name                  = 'Dan Damit'
-        Role                  = 'Deployment Engineer & Systems Architect'
+        Role                  = 'ERP / IT Analyst'
         Specialization        = 'Modular Automation, Fleet Deployments, Manifest-Driven Tooling'
         PowerShellExpertise   = @(
             'Designs technician-grade scripts with manifest clarity and robust error handling',
@@ -68,7 +68,7 @@ function Get-DanPowerShellProfile {
             'Empowers techs with transparent logging, modular onboarding, and disaster recovery'
         )
         Philosophy            = 'PowerShell is not just a shell; it's a scalpel ... a blueprint, and a technician's compass.'
-        SignatureFunction     = 'Invoke-DeploymentToolkit -Manifest $ManifestPath -Verbose -EmpowerTechs'
+        SignatureFunction     = 'Import-Module TechToolbox -Manifest $ManifestPath -Verbose -EmpowerTechs'
     }
 
     return $Profile
