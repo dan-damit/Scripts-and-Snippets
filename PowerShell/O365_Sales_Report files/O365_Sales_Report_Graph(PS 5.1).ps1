@@ -2,7 +2,7 @@
 <#
 O365_Sales_Report_Graph.ps1
 Weekly send/receive report using EXO CBA + Microsoft Graph app-only (certificate)
-Anchor group: sales@vadtek.com (synced DL)
+Anchor group: [Redacted] (synced DL)
 Author: Dan Damit (https://github.com/dan-damit)
 
 Prereqs:
@@ -39,7 +39,7 @@ New-Item -ItemType Directory -Path $WorkingDir -Force | Out-Null
 Set-Location -Path $WorkingDir
 
 # ======= Load exclusions from _SalesEmailReport_Exclusions.txt =======
-# \\UTILITY-1.vadtek.com\C$\Users\Public\Documents\Admin Arsenal\PDQ Deploy\Repository\VAC Scripts\Office365_Send_Recieve_Reports\_SalesEmailReport_Exclusions.txt
+# \\[Redacted]\C$\Users\Public\Documents\Admin Arsenal\PDQ Deploy\Repository\VAC Scripts\Office365_Send_Recieve_Reports\_SalesEmailReport_Exclusions.txt
 $ExclusionFile = Join-Path $WorkingDir '_SalesEmailReport_Exclusions.txt'
 $Exclusions = @()
 if (Test-Path -LiteralPath $ExclusionFile) {

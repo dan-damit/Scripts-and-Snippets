@@ -2,7 +2,7 @@
 <#
 O365_Sales_Report_Graph.ps1
 Weekly send/receive report using EXO CBA + Microsoft Graph app-only (certificate)
-Anchor group: sales@vadtek.com (synced DL)
+Anchor group: [Redacted] (synced DL)
 Author: Dan Damit (https://github.com/dan-damit)
 
 Prereqs:
