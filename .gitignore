@@ -14,7 +14,6 @@ Deploy/
 *.cache
 *.log
 *.snk
-*.md
 
 # File to Exclude
 entries.json
@@ -27,3 +26,4 @@ BuildWS_Setup.ps1
 AcroRdrInstaller.exe
 WS_Setup.exe
 Settings.settings
+md/
