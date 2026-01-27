@@ -1,16 +1,16 @@
 {
   "Hostname": "CloudDamit",
   "DSMVersion": "7.3.2",
-  "Uptime": "up 4 weeks, 5 days, 22 hours, 17 minutes",
-  "LoadAvg": "0.65 0.37 0.38",
+  "Uptime": "up 5 weeks, 5 days, 11 hours, 7 minutes",
+  "LoadAvg": "0.02 0.04 0.06",
   "CPUModel": "Intel(R) Celeron(R) J4125 CPU @ 2.00GHz",
   "MemoryTotal": "17Gi",
-  "MemoryUsed": "2.2Gi",
+  "MemoryUsed": "2.3Gi",
   "DiskUsage": "18%",
   "RAIDStatus": "Clean",
   "SSHStatus": "Configured",
   "FirewallStatus": "Enabled",
   "SMARTStatus": "/dev/sata1: PASSED; /dev/sata2: PASSED; ",
   "BadSectorStatus": "/dev/sata1: Reallocated=0, Pending=0, Offline=0; /dev/sata2: Reallocated=0, Pending=0, Offline=0; ",
-  "LastSync": "2026-01-20 17:55:02"
+  "LastSync": "2026-01-27 06:45:01"
 }
