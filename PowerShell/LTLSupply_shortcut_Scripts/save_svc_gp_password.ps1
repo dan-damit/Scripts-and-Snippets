@@ -3,7 +3,7 @@
 [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', 'CredXmlPath')]
 
 param(
-    [string]$DomainUser   = 'VADTEK\svc_gp',
+    [string]$DomainUser   = '[YourUserNameHere}',
     [string]$BaseDir      = 'C:\ProgramData\TechToolbox',
     [string]$KeyPath      = 'C:\ProgramData\TechToolbox\dpapi_machine.key',
     [string]$CredXmlPath  = 'C:\ProgramData\TechToolbox\svc_gp.cred.xml'
@@ -52,3 +52,4 @@ $xml = @"
 $xml | Set-Content -Path $CredXmlPath -Encoding UTF8 -Force
 Write-Host "[Init] Credential XML saved to $CredXmlPath"
 Write-Host "[Init] Done."
+
