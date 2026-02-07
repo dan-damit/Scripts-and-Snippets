@@ -7,7 +7,9 @@ fetch("entries.json")
     allEntries = data.entries.reverse();
 
     // Initialize global variables
-    const allTags = [...new Set(allEntries.flatMap((entry) => entry.tags))].sort(); // Unique sorted tags
+    const allTags = [
+      ...new Set(allEntries.flatMap((entry) => entry.tags)),
+    ].sort(); // Unique sorted tags
     const paginationNav = document.getElementById("pagination-nav");
     const tagIndex = document.getElementById("tag-index");
 
@@ -38,7 +40,7 @@ fetch("entries.json")
 
     if (activeTag) {
       const filtered = allEntries.filter((entry) =>
-        entry.tags.includes(activeTag)
+        entry.tags.includes(activeTag),
       );
       renderPage(filtered, currentPage, activeTag);
     } else {
@@ -145,7 +147,7 @@ function wireEntryInteractions() {
     tag.addEventListener("click", () => {
       const selected = tag.textContent;
       const filtered = allEntries.filter((entry) =>
-        entry.tags.includes(selected)
+        entry.tags.includes(selected),
       );
       renderPage(filtered, 1, selected);
 
@@ -158,7 +160,7 @@ function renderPaginationControls(
   totalEntries,
   currentPage,
   perPage,
-  activeTag = null
+  activeTag = null,
 ) {
   const totalPages = Math.ceil(totalEntries / perPage);
   const nav = document.getElementById("pagination-nav");
@@ -192,6 +194,16 @@ function enhanceCodeBlocks(scope = document) {
     pre.parentElement.insertBefore(wrapper, pre);
     wrapper.appendChild(button);
     wrapper.appendChild(pre);
+
+    // Apply syntax highlighting
+    if (window.hljs) {
+      hljs.highlightElement(code);
+
+      // Add line numbers
+      if (hljs.lineNumbersBlock) {
+        hljs.lineNumbersBlock(code);
+      }
+    }
 
     button.addEventListener("click", () => {
       navigator.clipboard.writeText(code.innerText).then(() => {

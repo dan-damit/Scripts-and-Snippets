@@ -41,6 +41,26 @@ pre::after {
   pointer-events: none;
 }
 
+/* VSCode‑style gutter for Highlight.js line numbers */
+.hljs-ln td.hljs-ln-numbers {
+  width: 4ch; /* fixed gutter width for alignment */
+  padding-right: 1ch; /* spacing between number and code */
+  text-align: right; /* right-align numbers like VSCode */
+  opacity: 0.6; /* subtle, non-dominant */
+  user-select: none; /* prevents selecting line numbers */
+  font-family: monospace;
+}
+
+/* Optional: subtle gutter background like VSCode */
+.hljs-ln td.hljs-ln-numbers {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* Optional: faint vertical separator */
+.hljs-ln td.hljs-ln-numbers {
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+}
+
 /* Wrapper for code block and copy button */
 .code-wrapper {
   position: relative;

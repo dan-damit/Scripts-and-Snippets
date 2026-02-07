@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <!-- Technician-grade metadata -->
@@ -203,8 +203,22 @@
         <a href="blog.html">Journal</a> |
         <a href="projects.html">Projects</a>
         <p>&copy; 2026 Dan Damit</p>
+        <div id="visitCount">Loading visit count...</div>
       </footer>
     </div>
+
+    <script>
+      fetch("counter.php")
+        .then((r) => r.json())
+        .then((data) => {
+          document.getElementById("visitCount").innerText =
+            "Total Visits: " + data.visits;
+        })
+        .catch(() => {
+          document.getElementById("visitCount").innerText =
+            "Visit counter unavailable";
+        });
+    </script>
 
     <script src="js/site-diagnostics.js"></script>
     <script src="js/matrix-rain.js"></script>
