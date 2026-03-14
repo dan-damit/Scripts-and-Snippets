@@ -18,7 +18,7 @@ New-ItemProperty -Path $TdrPath -Name "TdrDelay" -Value 10 -PropertyType DWORD -
 Write-Host "Set TdrDelay = 10 seconds"
 
 # Create or update TdrDdiDelay (driver-level timeout)
-New-ItemProperty -Path $TdrPath -Name "TdrDdiDelay" -Value 20 -PropertyType DWORD -Force | Out-Null
+New-ItemProperty -Path $TdrPath -Name "TdrDdiDelay" -Value 10 -PropertyType DWORD -Force | Out-Null
 Write-Host "Set TdrDdiDelay = 10 seconds"
 
 # Save backup to a JSON file for easy restore
