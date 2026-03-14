@@ -1,4 +1,4 @@
-﻿const entriesPerPage = 6;
+﻿const entriesPerPage = 8;
 let allEntries = [];
 
 fetch("entries.json")
