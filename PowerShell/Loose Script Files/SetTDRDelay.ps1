@@ -14,12 +14,12 @@ foreach ($key in @("TdrDelay", "TdrDdiDelay")) {
 }
 
 # Create or update TdrDelay (GPU response timeout)
-New-ItemProperty -Path $TdrPath -Name "TdrDelay" -Value 10 -PropertyType DWORD -Force | Out-Null
-Write-Host "Set TdrDelay = 10 seconds"
+New-ItemProperty -Path $TdrPath -Name "TdrDelay" -Value 12 -PropertyType DWORD -Force | Out-Null
+Write-Host "Set TdrDelay = 12 seconds"
 
 # Create or update TdrDdiDelay (driver-level timeout)
-New-ItemProperty -Path $TdrPath -Name "TdrDdiDelay" -Value 10 -PropertyType DWORD -Force | Out-Null
-Write-Host "Set TdrDdiDelay = 10 seconds"
+New-ItemProperty -Path $TdrPath -Name "TdrDdiDelay" -Value 20 -PropertyType DWORD -Force | Out-Null
+Write-Host "Set TdrDdiDelay = 20 seconds"
 
 # Save backup to a JSON file for easy restore
 $BackupPath = "$env:USERPROFILE\TDR_Backup.json"
