@@ -2,6 +2,7 @@
 .SYNOPSIS
     Pulls audit log records for mailbox deletions and filters them by subject
     patterns.
+
 .DESCRIPTION
     This script connects to Exchange Online, retrieves unified audit log records
     for mailbox deletions (soft delete, hard delete, move to deleted items)
@@ -9,19 +10,26 @@
     the subject and the user who performed the deletion from the audit data,
     filters the records based on provided subject patterns, and outputs the
     results in a formatted table.
+
 .PARAMETER <yourUPN>
     The User Principal Name (UPN) of the account to connect to Exchange Online.
+
 .PARAMETER <insertStartDate>    
     The start date for the audit log search (e.g., "2024-01-01").
+
 .PARAMETER <insertEndDate>
     The end date for the audit log search (e.g., "2024-01-31").
+
 .PARAMETER <insertMailboxSMTP>
     The mailbox to search for in the audit logs (e.g., "user@domain.com").
+
 .PARAMETER <insertSubjectPattern1>, <insertSubjectPattern2>, <insertSubjectPattern3>
     The subject patterns to filter the audit log records (e.g., "Invoice",
     "Report", "Confidential").
+
 .EXAMPLE
     .\Pull-SharedMailboxDeletions.ps1
+    
 .NOTES
     Starter script for pulling mailbox deletion records from the unified audit
     log. Adjust the parameters and subject patterns as needed for your specific
