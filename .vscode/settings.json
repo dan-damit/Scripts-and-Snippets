@@ -1,2 +1,13 @@
 {
+    "cSpell.words": [
+        "ADVPN",
+        "DNAT",
+        "dstips",
+        "intf",
+        "pdstport",
+        "prefilter",
+        "tranip",
+        "tranport",
+        "transip"
+    ]
 }
