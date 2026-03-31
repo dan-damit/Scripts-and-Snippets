@@ -756,6 +756,19 @@ if ($EpicorPolicyIds.Count -gt 0) {
     Export-Table -Data $dateRows     -Name "Hits_By_Date_Long" -BaseFolder $outDir
     Export-Table -Data $peakDateRows -Name "Peak_Day_Per_IP" -BaseFolder $outDir
     Export-Table -Data $topBreakdown -Name "Top_SrcDstPort" -BaseFolder $outDir
+    $readme = @"
+Epicor log analysis export
+Run time: $(Get-Date)
+LogPath:  $LogPath
+Policies: $($EpicorPolicyIds -join ', ')
+UseTranIP: $UseTranIP
+UseTranPort: $UseTranPort
+Ports: $($PrintPorts -join ', ')
+Targets: $($TargetDstIPs -join ', ')
+"@
+
+    Set-Content -Path (Join-Path $outDir 'README.txt') -Value $readme -Encoding UTF8
+
 }
 else {
     Write-Warn "No EpicorPolicyIds resolved; skipping Epicor talker report."
