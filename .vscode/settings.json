@@ -1,5 +1,6 @@
 {
     "cSpell.words": [
+        "Acro",
         "ADVPN",
         "DNAT",
         "dstips",
@@ -8,6 +9,8 @@
         "prefilter",
         "tranip",
         "tranport",
-        "transip"
+        "transip",
+        "wixpdb",
+        "wureset"
     ]
 }
