@@ -286,9 +286,6 @@ function Export-Table {
     Write-Host "Exported: $path" -ForegroundColor Cyan
 }
 
-$stamp = Get-Date -Format "yyyyMMdd-HHmmss"
-$outDir = Join-Path -Path "C:\Temp\" -ChildPath "EpicorLogReports_$stamp"
-
 #endregion Helpers
 
 #region Validation
@@ -750,6 +747,9 @@ if ($EpicorPolicyIds.Count -gt 0) {
     }
 
     # Export results to CSV files
+    $stamp = Get-Date -Format "yyyyMMdd-HHmmss"
+    $outDir = Join-Path -Path "C:\Temp\" -ChildPath "EpicorLogReports_$stamp"
+
     Export-Table -Data $epicorSummary -Name "Epicor_IP_Summary" -BaseFolder $outDir
     Export-Table -Data $policySummary -Name "Policy_Summary" -BaseFolder $outDir
     Export-Table -Data $pivotRows    -Name "Pivot_HitsByHourOfDay" -BaseFolder $outDir
