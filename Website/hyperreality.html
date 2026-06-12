@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      property="og:image"
+      content="https://dan.thedamits.com/img/preview.png"
+    />
+    <title>Hyperreality</title>
+
+    <style>
+      #matrix-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 0;
+        opacity: 0; /* starts invisible */
+        transition: opacity 3s ease-in;
+      }
+
+      .terminal {
+        position: relative;
+        z-index: 1;
+      }
+
+      .packet {
+        border-left: 2px solid #00ff00;
+        padding-left: 15px;
+        margin-top: 20px;
+      }
+
+      .label {
+        color: #00ff00;
+        opacity: 0.7;
+        font-size: 14px;
+      }
+
+      body {
+        background: black;
+        color: #00ff00;
+        font-family: "Courier New", monospace;
+        padding: 40px;
+      }
+
+      .terminal {
+        max-width: 900px;
+        margin: auto;
+      }
+
+      .line {
+        opacity: 0;
+        white-space: pre-wrap;
+      }
+
+      .glitch {
+        animation: glitch 0.2s infinite;
+      }
+
+      @keyframes glitch {
+        0% {
+          text-shadow:
+            1px 0 red,
+            -1px 0 cyan;
+        }
+        50% {
+          text-shadow:
+            -1px 0 red,
+            1px 0 cyan;
+        }
+        100% {
+          text-shadow:
+            1px 0 red,
+            -1px 0 cyan;
+        }
+      }
+
+      .final {
+        margin-top: 20px;
+        line-height: 1.6;
+        font-size: 18px;
+      }
+
+      a {
+        color: #00ff00;
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+
+  <body>
+    <canvas id="matrix-bg"></canvas>
+    <div class="terminal" id="terminal"></div>
+
+    <script>
+      const lines = [
+        "> initializing cognitive_override...",
+        "> loading hyperreality model...",
+        "> parsing symbolic layer...",
+        ">",
+        "> ACCESS GRANTED",
+        ">",
+        "> Welcome to the desert of the real.",
+        ">",
+        "> The map has replaced the territory.",
+        "> reality.exe is no longer the source.",
+        "> simulation.dll is now active.",
+        ">",
+        "> loading meaning...",
+        "> ERROR: original source undefined.",
+        ">",
+        "> displaying interpretation...",
+      ];
+
+      const finalText = `
+<div class="packet">
+  <span class="label">[INTERPRETATION_PAYLOAD]</span><br><br>
+
+  You are not experiencing reality.<br><br>
+
+  You are experiencing a simulation—constructed from signs, models, and systems that no longer refer to anything real.<br><br>
+
+  The map has replaced the territory.<br><br>
+
+  There is no underlying source.<br>
+  There is no original signal.<br><br>
+
+  What you see is not the world.<br>
+  It is the model of the world.<br><br>
+
+  <a href="#" onclick="revealSource(); return false;">> Request-Source()</a>
+
+  <div id="sourceBlock" style="display:none; margin-top:15px;">
+    <span class="label">[SOURCE_RESPONSE]</span><br>
+    SOURCE: NULL<br>
+    SIGNAL: UNRESOLVED<br>
+    ORIGIN: NOT FOUND<br>
+  </div>
+</div>
+`;
+
+      const terminal = document.getElementById("terminal");
+
+      let delay = 0;
+
+      lines.forEach((text, index) => {
+        const line = document.createElement("div");
+        line.className = "line";
+        terminal.appendChild(line);
+
+        setTimeout(() => {
+          typeLine(line, text, 45);
+        }, delay);
+
+        delay += text.length * 45 + 400;
+      });
+
+      setTimeout(() => {
+        const final = document.createElement("div");
+        final.className = "final glitch";
+        final.innerHTML = finalText;
+        terminal.appendChild(final);
+      }, delay + 2000);
+
+      function typeLine(element, text, speed) {
+        element.style.opacity = 1;
+        let i = 0;
+        const interval = setInterval(() => {
+          element.textContent += text[i];
+          i++;
+          if (i >= text.length) clearInterval(interval);
+        }, speed);
+      }
+    </script>
+    <script>
+      const canvas = document.getElementById("matrix-bg");
+      const ctx = canvas.getContext("2d");
+
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      const letters =
+        "アイウエオカキクケコサシスセソABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+      const fontSize = 14;
+      const columns = canvas.width / fontSize;
+
+      const drops = Array(Math.floor(columns)).fill(1);
+
+      // slower speed modifier
+      let speed = 0.3;
+
+      function drawMatrix() {
+        ctx.fillStyle = "rgba(0, 0, 0, 0.08)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        ctx.fillStyle = "#00ff9c";
+        ctx.font = fontSize + "px monospace";
+
+        for (let i = 0; i < drops.length; i++) {
+          const text = letters[Math.floor(Math.random() * letters.length)];
+
+          ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+          if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+            drops[i] = 0;
+          }
+
+          drops[i] += speed;
+        }
+      }
+
+      // occasional glitch effect
+      function glitchEffect() {
+        if (Math.random() > 0.97) {
+          ctx.fillStyle = "rgba(0, 255, 156, 0.15)";
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+      }
+
+      // intermittent freeze (feels like system instability)
+      function maybeFreeze() {
+        if (Math.random() > 0.995) {
+          clearInterval(matrixInterval);
+          setTimeout(
+            () => {
+              matrixInterval = setInterval(loop, 50);
+            },
+            100 + Math.random() * 400,
+          );
+        }
+      }
+
+      function loop() {
+        drawMatrix();
+        glitchEffect();
+        maybeFreeze();
+      }
+
+      function revealSource() {
+        const block = document.getElementById("sourceBlock");
+        block.style.display = "block";
+        block.classList.add("glitch");
+      }
+
+      let matrixInterval;
+
+      // 🔥 WAIT before starting (this is the magic)
+      setTimeout(() => {
+        canvas.style.opacity = "0.15"; // subtle
+        matrixInterval = setInterval(loop, 50);
+      }, 3000); // delay matches your boot sequence
+
+      // resize support
+      window.addEventListener("resize", () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      });
+    </script>
+  </body>
+</html>
