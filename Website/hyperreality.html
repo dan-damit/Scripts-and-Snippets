@@ -102,7 +102,8 @@
         ">",
         "> Welcome to the desert of the real.",
         ">",
-        "> The map has replaced the territory.",
+        "> The symbol has outlived the thing it once represented...",
+        ">",
         "> reality.exe is no longer the source.",
         "> simulation.dll is now active.",
         ">",
@@ -140,6 +141,47 @@
 `;
 
       const terminal = document.getElementById("terminal");
+
+      let lightningFrames = 0;
+
+      function drawLightningBolt() {
+        const startX = Math.random() * canvas.width;
+        const startY = 0;
+
+        const segments = 8 + Math.floor(Math.random() * 5);
+        let x = startX;
+        let y = startY;
+
+        ctx.strokeStyle = "#00ff00";
+        ctx.lineWidth = 2;
+        ctx.shadowColor = "#00ff00";
+        ctx.shadowBlur = 10;
+
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+
+        for (let i = 0; i < segments; i++) {
+          x += (Math.random() - 0.5) * 80; // horizontal chaos
+          y += canvas.height / segments; // downward progression
+          ctx.lineTo(x, y);
+        }
+
+        ctx.stroke();
+
+        // reset glow so matrix text isn't blurry
+        ctx.shadowBlur = 0;
+      }
+
+      function drawFork(x, y) {
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+
+        const forkX = x + (Math.random() - 0.5) * 150;
+        const forkY = y + 40 + Math.random() * 40;
+
+        ctx.lineTo(forkX, forkY);
+        ctx.stroke();
+      }
 
       let delay = 0;
 
@@ -181,7 +223,7 @@
 
       const letters =
         "アイウエオカキクケコサシスセソABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-      const fontSize = 14;
+      const fontSize = 18;
       const columns = canvas.width / fontSize;
 
       const drops = Array(Math.floor(columns)).fill(1);
@@ -210,9 +252,24 @@
       }
 
       // occasional glitch effect
+      let glitchFrames = 0;
+
       function glitchEffect() {
+        // trigger lightning burst
+        if (Math.random() > 0.975 && lightningFrames === 0) {
+          lightningFrames = 4 + Math.floor(Math.random() * 4);
+          // 4–8 frames of lightning
+        }
+
+        // draw lightning if active
+        if (lightningFrames > 0) {
+          drawLightningBolt();
+          lightningFrames--;
+        }
+
+        // keep your original subtle green haze glitch
         if (Math.random() > 0.97) {
-          ctx.fillStyle = "rgba(0, 255, 156, 0.15)";
+          ctx.fillStyle = "rgba(0, 255, 156, 0.12)";
           ctx.fillRect(0, 0, canvas.width, canvas.height);
         }
       }
