@@ -1,7 +1,7 @@
 ﻿const entriesPerPage = 8;
 let allEntries = [];
 
-fetch("entries.json")
+fetch(`entries.json?ts=${Date.now()}`)
   .then((res) => res.json())
   .then((data) => {
     allEntries = data.entries.reverse();

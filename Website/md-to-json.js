@@ -2,9 +2,13 @@
 const path = require("path");
 
 const blogDir = path.join(__dirname, "md");
+const outputPath = path.join(__dirname, "entries.json");
 
 // Load all .md files (no filename restrictions)
-const blogFiles = fs.readdirSync(blogDir).filter((f) => f.endsWith(".md"));
+const blogFiles = fs
+  .readdirSync(blogDir)
+  .filter((f) => f.endsWith(".md"))
+  .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
 
 let allEntries = [];
 
@@ -108,8 +112,8 @@ const output = {
   },
 };
 
-fs.writeFileSync("entries.json", JSON.stringify(output, null, 2));
+fs.writeFileSync(outputPath, JSON.stringify(output, null, 2));
 
 console.log(
-  `✅ Parsed ${totalEntries} entries from ${blogFiles.length} files into entries.json`,
+  `✅ Parsed ${totalEntries} entries from ${blogFiles.length} files into ${path.basename(outputPath)}`,
 );
