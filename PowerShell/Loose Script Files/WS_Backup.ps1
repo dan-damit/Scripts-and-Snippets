@@ -20,26 +20,6 @@ if (-not $isAdmin) {
 # Set console params
 $scriptName = "Workstation Backup Tool v1.2.1"
 $host.UI.RawUI.WindowTitle = $scriptName
-$copyrightSymbol = [char]0x00A9
-[console]::ForegroundColor = "DarkCyan"
-Write-Host "`n`n`n`n`n`n`n`n"
-Write-host "-----------------------------------------------"
-Write-host "Advantage Technologies Workstation Backup Sript"
-Write-host #
-$ASCIILogo = "`n"+
-    "`t            (((`n"+
-    "`t           (((   *`n"+
-    "`t          (((   ***`n"+
-    "`t         (((     ***`n"+
-    "`t        (((  ((   ***`n"+
-    "`t       (((((((((   ***`n"+
-    "`n"
-
-Write-host "$ASCIILogo"
-Write-host "      Copyright $copyrightSymbol 2025 Author: Dan.Damit"
-Write-host "-----------------------------------------------"
-Write-host #
-
 [console]::ForegroundColor = "Yellow"
 # Define backup destination and username
 $share = Read-Host "Enter the path to the backup directory (local or UNC)"
