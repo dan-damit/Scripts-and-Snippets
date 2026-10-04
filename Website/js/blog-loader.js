@@ -115,13 +115,14 @@ function renderPage(entries, page, activeTag = null) {
     const card = document.createElement("div");
     card.className = "blog-card";
     card.setAttribute("data-tags", entry.tags.join(","));
+    const normalizedContent = normalizeEntryContent(entry.content);
 
     card.innerHTML = `
       <h2 class="blog-title">${entry.date}: ${entry.title}</h2>
       <div class="tags">
         ${entry.tags.map((tag) => `<span class="tag">${tag}</span>`).join(" ")}
       </div>
-      <div class="content" style="display:none;">${entry.content}</div>
+      <div class="content" style="display:none;">${normalizedContent}</div>
       <button type="button" class="toggle">Decrypt</button>
     `;
 
@@ -177,6 +178,85 @@ function renderPaginationControls(
 
     nav.appendChild(btn);
   }
+}
+
+function normalizeEntryContent(content = "") {
+  const wrapper = document.createElement("div");
+  wrapper.innerHTML = content;
+
+  convertMarkdownBullets(wrapper);
+  convertMarkdownBold(wrapper);
+
+  return wrapper.innerHTML;
+}
+
+function convertMarkdownBullets(scope) {
+  scope.querySelectorAll("p").forEach((paragraph) => {
+    const normalized = paragraph.innerHTML.replace(/<br\s*\/?\s*>/gi, "\n");
+    const lines = normalized
+      .split("\n")
+      .map((line) => line.trim())
+      .filter(Boolean);
+
+    if (lines.length < 2) return;
+
+    const items = lines.map((line) => {
+      const match = line.match(/^[-*]\s+(.+)$/);
+      return match ? match[1].trim() : null;
+    });
+
+    if (items.some((item) => item === null)) return;
+
+    const ul = document.createElement("ul");
+    items.forEach((item) => {
+      const li = document.createElement("li");
+      li.innerHTML = item;
+      ul.appendChild(li);
+    });
+
+    paragraph.replaceWith(ul);
+  });
+}
+
+function convertMarkdownBold(scope) {
+  const walker = document.createTreeWalker(scope, NodeFilter.SHOW_TEXT);
+  const textNodes = [];
+
+  while (walker.nextNode()) {
+    const node = walker.currentNode;
+    if (!node.parentElement?.closest("pre, code")) {
+      textNodes.push(node);
+    }
+  }
+
+  textNodes.forEach((node) => {
+    const text = node.nodeValue;
+    if (!text || !/\*\*[^*]+\*\*/.test(text)) return;
+
+    const fragment = document.createDocumentFragment();
+    const regex = /\*\*([^*]+)\*\*/g;
+    let lastIndex = 0;
+    let match;
+
+    while ((match = regex.exec(text)) !== null) {
+      if (match.index > lastIndex) {
+        fragment.appendChild(
+          document.createTextNode(text.slice(lastIndex, match.index)),
+        );
+      }
+
+      const strong = document.createElement("strong");
+      strong.textContent = match[1];
+      fragment.appendChild(strong);
+      lastIndex = regex.lastIndex;
+    }
+
+    if (lastIndex < text.length) {
+      fragment.appendChild(document.createTextNode(text.slice(lastIndex)));
+    }
+
+    node.replaceWith(fragment);
+  });
 }
 
 function enhanceCodeBlocks(scope = document) {

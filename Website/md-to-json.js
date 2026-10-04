@@ -75,7 +75,9 @@ for (const file of blogFiles) {
       .replace(
         /\[([^\]]+)\]\((https?:\/\/[^\s\)]+)\)/g,
         '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>',
-      )
+      );
+
+    content = content
       .split(/\n{2,}/)
       .map((p) => {
         if (
@@ -83,8 +85,14 @@ for (const file of blogFiles) {
           p.startsWith("<h1>") ||
           p.startsWith("<h2>") ||
           p.startsWith("<h3>")
-        )
+        ) {
           return p;
+        }
+
+        if (isMarkdownBulletBlock(p)) {
+          return toBulletListHtml(p);
+        }
+
         return `<p>${p}</p>`;
       })
       .join("");
@@ -97,6 +105,25 @@ for (const file of blogFiles) {
 
 function escapeHTML(str) {
   return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+function isMarkdownBulletBlock(block) {
+  const lines = block
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean);
+
+  return lines.length > 1 && lines.every((line) => /^[-*]\s+/.test(line));
+}
+
+function toBulletListHtml(block) {
+  const items = block
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .map((line) => line.replace(/^[-*]\s+/, ""));
+
+  return `<ul>${items.map((item) => `<li>${item}</li>`).join("")}</ul>`;
 }
 
 const perPage = 5;

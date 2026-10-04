@@ -56,7 +56,7 @@ function Get-DanPowerShellProfile {
     [CmdletBinding()]
     param ()
 
-    $Profile = @{
+    $profileData = @{
         Name                  = 'Dan Damit'
         Role                  = 'ERP / IT Analyst / Automation Architect'
         Specialization        = 'Modular Automation, Fleet Deployments, Agent Orchestration, Manifest-Driven Tooling'
@@ -71,14 +71,14 @@ function Get-DanPowerShellProfile {
         )
 
         Philosophy            = @(
-            'PowerShell is a scalpel, a blueprint, and a technician's compass.',
+            "PowerShell is a scalpel, a blueprint, and a technician's compass.",
             'Modules should empower techs, not mystify them.',
             'Automation should be predictable, observable, and reversible.',
-            'If a script can't explain itself to a tired technician at 2 AM, it isn't done.'
+            "If a script can't explain itself to a tired technician at 2 AM, it isn't done."
         )
 
         SignatureFunction     = 'Import-Module TechToolbox -Manifest $ManifestPath -Verbose -EmpowerTechs -StrictMode'
-        AgentIntegration      = 'TechAgent (C#) with local + cloud LLM routing, safety gating, and tool orchestration'
+        AgentIntegration      = 'TechAgent Csharp with local + cloud LLM routing, safety gating, and tool orchestration'
         ModuleEcosystem       = @(
             'TechToolbox: Enterprise-grade automation suite with secure key vaulting and provider routing',
             'DiagKit: Technician diagnostics for installers, registry, and system state',
@@ -86,9 +86,9 @@ function Get-DanPowerShellProfile {
         )
     }
 
-    return $Profile
+    return $profileData
 }
-}
+
         </pre>
 
         <h2>Quick Links:</h2>
